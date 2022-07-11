@@ -24,7 +24,12 @@ Route::get('/greeting', function () {
 });
 
 // The Default Route Files
-Route::get('/user', [UserController::class, 'index']);
+Route::get('/user', [UserController::class, 'index'])->middleware('ensureToken');
+Route::get('/user-role/{id}', [UserController::class, 'show'])->middleware('ensureRole:super-admin,admin');
+Route::get('/user/{id}/profile', [UserController::class, 'profile'])->withoutMiddleware('ensureToken');
+Route::get('/user/profile',function(){
+    return view('welcome');
+})->name('profile');
 
 // Available Router Methods
 /*

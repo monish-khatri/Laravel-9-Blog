@@ -44,7 +44,7 @@ class UserController extends Controller
         $route = Route::current(); // Illuminate\Routing\Route
         $name = Route::currentRouteName(); // string
         $action = Route::currentRouteAction();
-        dd($request->id,$action);
+        // dd($request->id,$action);
 
         return redirect()->route('profile');
     }
