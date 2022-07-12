@@ -98,7 +98,7 @@ Route::view('/view', 'view', ['name' => 'Messi']);
 
 // Named Routes
 Route::get('/user/{id}',[UserController::class, 'show'])->name('show');
-Route::get('/user/{id}/profile',[UserController::class, 'profile'])->name('profile');
+// Route::get('/user/{id}/profile',[UserController::class, 'profile'])->name('profile');
 
 // Route Groups
     // Middleware: give middleware to multiple routes at once
@@ -106,15 +106,15 @@ Route::get('/user/{id}/profile',[UserController::class, 'profile'])->name('profi
         Route::get('/user', function () {
             // Uses first & second middleware...
         });
-        Route::get('/user/profile', function () {
-            // Uses first & second middleware...
-        });
+        // Route::get('/user/profile', function () {
+        //     // Uses first & second middleware...
+        // });
     });
 
     // Controller: give controller to multiple routes at once
     Route::controller(UserController::class)->group(function () {
         Route::get('/user/{id}', 'show')->name('show');
-        Route::get('/user/{id}/profile', 'profile')->name('profile');
+        // Route::get('/user/{id}/profile', 'profile')->name('profile');
     });
 
     // Subdomain Routing
@@ -157,3 +157,19 @@ Route::fallback(function () {
     2) @method('PUT')  // Blade directive
 */
 
+// CSRF Protection
+Route::get('/token', function (Request $request) {
+    // $token1 = $request->session()->token();
+    // $token2 = csrf_token();
+    // dd($token1,$token2);
+});
+
+/*
+Anytime you define a "POST", "PUT", "PATCH", or "DELETE" HTML form in your application,
+you should include a hidden CSRF _token field in the form
+<form method="POST" action="/profile">
+    @csrf
+    <!-- Equivalent to... -->
+    <input type="hidden" name="_token" value="{{ csrf_token() }}" />
+</form>
+*/

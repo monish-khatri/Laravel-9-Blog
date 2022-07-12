@@ -34,6 +34,10 @@ class EnsureUserHasRole
      */
     public function terminate($request, $response)
     {
-        dd($response);
+        // Testing purpose if the terminate method invoked or not
+        // $myfile = fopen("callback.txt", "w") ;
+        // $data = json_encode($request);
+        // fwrite($myfile, $data);
+        // fclose($myfile);
     }
 }
