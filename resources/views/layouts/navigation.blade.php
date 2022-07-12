@@ -15,9 +15,12 @@
                     <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
                         {{ __('Dashboard') }}
                     </x-nav-link>
+<<<<<<< HEAD
                     <x-nav-link :href="route('blogs.index')" :active="request()->is('blogs*')">
                         {{ __('Blogs') }}
                     </x-nav-link>
+=======
+>>>>>>> Add: breeze and tailwind for authentication
                 </div>
             </div>
 
