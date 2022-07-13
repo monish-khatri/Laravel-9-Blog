@@ -8,7 +8,7 @@
                     <strong>{{ $message }}</strong>
                 </div>
                 @endif
-                <a href="/blogs/add" class="btn btn-primary-color float-right">New Blog</a>
+                <a href="{{route('blogs.create')}}" class="btn btn-primary-color float-right">New Blog</a>
                 <h3>Blogs</h3>
                 @if(isset($blogs))
                 <table class="center">
@@ -25,19 +25,19 @@
                         <tr>
                             <td>{{ $blog->id }}</td>
                             <td>
-                                <a href="/blogs/edit/{{ $blog->id }}" class="btn btn-xs">
+                                <a href="{{route('blogs.edit',[$blog])}}" class="btn btn-xs">
                                     {{ $blog->title }}
                                 </a>
                             </td>
                             <td>{{ $blog->description }}</td>
                             <td>
-                                <a href="/blogs/show/{{ $blog->id }}" class="btn btn-xs">
+                                <a href="{{route('blogs.show',[$blog])}}" class="btn btn-xs">
                                     <span><i class="fa fa-eye"></i></span>
                                 </a>
-                                <a href="/blogs/edit/{{ $blog->id }}" class="btn btn-xs">
+                                <a href="{{route('blogs.edit',[$blog])}}" class="btn btn-xs">
                                     <span><i class="fa fa-pencil"></i></span>
                                 </a>
-                                <a href="/blogs/delete/{{ $blog->id }}" class="btn btn-xs">
+                                <a onclick="removeBlog('{{route('blogs.destroy',[$blog])}}')" class="btn btn-xs">
                                     <span><i class="fa fa-trash"></i></span>
                                 </a>
                             </td>
@@ -56,4 +56,19 @@
             </div>
         </div>
     </div>
+    <script>
+        function removeBlog(blog){
+            $.ajax({
+                type : "DELETE",
+                url : blog,
+                dataType: 'json',
+                headers: {
+                    'X-CSRF-TOKEN': '<?= csrf_token() ?>'
+                },
+                success : function(response) {
+                    location.reload();
+                }
+            });
+        }
+    </script>
 </x-app-layout>

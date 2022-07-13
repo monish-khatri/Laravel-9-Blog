@@ -5,7 +5,7 @@
                 <h3>Create Blog</h3>
                 <table class="center">
                     <tbody>
-                        <form method="post" action="/blogs/add" enctype="multipart/form-data">
+                        <form method="post" action="{{route('blogs.store')}}" enctype="multipart/form-data">
                             @csrf
                             <table>
                                 <tbody>

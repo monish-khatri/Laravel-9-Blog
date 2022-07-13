@@ -4,7 +4,7 @@
             <div class="col-md-12 content">
                 <table class="center">
                     <tbody>
-                        <form method="post" action="/blogs/edit/{{ $blog->id }}" enctype="multipart/form-data">
+                        <form method="post" action="{{route('blogs.update',[$blog])}}" enctype="multipart/form-data">
                             @csrf
                             <table>
                                 <tbody>

@@ -1,20 +1,16 @@
 <?php
 
 namespace App\Http\Controllers;
+use App\Models\Blog;
 
 use Illuminate\Http\Request;
-use App\Models\Blog;
-use Illuminate\Support\Facades\DB;
-use App\Repositories\UserRepository;
-use App\Jobs\QueueJob;
 
 class BlogController extends Controller
 {
-
     /**
-     * get all blog data
+     * Display a listing of the resource.
      *
-     * @return \Illuminate\View\View
+     * @return \Illuminate\Http\Response
      */
     public function index()
     {
@@ -26,10 +22,46 @@ class BlogController extends Controller
     }
 
     /**
-     * view details of blog
+     * Show the form for creating a new resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function create()
+    {
+        return view('blog.add');
+    }
+
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function store(Request $request)
+    {
+        $validated = $request->validate([
+            'title' => 'required|max:255',
+            'description' => 'required|max:255',
+        ]);
+        $blogs = new Blog;
+        $blogs->title = $request->title;
+        $blogs->description = $request->description;
+        $result = $blogs->save();
+
+        if ($result) {
+            $request->session()->flash('success', 'Blog saved!!');
+            return redirect()->route('blogs.index');
+        } else {
+            $request->session()->flash('error', 'Blog not saved. Please check!!');
+            return redirect()->route('blogs.index');
+        }
+    }
+
+    /**
+     * Display the specified resource.
      *
      * @param  int  $id
-     * @return \Illuminate\View\View
+     * @return \Illuminate\Http\Response
      */
     public function show($id)
     {
@@ -39,84 +71,65 @@ class BlogController extends Controller
     }
 
     /**
-     * Add new blog.
-     *
-     * @return \Illuminate\View\View
-     */
-    public function add(Request $request)
-    {
-        if ($request->method() == 'POST') {
-            $validated = $request->validate([
-                'title' => 'required|max:255',
-                'description' => 'required|max:255',
-            ]);
-            $blogs = new Blog;
-            $blogs->title = $request->title;
-            $blogs->description = $request->description;
-            $result = $blogs->save();
-
-            if ($result) {
-                $request->session()->flash('success', 'Blog saved!!');
-                return redirect()->route('blog.index');
-            } else {
-                $request->session()->flash('error', 'Blog not saved. Please check!!');
-                return redirect()->route('blog.index');
-            }
-        } else {
-            return view('blog.add');
-        }
-    }
-
-    /**
-     * Edit blog.
+     * Show the form for editing the specified resource.
      *
      * @param  int  $id
-     * @return \Illuminate\View\View
+     * @return \Illuminate\Http\Response
      */
-    public function edit(Request $request, $id)
+    public function edit($id)
     {
         $blogs = Blog::findOrFail($id);
 
-        if ($request->method() == 'POST') {
+        return view('blog.edit', [
+            'blog' => $blogs,
+        ]);
+    }
 
-            $validated = $request->validate([
-                'title' => 'required|max:255',
-                'description' => 'required|max:255',
-            ]);
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function update(Request $request, $id)
+    {
+        $blogs = Blog::findOrFail($id);
 
-            $blogs->title = $request->title;
-            $blogs->description = $request->description;
-            $result = $blogs->save();
+        $validated = $request->validate([
+            'title' => 'required|max:255',
+            'description' => 'required|max:255',
+        ]);
 
-            if ($result) {
+        $blogs->title = $request->title;
+        $blogs->description = $request->description;
+        $result = $blogs->save();
 
-                $request->session()->flash('success', 'Blog updated!!');
-                return redirect()->route('blog.index');
-            } else {
+        if ($result) {
 
-                $request->session()->flash('error', 'Blog not updated. Please check!!');
-                return redirect()->route('blog.index');
-            }
+            $request->session()->flash('success', 'Blog updated!!');
+            return redirect()->route('blogs.index');
         } else {
-            return view('blog.edit', [
-                'blog' => $blogs,
-            ]);
+
+            $request->session()->flash('error', 'Blog not updated. Please check!!');
+            return redirect()->route('blogs.index');
         }
     }
 
     /**
-     * Delete blog
-     * @param $id integer
-     * @return boolean
+     * Remove the specified resource from storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
      */
-    public function delete(Request $request, $id)
+    public function destroy(Request $request,$id)
     {
-
         $blogs = Blog::find($id);
         $blogs->delete();
 
         $request->session()->flash('success', 'Blog deleted!!');
 
-        return redirect()->route('blog.index');
+        return $id;
     }
 }

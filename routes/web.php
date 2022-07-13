@@ -4,6 +4,7 @@ use App\Http\Controllers\PhpInfoController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\BlogController;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -24,6 +25,9 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/dashboard', function () {
         return view('dashboard');
     })->name('dashboard');
+    Route::resource('blogs', BlogController::class)->missing(function (Request $request) {
+        return Redirect::route('blogs.index');
+    });
 });
 // Basic Routing
 Route::get('/greeting', function () {
@@ -185,12 +189,12 @@ you should include a hidden CSRF _token field in the form
 Route::get('/server-info', PhpInfoController::class)->withoutMiddleware('auth');
 
 // Route group for BlogsController
-Route::controller(BlogController::class)->group(function () {
-    Route::get('/blogs', 'index')->name('blog.index'); //Display all blogs
-    Route::get('/blogs/show/{id}', 'show')->name('blog.view'); //Display blog by blog id
-    Route::any('/blogs/add', 'add')->name('blog.add'); //Create blog
-    Route::any('/blogs/edit/{id}', 'edit')->name('blog.edit'); //Edit blog by blog id
-    Route::any('/blogs/delete/{id}', 'delete')->name('blog.delete'); //Delete blog by blog id
-});
+// Route::controller(BlogController::class)->group(function () {
+//     Route::get('/blogs', 'index')->name('blog.index'); //Display all blogs
+//     Route::get('/blogs/show/{id}', 'show')->name('blog.view'); //Display blog by blog id
+//     Route::any('/blogs/add', 'add')->name('blog.add'); //Create blog
+//     Route::any('/blogs/edit/{id}', 'edit')->name('blog.edit'); //Edit blog by blog id
+//     Route::any('/blogs/delete/{id}', 'delete')->name('blog.delete'); //Delete blog by blog id
+// });
 
 require __DIR__.'/auth.php';
