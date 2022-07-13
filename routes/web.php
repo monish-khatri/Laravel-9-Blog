@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\PhpInfoController;
 use App\Http\Controllers\UserController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -16,7 +17,7 @@ use Illuminate\Support\Facades\Route;
 */
 Route::get('/', function () {
     return view('welcome');
-});
+})->name('home');
 
 // Basic Routing
 Route::get('/greeting', function () {
@@ -173,3 +174,6 @@ you should include a hidden CSRF _token field in the form
     <input type="hidden" name="_token" value="{{ csrf_token() }}" />
 </form>
 */
+
+// Single Action Controllers
+Route::get('/server-info', PhpInfoController::class);
