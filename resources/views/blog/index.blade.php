@@ -14,7 +14,7 @@
                 <table class="center">
                     <thead>
                         <tr>
-                            <th>Id</th>
+                            <th>Sr. no</th>
                             <th>Title</th>
                             <th>Description</th>
                             <th class="actions"><?= __('Actions') ?></th>

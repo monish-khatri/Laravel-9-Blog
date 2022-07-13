@@ -49,10 +49,10 @@ class BlogController extends Controller
         $result = $blogs->save();
 
         if ($result) {
-            $request->session()->flash('success', 'Blog saved!!');
+            $request->session()->flash('success', 'Blog created successfully!!');
             return redirect()->route('blogs.index');
         } else {
-            $request->session()->flash('error', 'Blog not saved. Please check!!');
+            $request->session()->flash('error', 'Something went wrong!!');
             return redirect()->route('blogs.index');
         }
     }
@@ -107,11 +107,11 @@ class BlogController extends Controller
 
         if ($result) {
 
-            $request->session()->flash('success', 'Blog updated!!');
+            $request->session()->flash('success', 'Blog updated successfully!!');
             return redirect()->route('blogs.index');
         } else {
 
-            $request->session()->flash('error', 'Blog not updated. Please check!!');
+            $request->session()->flash('error', 'Something went wrong!!');
             return redirect()->route('blogs.index');
         }
     }
@@ -128,7 +128,7 @@ class BlogController extends Controller
         $blogs = Blog::find($id);
         $blogs->delete();
 
-        $request->session()->flash('success', 'Blog deleted!!');
+        $request->session()->flash('success', 'Blog deleted successfully!!');
 
         return $id;
     }

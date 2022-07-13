@@ -2,15 +2,17 @@
     <div class="py-12">
         <div class="container" >
             <div class="col-md-12 content">
+                <h3>Update Blog</h3>
                 <table class="center">
                     <tbody>
-                        <form method="post" action="{{route('blogs.update',[$blog])}}" enctype="multipart/form-data">
+                        <form method="post" action="{{route('blogs.update',[$blog])}}" >
                             @csrf
+                            @method('PUT')
                             <table>
                                 <tbody>
                                     <tr>
                                         <td><label>Title:</label></td>
-                                        <td><input type="text" name="title" value="{{ $blog->title }}" />
+                                        <td><input class="form-control" type="text" name="title" value="{{ $blog->title }}" />
                                             @error('title')
                                             <div class="text-red">{{ $message }}</div>
                                             @enderror
@@ -21,12 +23,16 @@
                                             <label for="description">Description</label>
                                         </td>
                                         <td>
-                                            <textarea name="description" rows="5">{{ $blog->description }}</textarea>
+                                            <textarea class="form-control" name="description" rows="5">{{ $blog->description }}</textarea>
+                                            @error('description')
+                                            <div class="text-red">{{ $message }}</div>
+                                            @enderror
                                         </td>
                                     </tr>
                                     <tr>
                                         <td colspan="2" style="text-align: center;">
                                             <button type="submit" class="btn btn-primary-color">Submit</button>
+                                            <a href="{{route('blogs.index')}}" class="btn btn-primary-color">Back</a>
                                         </td>
                                     </tr>
                                 </tbody>
