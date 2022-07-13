@@ -25,9 +25,10 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/dashboard', function () {
         return view('dashboard');
     })->name('dashboard');
+
     Route::resource('blogs', BlogController::class)->missing(function (Request $request) {
         return Redirect::route('blogs.index');
-    });
+    })->parameters(['blogs' => 'blog']);
 });
 // Basic Routing
 Route::get('/greeting', function () {

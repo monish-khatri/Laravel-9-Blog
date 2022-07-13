@@ -23,7 +23,7 @@
                     <tbody>
                         @forelse($blogs as $blog)
                         <tr @if($loop->odd) class="odd-row" @endif>
-                            <td>{{ $loop->iteration }}</td>
+                            <td>{{ $loop->iteration + $blogs->firstItem() - 1 }}</td>
                             <td>
                                 <a href="{{route('blogs.edit',[$blog])}}" class="btn btn-xs">
                                     {{ $blog->title }}
@@ -37,7 +37,7 @@
                                 <a href="{{route('blogs.edit',[$blog])}}" class="btn btn-xs">
                                     <span><i class="fa fa-pencil"></i></span>
                                 </a>
-                                <a onclick="removeBlog('{{route('blogs.destroy',[$blog])}}')" class="btn btn-xs">
+                                <a onclick="removeBlog('{{route('blogs.destroy',[$blog])}}','{{$blog->title}}')" class="btn btn-xs">
                                     <span><i class="fa fa-trash"></i></span>
                                 </a>
                             </td>
@@ -57,18 +57,29 @@
         </div>
     </div>
     <script>
-        function removeBlog(blog){
-            $.ajax({
-                type : "DELETE",
-                url : blog,
-                dataType: 'json',
-                headers: {
-                    'X-CSRF-TOKEN': '<?= csrf_token() ?>'
-                },
-                success : function(response) {
-                    location.reload();
+        function removeBlog(deleteUrl,blogName){
+            Swal.fire({
+                icon: 'warning',
+                title: 'Are you sure?',
+                html: 'you want to delete <strong>'+blogName+'</strong> blog?',
+                showCancelButton: true,
+                confirmButtonText: 'Delete',
+                }).then((result) => {
+                if (result.isConfirmed) {
+                    $.ajax({
+                        type : "DELETE",
+                        url : deleteUrl,
+                        dataType: 'json',
+                        headers: {
+                            'X-CSRF-TOKEN': '<?= csrf_token() ?>'
+                        },
+                        success : function(response) {
+                            Swal.fire('Saved!', '', 'success')
+                            location.reload();
+                        }
+                    });
                 }
-            });
+            })
         }
     </script>
 </x-app-layout>
