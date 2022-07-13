@@ -1727,4 +1727,6 @@ td:last-child, th:last-child {
     padding-right: 2rem;
   }
 }
-
+.odd-row {
+  background-color: #efefef;
+}

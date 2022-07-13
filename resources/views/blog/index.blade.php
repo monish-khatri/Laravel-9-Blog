@@ -22,8 +22,8 @@
                     </thead>
                     <tbody>
                         @forelse($blogs as $blog)
-                        <tr>
-                            <td>{{ $blog->id }}</td>
+                        <tr @if($loop->odd) class="odd-row" @endif>
+                            <td>{{ $loop->iteration }}</td>
                             <td>
                                 <a href="{{route('blogs.edit',[$blog])}}" class="btn btn-xs">
                                     {{ $blog->title }}
