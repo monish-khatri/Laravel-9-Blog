@@ -50,7 +50,6 @@ class BlogController extends Controller
         $blogs->title = $validated['title'];
         $blogs->description = $validated['description'];
         $result = $blogs->save();
-
         if ($result) {
             $request->session()->flash('success', 'Blog created successfully!!');
             return redirect()->route('blogs.index');

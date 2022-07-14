@@ -2,8 +2,8 @@
 
 namespace App\Providers;
 use App\Http\Middleware\EnsureUserHasRole;
-
-
+use App\Http\Middleware\TrimStrings;
+use Illuminate\Foundation\Http\Middleware\ConvertEmptyStringsToNull;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -25,6 +25,13 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        //
+        // Disabling Input Normalization
+
+        TrimStrings::skipWhen(function ($request) {
+            return $request->is('blogs/*');
+        });
+        ConvertEmptyStringsToNull::skipWhen(function ($request) {
+            return $request->is('blogs/*');
+        });
     }
 }
