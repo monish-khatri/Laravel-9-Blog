@@ -8,9 +8,9 @@ use Illuminate\Http\Request;
 class UserController extends Controller
 {
     /**
-     * Function description
+     * Index Method
      *
-     * @param int variable Description $variable comment about this variable
+     * @param  Illuminate\Http\Request $request
      *
      * @return array
      */
@@ -20,9 +20,9 @@ class UserController extends Controller
     }
 
     /**
-     * Function description
+     * Show Method
      *
-     * @param int variable Description $variable comment about this variable
+     * @param  Illuminate\Http\Request $request
      *
      * @return array
      */
@@ -30,10 +30,11 @@ class UserController extends Controller
     {
         return redirect()->route('profile',['id'=>$request->id]);
     }
+
     /**
-     * Function description
+     * Profile Method
      *
-     * @param int variable Description $variable comment about this variable
+     * @param  Illuminate\Http\Request $request
      *
      * @return array
      */
