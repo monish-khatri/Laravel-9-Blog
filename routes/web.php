@@ -9,6 +9,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\View;
+use Illuminate\Support\Facades\URL;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -222,4 +224,40 @@ Route::get('/views', function () {
     //     return View::make('test_views.first_view', ['name' => 'Messi']);
     // }
 });
+
+Route::get('/url-generation',function(){
+    // Generating URLs
+    $blog = App\Models\Blog::find(30);
+    // echo '<br>'. url("/blogs/{$blog->id}");
+
+    // Accessing The Current URL
+    // Get the current URL without the query string...
+    // echo '<br>'. url()->current();
+
+    // Get the current URL including the query string...
+    // echo '<br>'. url()->full();
+
+    // Get the full URL for the previous request...
+    // echo '<br>'. url()->previous();
+
+    // URLs For Named Routes
+    // echo '<br>'. route('blogs.show', ['blog' => $blog]);
+
+    // Signed URLs
+    // return URL::signedRoute('blogs.show', ['blog' => $blog]);
+
+    // temporarySignedRoute
+    return URL::temporarySignedRoute('blogs.show', now()->addMinutes(30), ['blog' => $blog]);
+
+    // Validating Signed Route Requests
+    // /if (! $request->hasValidSignature()) {
+    //     abort(401);
+    // }
+    // if (! $request->hasValidSignatureWhileIgnoring(['page', 'order'])) {
+        // abort(401);
+    // }
+
+
+
+    });
 require __DIR__.'/auth.php';
