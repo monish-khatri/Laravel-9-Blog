@@ -6,6 +6,8 @@ use App\Http\Middleware\TrimStrings;
 use Illuminate\Foundation\Http\Middleware\ConvertEmptyStringsToNull;
 use Illuminate\Support\Facades\Response;
 use Illuminate\Support\ServiceProvider;
+use Illuminate\Support\Facades\View;
+
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -39,5 +41,8 @@ class AppServiceProvider extends ServiceProvider
         Response::macro('caps', function ($value) {
             return Response::make(strtoupper($value));
         });
+
+        // Sharing Data With All Views
+        View::share('name', 'Messi');
     }
 }

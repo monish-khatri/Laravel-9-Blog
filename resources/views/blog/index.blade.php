@@ -9,7 +9,7 @@
                 </div>
                 @endif
                 <a href="{{route('blogs.create')}}" class="btn btn-primary-color float-right">New Blog</a>
-                <h3>Blogs</h3>
+                <h3>{{$best_blog}} : Blogs</h3>
                 @if(isset($blogs))
                 <table class="center">
                     <thead>

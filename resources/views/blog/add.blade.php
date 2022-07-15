@@ -2,7 +2,7 @@
     <div class="py-12">
         <div class="container">
             <div class="col-md-12 content">
-                <h3>Create Blog</h3>
+                <h3>{{$best_blog}} : Create Blog</h3>
                 <table class="center">
                     <tbody>
                         <form method="post" action="{{route('blogs.store')}}" enctype="multipart/form-data">

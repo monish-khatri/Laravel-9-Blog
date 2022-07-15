@@ -8,6 +8,7 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\View;
 
 /*
 |--------------------------------------------------------------------------
@@ -203,4 +204,22 @@ Route::get('/server-info', PhpInfoController::class)->withoutMiddleware('auth');
 //     Route::any('/blogs/delete/{id}', 'delete')->name('blog.delete'); //Delete blog by blog id
 // });
 
+Route::get('/views', function () {
+    // Passing Data To Views
+    // return view('test_views.first_view', ['name' => 'Messi']);
+    return view('test_views.first_view')->with('occupation', 'Footballer');
+
+    // Views may also be returned using the View facade:
+    // return View::make('test_views.first_view', ['name' => 'Messi']);
+
+    // Creating The First Available View
+    // return View::first(['test_views.admin', 'test_views.first_view'], ['name' => 'Messi-10']);
+
+    // Determining If A View Exists
+    // if (View::exists('test_views.admin')) {
+    //     return View::make('test_views.first_view', ['name' => 'Monish']);
+    // } else {
+    //     return View::make('test_views.first_view', ['name' => 'Messi']);
+    // }
+});
 require __DIR__.'/auth.php';
