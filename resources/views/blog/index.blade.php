@@ -61,7 +61,7 @@
             Swal.fire({
                 icon: 'warning',
                 title: 'Are you sure?',
-                html: 'you want to delete <strong>'+blogName+'</strong> blog?',
+                html: 'you want to delete <strong>"'+blogName+'"</strong> blog?',
                 showCancelButton: true,
                 confirmButtonText: 'Delete',
                 }).then((result) => {
@@ -74,7 +74,6 @@
                             'X-CSRF-TOKEN': '<?= csrf_token() ?>'
                         },
                         success : function(response) {
-                            Swal.fire('Saved!', '', 'success')
                             location.reload();
                         }
                     });
