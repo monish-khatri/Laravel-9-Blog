@@ -1,9 +1,13 @@
 <?php
 
 namespace App\Http\Controllers;
+
+use App\Http\Requests\StoreBlogRequest;
 use App\Models\Blog;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Validator;
 
 class BlogController extends Controller
 {
@@ -37,15 +41,14 @@ class BlogController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(StoreBlogRequest $request)
     {
-        $validated = $request->validate([
-            'title' => 'required|max:255',
-            'description' => 'required|max:255',
-        ]);
+        // Retrieve the validated input data...
+        $validated = $request->validated();
+
         $blogs = new Blog;
-        $blogs->title = $request->title;
-        $blogs->description = $request->description;
+        $blogs->title = $validated['title'];
+        $blogs->description = $validated['description'];
         $result = $blogs->save();
 
         if ($result) {
@@ -53,7 +56,7 @@ class BlogController extends Controller
             return redirect()->route('blogs.index');
         } else {
             $request->session()->flash('error', 'Something went wrong!!');
-            return redirect()->route('blogs.index');
+            return redirect()->route('blogs.add');
         }
     }
 
@@ -95,18 +98,19 @@ class BlogController extends Controller
     public function update(Request $request, $id)
     {
         $blogs = Blog::findOrFail($id);
+        $messages = [
+            'required' => ':attribute dalna bhai.',
+        ];
+        $validated = Validator::make($request->all(), [
+            'title' => 'required|between:3,50',
+            'description' => 'required|min:20|max:250',
+        ],$messages)->validateWithBag('blog');
 
-        $validated = $request->validate([
-            'title' => 'required|max:255',
-            'description' => 'required|max:255',
-        ]);
-
-        $blogs->title = $request->title;
-        $blogs->description = $request->description;
+        $blogs->title = $validated['title'];
+        $blogs->description = $validated['description'];
         $result = $blogs->save();
 
         if ($result) {
-
             $request->session()->flash('success', 'Blog updated successfully!!');
             return redirect()->route('blogs.index');
         } else {
