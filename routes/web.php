@@ -4,6 +4,7 @@ use App\Http\Controllers\PhpInfoController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\BlogController;
 use App\Http\Controllers\ResponseController;
+use App\Http\Controllers\SessionController;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redirect;
@@ -256,8 +257,19 @@ Route::get('/url-generation',function(){
     // if (! $request->hasValidSignatureWhileIgnoring(['page', 'order'])) {
         // abort(401);
     // }
+});
 
+Route::get('/session',function (Request $request) {
+    // Retrieve a piece of data from the session...
+    // $value = session('key');
 
+    // Specifying a default value...
+    // $value = session('key', 'default');
 
-    });
+    // Store a piece of data in the session...
+    // session(['name' => 'Monish The Great']);
+
+    $sessionObject = new SessionController();
+    return $sessionObject->index($request);
+});
 require __DIR__.'/auth.php';
