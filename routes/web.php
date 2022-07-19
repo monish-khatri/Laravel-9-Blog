@@ -157,7 +157,7 @@ Route::get('/categories/{category}', function (App\Enums\Category $category) {
 
 // Fallback Routes
 Route::fallback(function () {
-    dd("dehk kr url dalna");
+    return view('errors.404');
 });
 
 // Form Method Spoofing

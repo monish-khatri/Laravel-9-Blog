@@ -12,8 +12,8 @@
                                 <tbody>
                                     <tr>
                                         <td><label>Title:</label></td>
-                                        <td><input class="form-control" type="text" name="title" value="{{ $blog->title }}" />
-                                            @error('title')
+                                        <td><input class="form-control" type="text" name="title" value="{{ old('title') ?? $blog->title }}" />
+                                            @error('blog.title')
                                             <div class="text-red">{{ $message }}</div>
                                             @enderror
                                         </td>
@@ -23,8 +23,8 @@
                                             <label for="description">Description</label>
                                         </td>
                                         <td>
-                                            <textarea class="form-control" name="description" rows="5">{{ $blog->description }}</textarea>
-                                            @error('description')
+                                            <textarea class="form-control" name="description" rows="5">{{ old('description') ?? $blog->description }}</textarea>
+                                            @error('blog.description')
                                             <div class="text-red">{{ $message }}</div>
                                             @enderror
                                         </td>
