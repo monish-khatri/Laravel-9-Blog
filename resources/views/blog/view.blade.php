@@ -3,7 +3,7 @@
         <div class="container">
             <div class="col-md-12 content">
                 <h1>{{ $blog->name }}</h1>
-                <a href="{{route('blogs.index')}}" class="btn btn-primary-color float-right">Back</a>
+                <a href="{{route('blogs.index')}}" class="btn btn-danger float-right">Back</a>
                 <table class="center">
                     <tbody>
                         <tr>
@@ -14,6 +14,15 @@
                             <td>Description:</td>
                             <td><strong><?= $blog->description; ?></strong></td>
                         </tr>
+                        <tr>
+                            <td>Published:</td>
+                            <td>
+                                @if ($blog->is_published == 1)
+                                    <span class="badge badge-success">Published</span>
+                                @else
+                                    <span class="badge badge-danger">Not Published</span>
+                                @endif</td>
+                            </tr>
                         <tr>
                             <td>Date Created:</td>
                             <td><strong><?= $blog->created_at->format('d M Y H:i A') ; ?></strong></td>

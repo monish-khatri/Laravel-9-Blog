@@ -9,7 +9,7 @@
                 </div>
                 @endif
                 <a href="{{route('blogs.create')}}" class="btn btn-primary-color float-right">New Blog</a>
-                <h3>{{$best_blog}} : Blogs</h3>
+                <h3>Blogs</h3>
                 @if(isset($blogs))
                 <table class="center">
                     <thead>
@@ -17,6 +17,7 @@
                             <th>Sr. no</th>
                             <th>Title</th>
                             <th>Description</th>
+                            <th>Published</th>
                             <th class="actions"><?= __('Actions') ?></th>
                         </tr>
                     </thead>
@@ -30,6 +31,13 @@
                                 </a>
                             </td>
                             <td>{{ $blog->description }}</td>
+                            <td>
+                                @if ($blog->is_published == 1)
+                                    <span class="badge badge-success">Published</span>
+                                @else
+                                    <span class="badge badge-danger">Not Published</span>
+                                @endif
+                            </td>
                             <td>
                                 <a href="{{route('blogs.show',[$blog])}}" class="btn btn-xs">
                                     <span><i class="fa fa-eye"></i></span>

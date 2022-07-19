@@ -49,6 +49,7 @@ class BlogController extends Controller
         $blogs = new Blog;
         $blogs->title = $validated['title'];
         $blogs->description = $validated['description'];
+        $blogs->is_published = $validated['is_published'] ?? false;
         $result = $blogs->save();
         if ($result) {
             $request->session()->flash('success', 'Blog created successfully!!');
@@ -98,15 +99,16 @@ class BlogController extends Controller
     {
         $blogs = Blog::findOrFail($id);
         $messages = [
-            'required' => ':attribute dalna bhai.',
+            'required' => 'Required',
         ];
         $validated = Validator::make($request->all(), [
             'title' => 'required|between:3,50',
             'description' => 'required|min:20|max:250',
-        ],$messages)->validateWithBag('blog');
+        ],$messages)->validate();
 
         $blogs->title = $validated['title'];
         $blogs->description = $validated['description'];
+        $blogs->is_published = $validated['is_published'] ?? false;
         $result = $blogs->save();
 
         if ($result) {

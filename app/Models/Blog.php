@@ -10,6 +10,7 @@ class Blog extends Model
     use HasFactory;
     protected $fillable = [
         'title',
-        'description'
+        'description',
+        'is_published',
     ];
 }
