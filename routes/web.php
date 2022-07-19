@@ -7,6 +7,7 @@ use App\Http\Controllers\ResponseController;
 use App\Http\Controllers\SessionController;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\View;
@@ -272,4 +273,10 @@ Route::get('/session',function (Request $request) {
     $sessionObject = new SessionController();
     return $sessionObject->index($request);
 });
+
+Route::get('set-locale/{locale}', function ($locale) {
+    App::setLocale($locale);
+    session()->put('locale', $locale);
+    return redirect()->back();
+})->middleware('change_site_lang')->name('locale.setting');
 require __DIR__.'/auth.php';

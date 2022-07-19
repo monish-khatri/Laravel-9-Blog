@@ -34,4 +34,5 @@ return [
     'update_success_message' => 'Blog updated successfully!!',
     'delete_success_message' => 'Blog deleted successfully!!',
     'error_message' => 'Whoop\',Something went wrong!!',
+    'change_lang' => 'Change Language',
 ];
