@@ -35,6 +35,6 @@ class ViewServiceProvider extends ServiceProvider
         // });
 
         // View Creators
-        View::creator('blog.index', BlogComposer::class);
+        View::creator('blog*', BlogComposer::class);
     }
 }
