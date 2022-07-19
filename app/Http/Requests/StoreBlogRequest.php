@@ -46,12 +46,12 @@ class StoreBlogRequest extends FormRequest
      */
     public function messages()
     {
-        return [
-            'title.required' => 'A title is required',
+        /* return [
+            'title.required' => __('validation.required'),
             'description.required' => 'A description is required',
             'description.min' => 'Minimum length should be 20 characters',
             'description.max' => 'Maximum length should be 250 characters',
-        ];
+        ]; */
     }
 
     /**
