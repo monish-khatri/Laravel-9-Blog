@@ -3,9 +3,15 @@
 use App\Http\Controllers\PhpInfoController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\BlogController;
+use App\Http\Controllers\ResponseController;
+use App\Http\Controllers\SessionController;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\View;
+use Illuminate\Support\Facades\URL;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -25,6 +31,9 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/dashboard', function () {
         return view('dashboard');
     })->name('dashboard');
+
+
+    Route::get('/response/{user}', [ResponseController::class, 'index'])->name('response');
 
     Route::resource('blogs', BlogController::class)->missing(function (Request $request) {
         return Redirect::route('blogs.index');
@@ -198,4 +207,69 @@ Route::get('/server-info', PhpInfoController::class)->withoutMiddleware('auth');
 //     Route::any('/blogs/delete/{id}', 'delete')->name('blog.delete'); //Delete blog by blog id
 // });
 
+Route::get('/views', function () {
+    // Passing Data To Views
+    // return view('test_views.first_view', ['name' => 'Messi']);
+    return view('test_views.first_view')->with('occupation', 'Footballer');
+
+    // Views may also be returned using the View facade:
+    // return View::make('test_views.first_view', ['name' => 'Messi']);
+
+    // Creating The First Available View
+    // return View::first(['test_views.admin', 'test_views.first_view'], ['name' => 'Messi-10']);
+
+    // Determining If A View Exists
+    // if (View::exists('test_views.admin')) {
+    //     return View::make('test_views.first_view', ['name' => 'Monish']);
+    // } else {
+    //     return View::make('test_views.first_view', ['name' => 'Messi']);
+    // }
+});
+
+Route::get('/url-generation',function(){
+    // Generating URLs
+    $blog = App\Models\Blog::find(30);
+    // echo '<br>'. url("/blogs/{$blog->id}");
+
+    // Accessing The Current URL
+    // Get the current URL without the query string...
+    // echo '<br>'. url()->current();
+
+    // Get the current URL including the query string...
+    // echo '<br>'. url()->full();
+
+    // Get the full URL for the previous request...
+    // echo '<br>'. url()->previous();
+
+    // URLs For Named Routes
+    // echo '<br>'. route('blogs.show', ['blog' => $blog]);
+
+    // Signed URLs
+    // return URL::signedRoute('blogs.show', ['blog' => $blog]);
+
+    // temporarySignedRoute
+    return URL::temporarySignedRoute('blogs.show', now()->addMinutes(30), ['blog' => $blog]);
+
+    // Validating Signed Route Requests
+    // /if (! $request->hasValidSignature()) {
+    //     abort(401);
+    // }
+    // if (! $request->hasValidSignatureWhileIgnoring(['page', 'order'])) {
+        // abort(401);
+    // }
+});
+
+Route::get('/session',function (Request $request) {
+    // Retrieve a piece of data from the session...
+    // $value = session('key');
+
+    // Specifying a default value...
+    // $value = session('key', 'default');
+
+    // Store a piece of data in the session...
+    // session(['name' => 'Monish The Great']);
+
+    $sessionObject = new SessionController();
+    return $sessionObject->index($request);
+});
 require __DIR__.'/auth.php';

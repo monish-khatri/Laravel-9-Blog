@@ -13,7 +13,7 @@ class PhpInfoController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('ensureToken');
+        // $this->middleware('ensureToken');
         /*
             Controllers also allow us to register middleware using a closure.
             This provides a convenient way to define an inline middleware for a

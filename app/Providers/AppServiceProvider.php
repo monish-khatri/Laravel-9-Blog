@@ -2,9 +2,12 @@
 
 namespace App\Providers;
 use App\Http\Middleware\EnsureUserHasRole;
-
-
+use App\Http\Middleware\TrimStrings;
+use Illuminate\Foundation\Http\Middleware\ConvertEmptyStringsToNull;
+use Illuminate\Support\Facades\Response;
 use Illuminate\Support\ServiceProvider;
+use Illuminate\Support\Facades\View;
+
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -25,6 +28,21 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        //
+        // Disabling Input Normalization
+
+        TrimStrings::skipWhen(function ($request) {
+            return $request->is('blogs/*');
+        });
+        ConvertEmptyStringsToNull::skipWhen(function ($request) {
+            return $request->is('blogs/*');
+        });
+
+        // Response Macros
+        Response::macro('caps', function ($value) {
+            return Response::make(strtoupper($value));
+        });
+
+        // Sharing Data With All Views
+        View::share('name', 'Messi');
     }
 }
