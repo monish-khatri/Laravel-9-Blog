@@ -22,7 +22,7 @@ class StateSeeder extends Seeder
 
         foreach ($countries as $key => $value) {
             State::create([
-                "state_id" => $value->id,
+                "id" => $value->id,
                 "name" => $value->name,
                 "country_id" => $value->country_id,
             ]);

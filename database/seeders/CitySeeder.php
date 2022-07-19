@@ -22,7 +22,7 @@ class CitySeeder extends Seeder
 
         foreach ($countries as $key => $value) {
             City::create([
-                "city_id" => $value->id,
+                "id" => $value->id,
                 "name" => $value->name,
                 "state_id" => $value->state_id,
             ]);
