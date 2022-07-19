@@ -3,9 +3,11 @@
 namespace App\Providers;
 use App\Http\Middleware\EnsureUserHasRole;
 use App\Http\Middleware\TrimStrings;
+use App\View\Components\Alert;
 use Illuminate\Foundation\Http\Middleware\ConvertEmptyStringsToNull;
 use Illuminate\Support\Facades\Response;
 use Illuminate\Support\ServiceProvider;
+use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\Facades\View;
 
 
@@ -44,5 +46,7 @@ class AppServiceProvider extends ServiceProvider
 
         // Sharing Data With All Views
         View::share('name', 'Messi');
+
+        Blade::component('package-alert', Alert::class);
     }
 }

@@ -3,10 +3,7 @@
         <div class="container" style="margin:auto;">
             <div class="col-md-12 content">
                 @if ($message = Session::get('success'))
-                <div class="alert alert-success alert-block">
-                    <button type="button" class="close" data-dismiss="alert">×</button>
-                    <strong>{{ $message }}</strong>
-                </div>
+                <x-alert type="{!! Session::get('type')!!}" message="{{$message}}" class="alert-block"/>
                 @endif
                 <a href="{{route('blogs.create')}}" class="btn btn-primary-color float-right">New Blog</a>
                 <h3>Blogs</h3>

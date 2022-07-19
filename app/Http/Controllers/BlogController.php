@@ -49,14 +49,12 @@ class BlogController extends Controller
         $blogs = new Blog;
         $blogs->title = $validated['title'];
         $blogs->description = $validated['description'];
-        $blogs->is_published = $validated['is_published'] ?? false;
+        $blogs->is_published = $request->is_published ?? false;
         $result = $blogs->save();
         if ($result) {
-            $request->session()->flash('success', 'Blog created successfully!!');
-            return redirect()->route('blogs.index');
+            return redirect()->route('blogs.index')->with(['success' => 'Blog created successfully!!','type'=>'success']);
         } else {
-            $request->session()->flash('error', 'Something went wrong!!');
-            return redirect()->route('blogs.add');
+            return redirect()->route('blogs.add')->with(['error' => 'Something went wrong!!','type'=>'danger']);;
         }
     }
 
@@ -105,19 +103,15 @@ class BlogController extends Controller
             'title' => 'required|between:3,50',
             'description' => 'required|min:20|max:250',
         ],$messages)->validate();
-
         $blogs->title = $validated['title'];
         $blogs->description = $validated['description'];
-        $blogs->is_published = $validated['is_published'] ?? false;
+        $blogs->is_published = $request->is_published ?? false;
         $result = $blogs->save();
 
         if ($result) {
-            $request->session()->flash('success', 'Blog updated successfully!!');
-            return redirect()->route('blogs.index');
+            return redirect()->route('blogs.index')->with(['success' => 'Blog updated successfully!!','type'=>'success']);
         } else {
-
-            $request->session()->flash('error', 'Something went wrong!!');
-            return redirect()->route('blogs.index');
+            return redirect()->route('blogs.edit')->with(['error' => 'Something went wrong!!','type'=>'danger']);;
         }
     }
 
@@ -133,8 +127,7 @@ class BlogController extends Controller
         $blogs = Blog::find($id);
         $blogs->delete();
 
-        $request->session()->flash('success', 'Blog deleted successfully!!');
-
+        redirect()->route('blogs.index')->with(['success' => 'Blog deleted successfully!!','type'=>'success']);
         return $id;
     }
 }

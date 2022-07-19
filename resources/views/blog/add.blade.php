@@ -38,9 +38,6 @@
                                                 <option value="1" @if (old('is_published') == "1") {{ 'selected' }} @endif>Yes</option>
                                                 <option value="0" @if (old('is_published') == "0") {{ 'selected' }} @endif>No</option>
                                             </select>
-                                            @error('is_published')
-                                                <div class="text-red">{{ $message }}</div>
-                                            @enderror
                                         </td>
                                     </tr>
                                     <tr>
