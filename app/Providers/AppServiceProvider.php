@@ -4,9 +4,11 @@ namespace App\Providers;
 use App\Http\Middleware\EnsureUserHasRole;
 use App\Http\Middleware\TrimStrings;
 use App\View\Components\Alert;
+use App\View\Components\AlertMessage;
 use Illuminate\Foundation\Http\Middleware\ConvertEmptyStringsToNull;
 use Illuminate\Support\Facades\Response;
 use Illuminate\Support\ServiceProvider;
+use Illuminate\Support\Pluralizer;
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\Facades\View;
 
@@ -48,5 +50,8 @@ class AppServiceProvider extends ServiceProvider
         View::share('name', 'Messi');
 
         Blade::component('package-alert', Alert::class);
+        Blade::component('package-alert', AlertMessage::class);
+
+        // Pluralizer::useLanguage('spanish');
     }
 }

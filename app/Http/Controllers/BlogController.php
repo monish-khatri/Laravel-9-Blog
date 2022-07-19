@@ -52,9 +52,9 @@ class BlogController extends Controller
         $blogs->is_published = $request->is_published ?? false;
         $result = $blogs->save();
         if ($result) {
-            return redirect()->route('blogs.index')->with(['success' => 'Blog created successfully!!','type'=>'success']);
+            return redirect()->route('blogs.index')->with(['success' => __('blog.create_success_message'),'type'=>'success']);
         } else {
-            return redirect()->route('blogs.add')->with(['error' => 'Something went wrong!!','type'=>'danger']);;
+            return redirect()->route('blogs.add')->with(['error' => __('blog.error_message'),'type'=>'danger']);;
         }
     }
 
@@ -109,9 +109,9 @@ class BlogController extends Controller
         $result = $blogs->save();
 
         if ($result) {
-            return redirect()->route('blogs.index')->with(['success' => 'Blog updated successfully!!','type'=>'success']);
+            return redirect()->route('blogs.index')->with(['success' => __('blog.update_success_message'),'type'=>'success']);
         } else {
-            return redirect()->route('blogs.edit')->with(['error' => 'Something went wrong!!','type'=>'danger']);;
+            return redirect()->route('blogs.edit')->with(['error' => __('blog.error_message'),'type'=>'danger']);;
         }
     }
 
@@ -127,7 +127,7 @@ class BlogController extends Controller
         $blogs = Blog::find($id);
         $blogs->delete();
 
-        redirect()->route('blogs.index')->with(['success' => 'Blog deleted successfully!!','type'=>'success']);
+        redirect()->route('blogs.index')->with(['success' => __('blog.delete_success_message'),'type'=>'success']);
         return $id;
     }
 }

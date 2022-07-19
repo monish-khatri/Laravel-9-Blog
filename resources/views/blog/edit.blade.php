@@ -2,7 +2,7 @@
     <div class="py-12">
         <div class="container" >
             <div class="col-md-12 content">
-                <h3>Update Blog</h3>
+                <h3>{{__('blog.update_blog_title')}}</h3>
                 <table class="center">
                     <tbody>
                         <form method="post" action="{{route('blogs.update',[$blog])}}" >
@@ -11,7 +11,7 @@
                             <table>
                                 <tbody>
                                     <tr>
-                                        <td><label>Title<span class="text-red">*</span>:</label></td>
+                                        <td><label>{{__('blog.title')}}<span class="text-red">*</span>:</label></td>
                                         <td><input class="form-control" type="text" name="title" value="{{ old('title') ?? $blog->title }}" />
                                             @error('title')
                                             <div class="text-red">{{ $message }}</div>
@@ -20,7 +20,7 @@
                                     </tr>
                                     <tr>
                                         <td>
-                                            <label for="description">Description<span class="text-red">*</span>:</label>
+                                            <label for="description">{{__('blog.description')}}<span class="text-red">*</span>:</label>
                                         </td>
                                         <td>
                                             <textarea class="form-control" name="description" rows="5">{{ old('description') ?? $blog->description }}</textarea>
@@ -31,7 +31,7 @@
                                     </tr>
                                     <tr>
                                         <td>
-                                            <label for="is_published">Published:</label>
+                                            <label for="is_published">{{__('blog.published')}}:</label>
                                         </td>
                                         <td>
                                             <select class="form-control" name="is_published" id="is_published">
@@ -43,8 +43,8 @@
                                     </tr>
                                     <tr>
                                         <td colspan="2" style="text-align: center;">
-                                            <button type="submit" class="btn btn-primary-color">Submit</button>
-                                            <a href="{{route('blogs.index')}}" class="btn btn-danger">Back</a>
+                                            <button type="submit" class="btn btn-primary-color">{{__('blog.submit_button')}}</button>
+                                            <a href="{{route('blogs.index')}}" class="btn btn-danger">{{__('blog.back_button')}}</a>
                                         </td>
                                     </tr>
                                 </tbody>

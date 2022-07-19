@@ -3,19 +3,19 @@
         <div class="container" style="margin:auto;">
             <div class="col-md-12 content">
                 @if ($message = Session::get('success'))
-                <x-alert type="{!! Session::get('type')!!}" message="{{$message}}" class="alert-block"/>
+                <x-alert-message type="{!! Session::get('type')!!}" message="{{$message}}" class="alert-block"/>
                 @endif
-                <a href="{{route('blogs.create')}}" class="btn btn-primary-color float-right">New Blog</a>
-                <h3>Blogs</h3>
+                <a href="{{route('blogs.create')}}" class="btn btn-primary-color float-right">{{__('blog.new_blog_button')}}</a>
+                <h3>{{__('blog.index_blog_title')}}</h3>
                 @if(isset($blogs))
                 <table class="center">
                     <thead>
                         <tr>
                             <th>Sr. no</th>
-                            <th>Title</th>
-                            <th>Description</th>
-                            <th>Published</th>
-                            <th class="actions"><?= __('Actions') ?></th>
+                            <th>{{__('blog.title')}}</th>
+                            <th>{{__('blog.description')}}</th>
+                            <th>{{__('blog.published')}}</th>
+                            <th class="actions">{{__('blog.actions')}}</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -30,9 +30,9 @@
                             <td>{{ $blog->description }}</td>
                             <td>
                                 @if ($blog->is_published == 1)
-                                    <span class="badge badge-success">Published</span>
+                                    <span class="badge badge-success">{{__('blog.published')}}</span>
                                 @else
-                                    <span class="badge badge-danger">Not Published</span>
+                                    <span class="badge badge-danger">{{__('blog.not_published')}}</span>
                                 @endif
                             </td>
                             <td>
@@ -65,10 +65,11 @@
         function removeBlog(deleteUrl,blogName){
             Swal.fire({
                 icon: 'warning',
-                title: 'Are you sure?',
-                html: 'you want to delete <strong>"'+blogName+'"</strong> blog?',
+                title:'{{__('blog.confirmation_title')}}',
+                html: "{!!__('blog.delete_description', ['blogName' => '"+blogName+"'])!!}",
                 showCancelButton: true,
-                confirmButtonText: 'Delete',
+                confirmButtonText: '{{__('blog.delete_button')}}',
+                cancelButtonText: '{{__('blog.cancel_button')}}',
                 }).then((result) => {
                 if (result.isConfirmed) {
                     $.ajax({
