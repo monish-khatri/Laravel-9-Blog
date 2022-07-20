@@ -35,4 +35,5 @@ return [
     'delete_success_message' => 'Blog deleted successfully!!',
     'error_message' => 'Whoop\',Something went wrong!!',
     'change_lang' => 'Language',
+    'sr_no' => 'Sr. No',
 ];

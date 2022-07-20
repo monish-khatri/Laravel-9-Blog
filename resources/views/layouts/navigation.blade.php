@@ -35,13 +35,15 @@
                             </div>
                         </button>
                     </x-slot>
-
                     <x-slot name="content">
                         <x-dropdown-link :href="route('locale.setting', 'en')">
                             <span><i class="flag flag-uk"></i></span>English
                         </x-dropdown-link>
                         <x-dropdown-link :href="route('locale.setting', 'fr')">
                             <span><i class="flag flag-fr"></i></span>French
+                        </x-dropdown-link>
+                        <x-dropdown-link :href="route('locale.setting', 'hi')">
+                            <span><i class="flag flag-in"></i></span>Hindi
                         </x-dropdown-link>
                     </x-slot>
                 </x-dropdown>

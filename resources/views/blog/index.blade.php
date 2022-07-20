@@ -11,7 +11,7 @@
                 <table class="center">
                     <thead>
                         <tr>
-                            <th>Sr. no</th>
+                            <th>{{__('blog.sr_no')}}</th>
                             <th>{{__('blog.title')}}</th>
                             <th>{{__('blog.description')}}</th>
                             <th>{{__('blog.published')}}</th>

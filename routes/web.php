@@ -275,6 +275,9 @@ Route::get('/session',function (Request $request) {
 });
 
 Route::get('set-locale/{locale}', function ($locale) {
+    if (! in_array($locale,['en','fr','hi'])){
+        abort(404);
+    }
     App::setLocale($locale);
     session()->put('locale', $locale);
     return redirect()->back();
