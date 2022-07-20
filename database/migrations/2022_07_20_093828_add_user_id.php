@@ -2,6 +2,7 @@
 
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
@@ -14,8 +15,7 @@ return new class extends Migration
     public function up()
     {
         Schema::table('blogs', function (Blueprint $table) {
-            $table->boolean('is_published')->after('description')->default(false);
-            $table->date('published_at')->nullable();
+            $table->foreignId('user_id')->after('description')->constrained('users');
         });
     }
 
@@ -27,8 +27,7 @@ return new class extends Migration
     public function down()
     {
         Schema::table('blogs', function (Blueprint $table) {
-            $table->dropColumn('is_published');
-            $table->dropColumn('published_at');
+            $table->dropForeign(['user_id']);
         });
     }
 };

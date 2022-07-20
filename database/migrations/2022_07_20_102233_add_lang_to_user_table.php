@@ -13,9 +13,8 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::table('blogs', function (Blueprint $table) {
-            $table->boolean('is_published')->after('description')->default(false);
-            $table->date('published_at')->nullable();
+        Schema::table('users', function (Blueprint $table) {
+            $table->string('language')->default('en');
         });
     }
 
@@ -26,9 +25,8 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::table('blogs', function (Blueprint $table) {
-            $table->dropColumn('is_published');
-            $table->dropColumn('published_at');
+        Schema::table('users', function (Blueprint $table) {
+            $table->dropColumn('language');
         });
     }
 };

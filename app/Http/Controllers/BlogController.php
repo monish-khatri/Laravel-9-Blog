@@ -6,6 +6,7 @@ use App\Http\Requests\StoreBlogRequest;
 use App\Models\Blog;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Validator;
 
@@ -18,7 +19,7 @@ class BlogController extends Controller
      */
     public function index()
     {
-        $blogs = Blog::orderBy('id', 'desc')->paginate(5);
+        $blogs = Blog::orderBy('id', 'desc')->where('user_id',Auth::id())->paginate(5);
 
         return view('blog.index', [
             'blogs' => $blogs
@@ -50,6 +51,7 @@ class BlogController extends Controller
         $blogs->title = $validated['title'];
         $blogs->description = $validated['description'];
         $blogs->is_published = $request->is_published ?? false;
+        $blogs->user_id = Auth::id();
         $result = $blogs->save();
         if ($result) {
             return redirect()->route('blogs.index')->with(['success' => __('blog.create_success_message'),'type'=>'success']);
@@ -106,6 +108,7 @@ class BlogController extends Controller
         $blogs->title = $validated['title'];
         $blogs->description = $validated['description'];
         $blogs->is_published = $request->is_published ?? false;
+        $blogs->user_id = Auth::id();
         $result = $blogs->save();
 
         if ($result) {

@@ -1,9 +1,12 @@
 <?php
 
 namespace App\Http\Controllers;
+
+use App\Models\User;
 use Illuminate\Support\Facades\Route;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class UserController extends Controller
 {
@@ -38,14 +41,12 @@ class UserController extends Controller
      *
      * @return array
      */
-    public function profile(Request $request)
+    public function updateLanguage(Request $request,$language)
     {
-        // Accessing The Current Route
-        $route = Route::current(); // Illuminate\Routing\Route
-        $name = Route::currentRouteName(); // string
-        $action = Route::currentRouteAction();
-        // dd($request->id,$action);
-
-        return redirect()->route('profile');
+        $id = Auth::id();
+        $users = User::findOrFail($id);
+        $users->language = $language;
+        $users->save();
+        return redirect()->back();
     }
 }

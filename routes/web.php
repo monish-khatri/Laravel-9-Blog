@@ -8,6 +8,7 @@ use App\Http\Controllers\SessionController;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\App;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\View;
@@ -30,8 +31,14 @@ Route::get('/', function () {
 
 Route::middleware(['auth'])->group(function () {
     Route::get('/dashboard', function () {
+        $language = Auth::user()->language;
+        if (! in_array($language,['en','fr','hi'])){
+            $language = 'en';
+        }
+        App::setLocale($language);
+        session()->put('locale', $language);
         return view('dashboard');
-    })->name('dashboard');
+    })->middleware('change_site_lang')->name('dashboard');
 
 
     Route::get('/response/{user}', [ResponseController::class, 'index'])->name('response');
@@ -274,12 +281,14 @@ Route::get('/session',function (Request $request) {
     return $sessionObject->index($request);
 });
 
-Route::get('set-locale/{locale}', function ($locale) {
+Route::get('change-lang/{locale}', function (Request $request,$locale) {
     if (! in_array($locale,['en','fr','hi'])){
         abort(404);
     }
     App::setLocale($locale);
     session()->put('locale', $locale);
+    $user = new UserController();
+    $user->updateLanguage($request, $locale);
     return redirect()->back();
 })->middleware('change_site_lang')->name('locale.setting');
 require __DIR__.'/auth.php';
