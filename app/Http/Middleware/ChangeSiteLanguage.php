@@ -4,6 +4,7 @@ namespace App\Http\Middleware;
 
 use Closure;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\App;
 
 class ChangeSiteLanguage
 {
@@ -16,9 +17,8 @@ class ChangeSiteLanguage
      */
     public function handle(Request $request, Closure $next)
     {
-        if(session()->has('locale')) {
-            app()->setLocale(session('locale'));
-            // app()->setLocale(config('app.locale'));
+        if (session()->has('locale')) {
+            App::setLocale(session()->get('locale'));
         }
 
         return $next($request);

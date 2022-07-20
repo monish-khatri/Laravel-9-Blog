@@ -42,10 +42,12 @@ class RouteServiceProvider extends ServiceProvider
         });
 
         // Localizing Resource URIs
-        Route::resourceVerbs([
-            'create' => 'banao',
-            'edit' => 'badlo',
-        ]);
+        if (session()->has('locale')) {
+            Route::resourceVerbs([
+                'create' => 'créer',
+                'edit' => 'editer',
+            ]);
+        }
     }
 
     /**

@@ -18,9 +18,9 @@
                             <td>{{__('blog.published')}}:</td>
                             <td>
                                 @if ($blog->is_published == 1)
-                                    <span class="badge badge-success">Published</span>
+                                    <span class="badge badge-success">{{__('blog.published')}}</span>
                                 @else
-                                    <span class="badge badge-danger">Not Published</span>
+                                    <span class="badge badge-danger">{{__('blog.not_published')}}</span>
                                 @endif</td>
                             </tr>
                         <tr>
