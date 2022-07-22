@@ -7,6 +7,7 @@ use App\Models\Blog;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Validator;
 
@@ -19,7 +20,7 @@ class BlogController extends Controller
      */
     public function index()
     {
-        $blogs = Blog::orderBy('id', 'desc')->where('user_id',Auth::id())->paginate(5);
+        $blogs = Blog::orderBy('id', 'desc')->where('user_id',Auth::id())->paginate(5)->withQueryString();
 
         return view('blog.index', [
             'blogs' => $blogs

@@ -27,7 +27,7 @@
                                     {{ $blog->title }}
                                 </a>
                             </td>
-                            <td>{{ $blog->description }}</td>
+                            <td>{{ Str::limit($blog->description, 100) }}</td>
                             <td>
                                 @if ($blog->is_published == 1)
                                     <span class="badge badge-success">{{__('blog.published')}}</span>
@@ -55,7 +55,7 @@
                     </tbody>
                 </table>
                 <div style="margin-top: 2%;">
-                    {{$blogs->links()}}
+                    {{$blogs->onEachSide(2)->links()}}
                 </div>
                 @endif
             </div>
