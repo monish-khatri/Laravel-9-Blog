@@ -3,6 +3,7 @@
 use App\Http\Controllers\PhpInfoController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\BlogController;
+use App\Http\Controllers\CommentController;
 use App\Http\Controllers\ResponseController;
 use App\Http\Controllers\SessionController;
 use App\Models\User;
@@ -42,10 +43,14 @@ Route::middleware(['auth'])->group(function () {
 
 
     Route::get('/response/{user}', [ResponseController::class, 'index'])->name('response');
+    Route::get('/published/blogs', [BlogController::class, 'published'])->name('blogs.published');
 
     Route::resource('blogs', BlogController::class)->missing(function (Request $request) {
         return Redirect::route('blogs.index');
     })->parameters(['blogs' => 'blog']);
+
+    Route::post('/add_comment', [CommentController::class, 'store'])->name('comments.store');
+    Route::delete('/remove_comment/{comment}', [CommentController::class, 'destroy'])->name('comments.destroy');
 });
 // Basic Routing
 Route::get('/greeting', function () {

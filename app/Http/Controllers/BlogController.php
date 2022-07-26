@@ -20,10 +20,26 @@ class BlogController extends Controller
      */
     public function index()
     {
-        $blogs = Blog::orderBy('id', 'desc')->where('user_id',Auth::id())->paginate(5)->withQueryString();
+        $blogs = Blog::orderBy('id', 'desc')->where('user_id', Auth::id())->paginate(5)->withQueryString();
 
         return view('blog.index', [
-            'blogs' => $blogs
+            'blogs' => $blogs,
+            'published' => false,
+        ]);
+    }
+
+    /**
+     * Display a listing of the published blog.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function published()
+    {
+        $blogs = Blog::orderBy('id', 'desc')->where('is_published',1)->paginate(5)->withQueryString();
+
+        return view('blog.index', [
+            'blogs' => $blogs,
+            'published' => true,
         ]);
     }
 

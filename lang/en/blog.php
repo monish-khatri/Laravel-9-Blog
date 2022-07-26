@@ -21,7 +21,7 @@ return [
     'actions' => 'Actions',
     'create_blog_title' => 'Create Blog',
     'update_blog_title' => 'Update Blog',
-    'index_blog_title' => 'Blogs',
+    'index_blog_title' => 'My Blogs',
     'submit_button' => 'Submit',
     'back_button' => 'Back',
     'delete_button' => 'Delete',
@@ -36,4 +36,7 @@ return [
     'error_message' => 'Whoop\',Something went wrong!!',
     'change_lang' => 'Language',
     'sr_no' => 'Sr. No',
+    'view_blog_title' => 'Blog Detail : <strong>:blogName</strong>',
+    'blog_owner'=> 'Owner',
+    'all_blogs' => 'All Blogs',
 ];

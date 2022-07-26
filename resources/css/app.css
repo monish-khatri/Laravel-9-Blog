@@ -1338,6 +1338,16 @@ h1, h2, h3, h4, h5, h6,
     color: var(--primary_color) !important;
 }
 
+.btn-success {
+  color: #fff !important;
+  background-color: #218838 !important;
+  border-color: #1e7e34 !important;
+}
+.btn-success:hover {
+  background-color: #fff !important;
+  color: #218838 !important;
+  border-color: #1e7e34 !important;
+}
 .container {
     margin: auto;
 }

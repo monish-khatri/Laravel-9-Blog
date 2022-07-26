@@ -36,4 +36,7 @@ return [
     'error_message' => 'वूप\', कुछ गलत हो गया !!',
     'change_lang' => 'भाषा',
     'sr_no' => 'अनु क्रमांक',
+    'view_blog_title' => 'ब्लॉग विवरण : <strong>:blogName</strong>',
+    'blog_owner'=> 'मालिक',
+    'all_blogs' => 'सभी ब्लॉग',
 ];

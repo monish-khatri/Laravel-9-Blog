@@ -32,4 +32,24 @@ class Blog extends Model
     {
         return $this->hasOne(User::class,'id','user_id');
     }
+
+    /**
+     * The has Many Relationship
+     *
+     * @var array
+     */
+    public function comments()
+    {
+        return $this->hasMany(Comment::class)->whereNull('parent_id');
+    }
+
+    /**
+     * The has Many Relationship
+     *
+     * @var array
+     */
+    public function totalComments()
+    {
+        return $this->hasMany(Comment::class);
+    }
 }

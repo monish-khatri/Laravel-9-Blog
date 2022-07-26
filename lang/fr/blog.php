@@ -36,4 +36,7 @@ return [
     'error_message' => 'Oup\',Quelque chose s\'est mal passé !!',
     'change_lang' => 'Langue',
     'sr_no' => 'Sr non',
+    'view_blog_title' => 'Détail du blog : <strong>:blogName</strong>',
+    'blog_owner'=> 'propriétaire',
+    'all_blogs' => 'Tous les blogs',
 ];

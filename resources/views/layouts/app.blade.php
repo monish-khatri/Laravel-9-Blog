@@ -20,6 +20,7 @@
         <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
         <!-- Scripts -->
         @vite(['resources/css/app.css', 'resources/js/app.js'])
+        @stack('css')
     </head>
     <body class="font-sans antialiased">
         <div class="min-h-screen bg-gray-100">
