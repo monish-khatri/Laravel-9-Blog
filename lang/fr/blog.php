@@ -37,6 +37,9 @@ return [
     'change_lang' => 'Langue',
     'sr_no' => 'Sr non',
     'view_blog_title' => 'Détail du blog : <strong>:blogName</strong>',
-    'blog_owner'=> 'propriétaire',
+    'blog_owner'=> 'Auteur',
     'all_blogs' => 'Tous les blogs',
+    'update_status_description' => 'Vous voulez :status <strong>:blogName</strong> blog ?',
+    'publish_text' => 'Publier',
+    'unpublish_text' => 'Dépublier',
 ];

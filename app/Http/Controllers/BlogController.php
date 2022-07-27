@@ -20,7 +20,7 @@ class BlogController extends Controller
      */
     public function index()
     {
-        $blogs = Blog::orderBy('id', 'desc')->where(['user_id' => Auth::id(),'is_published' => 0])->paginate(5)->withQueryString();
+        $blogs = Blog::orderBy('id', 'desc')->where(['user_id' => Auth::id()])->paginate(5)->withQueryString();
 
         return view('blog.index', [
             'blogs' => $blogs,
@@ -115,19 +115,24 @@ class BlogController extends Controller
     public function update(Request $request, $id)
     {
         $blogs = Blog::findOrFail($id);
-        $messages = [
-            'required' => 'Required',
-        ];
-        $validated = Validator::make($request->all(), [
-            'title' => 'required|between:3,50',
-            'description' => 'required|min:20|max:250',
-        ],$messages)->validate();
-        $blogs->title = $validated['title'];
-        $blogs->description = $validated['description'];
-        $blogs->is_published = $request->is_published ?? false;
-        $blogs->user_id = Auth::id();
+        $isPatch = $request->isMethod('PATCH');
+        if(! $isPatch) {
+            $messages = [
+                'required' => 'Required',
+            ];
+            $validated = Validator::make($request->all(), [
+                'title' => 'required|between:3,50',
+                'description' => 'required|min:20|max:250',
+            ],$messages)->validate();
+            $blogs->title = $validated['title'];
+            $blogs->description = $validated['description'];
+            $blogs->user_id = Auth::id();
+        }
+        $blogs->is_published = (bool)$request->is_published ?? false;
         $result = $blogs->save();
-
+        if ($isPatch){
+            return $blogs->id;
+        }
         if ($result) {
             return redirect()->route('blogs.index')->with(['success' => __('blog.update_success_message'),'type'=>'success']);
         } else {
