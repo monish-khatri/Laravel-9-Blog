@@ -5,8 +5,12 @@
                 @if ($message = Session::get('success'))
                 <x-alert-message type="{!! Session::get('type')!!}" message="{{$message}}" class="alert-block"/>
                 @endif
-                <a href="{{route('blogs.create')}}" class="btn btn-primary-color float-right">{{__('blog.new_blog_button')}}</a>
-                <h3>{{__('blog.index_blog_title')}}</h3>
+                @if(!$published)
+                    <a href="{{route('blogs.create')}}" class="btn btn-primary-color float-right">{{__('blog.new_blog_button')}}</a>
+                    <h3>{{__('blog.index_blog_title')}}</h3>
+                @else
+                    <h3>{{__('blog.all_blogs')}}</h3>
+                @endif
                 @if(isset($blogs))
                 <table class="center">
                     <thead>
