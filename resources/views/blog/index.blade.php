@@ -35,9 +35,9 @@
                             <td>{{ Str::limit($blog->description, 100) }}</td>
                             <td>
                                 @if ($blog->is_published)
-                                    <span class="change-status published badge badge-success" blog-id="{{$blog->id}}" blog-title="{{$blog->title}}">{{__('blog.published')}}</span>
+                                    <span class="@if($blog->user->id == auth()->user()->id)change-status published @endif badge badge-success" blog-id="{{$blog->id}}" blog-title="{{$blog->title}}">{{__('blog.published')}}</span>
                                 @else
-                                    <span class="change-status not-published badge badge-danger" blog-id="{{$blog->id}}" blog-title="{{$blog->title}}">{{__('blog.not_published')}}</span>
+                                    <span class="@if($blog->user->id == auth()->user()->id)change-status not-published @endif badge badge-danger" blog-id="{{$blog->id}}" blog-title="{{$blog->title}}">{{__('blog.not_published')}}</span>
                                 @endif
                             </td>
                             <td>
@@ -111,42 +111,40 @@
                 }
             })
         }
-        $(document).ready(function(){
-            $(document).on('click','.change-status',function(){
-                var blogId = $(this).attr('blog-id');
-                var blogTitle = $(this).attr('blog-title');
-                var updateUrl = "{{route('blogs.index')}}/"+blogId;
-                button = "{{__('blog.publish_text')}}";
+        $(document).on('click','.change-status',function(){
+            var blogId = $(this).attr('blog-id');
+            var blogTitle = $(this).attr('blog-title');
+            var updateUrl = "{{route('blogs.index')}}/"+blogId;
+            button = "{{__('blog.publish_text')}}";
+            html = "{!!__('blog.update_status_description', ['blogName' => '"+blogTitle+"','status'=> '"+button+"'])!!}"
+            is_published = 1
+            if($(this).hasClass('published')) {
+                button = "{{__('blog.unpublish_text')}}";
                 html = "{!!__('blog.update_status_description', ['blogName' => '"+blogTitle+"','status'=> '"+button+"'])!!}"
-                is_published = 1
-                if($(this).hasClass('published')) {
-                    button = "{{__('blog.unpublish_text')}}";
-                    html = "{!!__('blog.update_status_description', ['blogName' => '"+blogTitle+"','status'=> '"+button+"'])!!}"
-                    is_published = 0
+                is_published = 0
+            }
+            Swal.fire({
+                icon: 'warning',
+                title:'{{__('blog.confirmation_title')}}',
+                html: html,
+                showCancelButton: true,
+                confirmButtonText: button,
+                cancelButtonText: '{{__('blog.cancel_button')}}',
+                }).then((result) => {
+                if (result.isConfirmed) {
+                    $.ajax({
+                        type : "POST",
+                        url : updateUrl,
+                        dataType: 'json',
+                        data: {'is_published':is_published,_method: 'PATCH'},
+                        headers: {
+                            'X-CSRF-TOKEN': '<?= csrf_token() ?>'
+                        },
+                        success : function(response) {
+                            location.reload();
+                        }
+                    });
                 }
-                Swal.fire({
-                    icon: 'warning',
-                    title:'{{__('blog.confirmation_title')}}',
-                    html: html,
-                    showCancelButton: true,
-                    confirmButtonText: button,
-                    cancelButtonText: '{{__('blog.cancel_button')}}',
-                    }).then((result) => {
-                    if (result.isConfirmed) {
-                        $.ajax({
-                            type : "POST",
-                            url : updateUrl,
-                            dataType: 'json',
-                            data: {'is_published':is_published,_method: 'PATCH'},
-                            headers: {
-                                'X-CSRF-TOKEN': '<?= csrf_token() ?>'
-                            },
-                            success : function(response) {
-                                location.reload();
-                            }
-                        });
-                    }
-                })
             })
         })
     </script>

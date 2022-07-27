@@ -35,7 +35,7 @@
                 </table>
             </div>
         @if($blog->is_published)
-            <div class="col-md-12 content">
+            <div class="col-md-12 content comment-div">
                 <h3>{{__('comment.comments_title')}}</h4>
                 @include('blog.commentsDisplay', ['comments' => $blog->comments, 'blog_id' => $blog->id])
                 <form method="post" action="{{ route('comments.store') }}">
@@ -69,5 +69,20 @@
                 }
             });
         }
+        function refreshComments() {
+            var oldData = $(".comment-div").html();
+
+            $.ajax({
+                type : "GET",
+                url : "{{route('blogs.show',['blog'=>$blog->id])}}",
+                dataType: 'html',
+                success : function(response) {
+                    var $htmlResponse = $(response);
+                    data = $htmlResponse.find('.comment-div').html()
+                    $(".comment-div").html(data);
+                }
+            });
+        }
+        setInterval(refreshComments,5000);
     </script>
 </x-app-layout>

@@ -7,7 +7,7 @@
                     <tbody>
                         <form method="post" action="{{route('blogs.update',[$blog])}}" >
                             @csrf
-                            @method('PUT')
+                            @method('PATCH')
                             <table>
                                 <tbody>
                                     <tr>
