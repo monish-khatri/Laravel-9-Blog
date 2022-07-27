@@ -20,12 +20,15 @@ class CommentController extends Controller
         $messages = [
             'required' => 'Required',
         ];
+        $attributes = [
+            'body_'.$request->parent_id => 'body',
+        ];
         $validated = Validator::make($request->all(), [
-            'body' => 'required',
-        ],$messages)->validate();
+            'body_'.$request->parent_id => 'required',
+        ],$messages,$attributes)->validate();
 
         $comment = new Comment;
-        $comment->body = $validated['body'];
+        $comment->body = $validated['body_'.$request->parent_id];
         $comment->parent_id = $request->parent_id ?? null;
         $comment->blog_id = $request->blog_id;
         $comment->user_id = Auth::id();

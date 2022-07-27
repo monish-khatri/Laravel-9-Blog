@@ -1,12 +1,12 @@
 
 @foreach($comments as $comment)
     <div class="display-comment" @if($comment->parent_id != null) style="margin-left:40px;" @endif>
-        <em>{{ $comment->user->name }}</em>: <p><strong>{{ $comment->body }}</strong></p>
+        <em>{{ $comment->user->name }}</em>: <em>{{ $comment->created_at->diffForHumans() }}</em><p><strong>{{ $comment->body }}</strong></p>
         <form id="commentForm_{{$comment->id}}" method="post" action="{{ route('comments.store') }}">
             @csrf
             <div class="form-group">
-                <input type="text" name="body" class="form-control" />
-                @error('body')
+                <input type="text" name="body_{{$comment->id}}" placeholder="Reply..." class="form-control appearance-none border-2 border-gray-200 rounded w-50 py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500" />
+                @error('body_'. $comment->id)
                     <div class="text-red">{{ $message }}</div>
                 @enderror
                 <input type="hidden" name="blog_id" value="{{ $blog_id }}" />

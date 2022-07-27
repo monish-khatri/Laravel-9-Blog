@@ -44,7 +44,7 @@
                                     <tr>
                                         <td colspan="2" style="text-align: center;">
                                             <button type="submit" class="btn btn-primary-color">{{__('blog.submit_button')}}</button>
-                                            <a href="{{ url()->previous() }}" class="btn btn-danger">{{__('blog.back_button')}}</a>
+                                            <a href="{{ route('blogs.index') }}" class="btn btn-danger">{{__('blog.back_button')}}</a>
                                         </td>
                                     </tr>
                                 </tbody>
