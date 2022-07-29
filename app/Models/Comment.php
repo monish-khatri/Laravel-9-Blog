@@ -34,4 +34,18 @@ class Comment extends Model
     {
         return $this->hasMany(Comment::class, 'parent_id');
     }
+
+    /**
+     * delete nested child comments
+     *
+     * @var array
+     */
+    public function deleteNestedComments()
+    {
+        // Calling the same method to all of the child of this replies
+        $this->replies->each->deleteNestedComments();
+
+        // Delete all replies of this comment
+        $this->replies()->delete();
+    }
 }

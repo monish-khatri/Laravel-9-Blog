@@ -42,4 +42,5 @@ return [
     'update_status_description' => 'आप <strong>:blogName</strong> ब्लॉग :status करना चाहते हैं  ?',
     'publish_text' => 'प्रकाशित',
     'unpublish_text' => 'अप्रकाशित',
+    'change_status_text' => 'स्थिति बदलने के लिए क्लिक करें',
 ];

@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreBlogRequest;
+use App\Http\Resources\BlogCollection;
+use App\Http\Resources\BlogResource;
 use App\Models\Blog;
 
 use Illuminate\Http\Request;

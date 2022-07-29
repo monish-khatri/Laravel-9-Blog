@@ -35,9 +35,9 @@
                             <td>{{ Str::limit($blog->description, 100) }}</td>
                             <td>
                                 @if ($blog->is_published)
-                                    <span class="@if($blog->user->id == auth()->user()->id)change-status published @endif badge badge-success" blog-id="{{$blog->id}}" blog-title="{{$blog->title}}">{{__('blog.published')}}</span>
+                                    <span @if($blog->user->id == auth()->user()->id) title="{{__('blog.change_status_text')}}" data-original-title="Tooltip on right" @endif class="@if($blog->user->id == auth()->user()->id)change-status published @endif badge badge-success" blog-id="{{$blog->id}}" blog-title="{{$blog->title}}">{{__('blog.published')}}</span>
                                 @else
-                                    <span class="@if($blog->user->id == auth()->user()->id)change-status not-published @endif badge badge-danger" blog-id="{{$blog->id}}" blog-title="{{$blog->title}}">{{__('blog.not_published')}}</span>
+                                    <span @if($blog->user->id == auth()->user()->id) title="{{__('blog.change_status_text')}}" data-original-title="Tooltip on right" @endif class="@if($blog->user->id == auth()->user()->id)change-status not-published @endif badge badge-danger" blog-id="{{$blog->id}}" blog-title="{{$blog->title}}">{{__('blog.not_published')}}</span>
                                 @endif
                             </td>
                             <td>

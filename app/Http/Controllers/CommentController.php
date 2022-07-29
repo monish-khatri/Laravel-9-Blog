@@ -37,17 +37,17 @@ class CommentController extends Controller
         return back();
    }
 
-   /**
+    /**
      * Remove the specified resource from storage.
      *
-     * @param  \Illuminate\Http\Request  $request
      * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return int
      */
-    public function destroy(Request $request,$id)
+    public function destroy($id)
     {
-        $comment = Comment::find($id);
-        $comment->delete();
+        $comments = Comment::find($id);
+        $comments->deleteNestedComments();
+        $comments->delete();
 
         return $id;
     }

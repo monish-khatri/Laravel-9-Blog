@@ -3,7 +3,7 @@
         <div class="container">
             <div class="col-md-12 content">
                 <h3>{!!__('blog.view_blog_title',['blogName' => $blog->title])!!}</h3>
-                <a href="{{ route('blogs.index') }}" class="btn btn-danger float-right">{{__('blog.back_button')}}</a>
+                <a href="{{ url()->previous() }}" class="btn btn-danger float-right">{{__('blog.back_button')}}</a>
                 <table class="center">
                     <tbody>
                         <tr>

@@ -42,4 +42,5 @@ return [
     'update_status_description' => 'You want to :status <strong>:blogName</strong> blog?',
     'publish_text' => 'Publish',
     'unpublish_text' => 'Unpublish',
+    'change_status_text' => 'Click to change status',
 ];
