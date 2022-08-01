@@ -43,4 +43,5 @@ return [
     'publish_text' => 'प्रकाशित',
     'unpublish_text' => 'अप्रकाशित',
     'change_status_text' => 'स्थिति बदलने के लिए क्लिक करें',
+    'permission_denied_error' => 'आपको यह क्रिया करने की अनुमति नहीं है',
 ];

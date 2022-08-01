@@ -6,7 +6,7 @@ use App\Http\Requests\StoreBlogRequest;
 use App\Http\Resources\BlogCollection;
 use App\Http\Resources\BlogResource;
 use App\Models\Blog;
-
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -87,8 +87,10 @@ class BlogController extends Controller
      */
     public function show($id)
     {
+        $blogs = Blog::findOrFail($id);
+        // Gate::authorize('blog-actions', $blogs); // Throws 403 "THIS ACTION IS UNAUTHORIZED"
         return view('blog.view', [
-            'blog' => Blog::findOrFail($id)
+            'blog' => $blogs
         ]);
     }
 
@@ -101,6 +103,10 @@ class BlogController extends Controller
     public function edit($id)
     {
         $blogs = Blog::findOrFail($id);
+        $permission = Gate::inspect('update', $blogs);
+        if (! $permission->allowed()) {
+            return redirect()->route('blogs.index')->with(['success' => $permission->message(),'type'=>'danger']);
+        }
 
         return view('blog.edit', [
             'blog' => $blogs,
@@ -117,6 +123,10 @@ class BlogController extends Controller
     public function update(Request $request, $id)
     {
         $blogs = Blog::findOrFail($id);
+        $permission = Gate::inspect('update', $blogs);
+        if (! $permission->allowed()) {
+            return redirect()->route('blogs.index')->with(['success' => $permission->message(),'type'=>'danger']);
+        }
         $isPatch = $request->isMethod('PATCH');
         if(! $isPatch) {
             $messages = [
@@ -152,6 +162,11 @@ class BlogController extends Controller
     public function destroy(Request $request,$id)
     {
         $blogs = Blog::find($id);
+
+        if (! Gate::allows('isOwner', $blogs)) {
+            redirect()->route('blogs.index')->with(['success' => __('blog.permission_denied_error'),'type'=>'danger']);
+            return $id;
+        }
         $blogs->delete();
 
         redirect()->route('blogs.index')->with(['success' => __('blog.delete_success_message'),'type'=>'success']);

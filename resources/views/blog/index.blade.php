@@ -20,7 +20,9 @@
                             <th>{{__('blog.description')}}</th>
                             <th>{{__('blog.published')}}</th>
                             <th>{{__('blog.blog_owner')}}</th>
-                            <th class="actions">{{__('blog.actions')}}</th>
+                            @can('isAdmin')
+                                <th class="actions">{{__('blog.actions')}}</th>
+                            @endcan
                         </tr>
                     </thead>
                     <tbody>
@@ -51,14 +53,14 @@
                                         <i class="fa fa-comment"></i>
                                         </span>
                                     </a>
-                                    @if($blog->user->id == auth()->user()->id)
+                                    @can('isOwner',$blog)
                                         <a href="{{route('blogs.edit',[$blog])}}" class="btn btn-xs">
                                             <span><i class="fa fa-pencil"></i></span>
                                         </a>
                                         <a onclick="removeBlog('{{route('blogs.destroy',[$blog])}}','{{$blog->title}}')" class="btn btn-xs">
                                             <span><i class="fa fa-trash"></i></span>
                                         </a>
-                                    @endif
+                                    @endcan
                                 @else
                                     <a href="{{route('blogs.show',[$blog])}}" class="btn btn-xs">
                                         <span><i class="fa fa-eye"></i></span>

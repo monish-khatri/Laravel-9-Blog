@@ -33,7 +33,7 @@ return [
     'create_success_message' => 'Blog created successfully!!',
     'update_success_message' => 'Blog updated successfully!!',
     'delete_success_message' => 'Blog deleted successfully!!',
-    'error_message' => 'Whoop\',Something went wrong!!',
+    'error_message' => 'Whoops,Something went wrong!!',
     'change_lang' => 'Language',
     'sr_no' => 'Sr. No',
     'view_blog_title' => 'Blog Detail : <strong>:blogName</strong>',
@@ -43,4 +43,5 @@ return [
     'publish_text' => 'Publish',
     'unpublish_text' => 'Unpublish',
     'change_status_text' => 'Click to change status',
+    'permission_denied_error' => 'You do not have permission to perform this action',
 ];

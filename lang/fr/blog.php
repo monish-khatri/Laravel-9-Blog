@@ -43,4 +43,5 @@ return [
     'publish_text' => 'Publier',
     'unpublish_text' => 'Dépublier',
     'change_status_text' => 'cliquez pour changer de statut',
+    'permission_denied_error' => 'Vous n\'êtes pas autorisé à effectuer cette action',
 ];
