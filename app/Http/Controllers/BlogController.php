@@ -172,4 +172,35 @@ class BlogController extends Controller
         redirect()->route('blogs.index')->with(['success' => __('blog.delete_success_message'),'type'=>'success']);
         return $id;
     }
+
+    /**
+     * restore specific post
+     *
+     * @return void
+     */
+    public function restore($id)
+    {
+        if (! Gate::allows('isAdmin')) {
+            return redirect()->route('blogs.trash_bin')->with(['success' => __('blog.permission_denied_error'),'type'=>'danger']);
+        }
+        $result = Blog::withTrashed()->find($id)->restore();
+        if ($result) {
+            return redirect()->route('blogs.trash_bin')->with(['success' => __('blog.update_success_message'),'type'=>'success']);
+        } else {
+            return redirect()->route('blogs.trash_bin')->with(['error' => __('blog.error_message'),'type'=>'danger']);;
+        }
+
+    }
+
+    /**
+     * restore all post
+     *
+     * @return response()
+     */
+    public function restoreAll()
+    {
+        Blog::onlyTrashed()->restore();
+
+        return redirect()->back();
+    }
 }
