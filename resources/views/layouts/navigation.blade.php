@@ -18,8 +18,11 @@
                     <x-nav-link :href="route('blogs.index')" :active="request()->is('blogs*')">
                         {{ __('blog.index_blog_title') }}
                     </x-nav-link>
-                    <x-nav-link :href="route('blogs.published')" :active="request()->is('published*')">
+                    <x-nav-link :href="route('blogs.published')" :active="request()->is('*published')">
                         {{ __('blog.all_blogs') }}
+                    </x-nav-link>
+                    <x-nav-link :href="route('blogs.trash_bin')" :active="request()->is('*trash-bin')">
+                        {{ __('blog.trash_bin_title') }}
                     </x-nav-link>
                 </div>
             </div>

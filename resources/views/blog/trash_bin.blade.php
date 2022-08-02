@@ -5,12 +5,10 @@
                 @if ($message = Session::get('success'))
                 <x-alert-message type="{!! Session::get('type')!!}" message="{{$message}}" class="alert-block"/>
                 @endif
-                @if(!$published)
-                    <a href="{{route('blogs.create')}}" class="btn btn-primary-color float-right">{{__('blog.new_blog_button')}}</a>
-                    <h3>{{__('blog.index_blog_title')}}</h3>
-                @else
-                    <h3>{{__('blog.all_blogs')}}</h3>
+                @if($blogs->isNotEmpty())
+                    <a onclick="restoreAllBlog('{{route('blogs.restoreAll')}}')" href="javascript:void(0)" class="btn btn-primary-color float-right">{{__('blog.restore_all_button')}}</a>
                 @endif
+                <h3>{{__('blog.trash_bin_title')}}</h3>
                 @if(isset($blogs))
                 <table class="center">
                     <thead>
@@ -28,9 +26,7 @@
                         <tr @if($loop->odd) class="odd-row" @endif>
                             <td>{{ $loop->iteration + $blogs->firstItem() - 1 }}</td>
                             <td>
-                                <a href="{{route('blogs.edit',[$blog])}}" class="btn btn-xs">
-                                    {{ $blog->title }}
-                                </a>
+                                {{ $blog->title }}
                             </td>
                             <td>{{ Str::limit($blog->description, 100) }}</td>
                             <td>
@@ -44,32 +40,12 @@
                                 {{$blog->user->name}}
                             </td>
                             <td>
-                                @if($published)
-                                    <a href="{{route('blogs.show',[$blog])}}" class="btn btn-xs">
-                                        <span>
-                                        <span>{{count($blog->totalComments)}}</span>
-                                        <i class="fa fa-comment"></i>
-                                        </span>
-                                    </a>
-                                    @can('isOwner',$blog)
-                                        <a href="{{route('blogs.edit',[$blog])}}" class="btn btn-xs">
-                                            <span><i class="fa fa-pencil"></i></span>
-                                        </a>
-                                        <a onclick="removeBlog('{{route('blogs.destroy',[$blog])}}','{{$blog->title}}')" class="btn btn-xs">
-                                            <span><i class="fa fa-trash"></i></span>
-                                        </a>
-                                    @endcan
-                                @else
-                                    <a href="{{route('blogs.show',[$blog])}}" class="btn btn-xs">
-                                        <span><i class="fa fa-eye"></i></span>
-                                    </a>
-                                    <a href="{{route('blogs.edit',[$blog])}}" class="btn btn-xs">
-                                        <span><i class="fa fa-pencil"></i></span>
-                                    </a>
-                                    <a onclick="removeBlog('{{route('blogs.destroy',[$blog])}}','{{$blog->title}}')" class="btn btn-xs">
-                                        <span><i class="fa fa-trash"></i></span>
-                                    </a>
-                                @endif
+                                <a href="javascript:void(0)" onclick="restoreBlog('{{route('blogs.restore',[$blog])}}','{{$blog->title}}')" class="btn btn-xs">
+                                    <span><i class="fa fa-undo"></i></span>
+                                </a>
+                                <a href="javascript:void(0)" onclick="removeBlog('{{route('blogs.forceDestroy',[$blog])}}','{{$blog->title}}')" class="btn btn-xs">
+                                    <span><i class="fa fa-trash"></i></span>
+                                </a>
                             </td>
                         </tr>
                         @empty
@@ -106,6 +82,54 @@
                         },
                         success : function(response) {
                             location.reload();
+                        }
+                    });
+                }
+            })
+        }
+        function restoreBlog(restoreUrl,blogName){
+            Swal.fire({
+                icon: 'warning',
+                title:'{{__('blog.confirmation_title')}}',
+                html: "{!!__('blog.restore_description', ['blogName' => '"+blogName+"'])!!}",
+                showCancelButton: true,
+                confirmButtonText: '{{__('blog.restore_button')}}',
+                cancelButtonText: '{{__('blog.cancel_button')}}',
+                }).then((result) => {
+                if (result.isConfirmed) {
+                    $.ajax({
+                        type : "POST",
+                        url : restoreUrl,
+                        dataType: 'json',
+                        headers: {
+                            'X-CSRF-TOKEN': '<?= csrf_token() ?>'
+                        },
+                        success : function(response) {
+                            location.reload();
+                        }
+                    });
+                }
+            })
+        }
+        function restoreAllBlog(restoreUrl){
+            Swal.fire({
+                icon: 'warning',
+                title:'{{__('blog.confirmation_title')}}',
+                html: "{!!__('blog.restore_all_description')!!}",
+                showCancelButton: true,
+                confirmButtonText: '{{__('blog.restore_button')}}',
+                cancelButtonText: '{{__('blog.cancel_button')}}',
+                }).then((result) => {
+                if (result.isConfirmed) {
+                    $.ajax({
+                        type : "POST",
+                        url : restoreUrl,
+                        dataType: 'json',
+                        headers: {
+                            'X-CSRF-TOKEN': '<?= csrf_token() ?>'
+                        },
+                        success : function(response) {
+                            location.href = "{{route('blogs.index')}}"
                         }
                     });
                 }

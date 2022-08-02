@@ -153,7 +153,7 @@ class BlogController extends Controller
     }
 
     /**
-     * Remove the specified resource from storage.
+     * Move the specified resource from storage to trashbin.
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  int  $id
@@ -174,22 +174,63 @@ class BlogController extends Controller
     }
 
     /**
+     * Remove the specified resource from storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function forceDestroy(Request $request,$id)
+    {
+        $blogs = Blog::withTrashed()->find($id);
+
+        $permission = Gate::inspect('forceDelete', $blogs);
+
+        if (! $permission->allowed()) {
+            redirect()->route('blogs.index')->with(['success' => __('blog.permission_denied_error'),'type'=>'danger']);
+            return $id;
+        }
+
+        $blogs->forceDelete();
+
+        redirect()->route('blogs.trash_bin')->with(['success' => __('blog.delete_success_message'),'type'=>'success']);
+        return $id;
+    }
+
+    /**
+     * restore specific post
+     *
+     * @return void
+     */
+    public function trashBin()
+    {
+        $blogs = Blog::onlyTrashed()->where(['user_id' => Auth::id()])->paginate(5);
+
+        return view('blog.trash_bin', [
+            'blogs' => $blogs,
+            'published' => false,
+        ]);
+    }
+
+    /**
      * restore specific post
      *
      * @return void
      */
     public function restore($id)
     {
-        if (! Gate::allows('isAdmin')) {
-            return redirect()->route('blogs.trash_bin')->with(['success' => __('blog.permission_denied_error'),'type'=>'danger']);
-        }
-        $result = Blog::withTrashed()->find($id)->restore();
-        if ($result) {
-            return redirect()->route('blogs.trash_bin')->with(['success' => __('blog.update_success_message'),'type'=>'success']);
-        } else {
-            return redirect()->route('blogs.trash_bin')->with(['error' => __('blog.error_message'),'type'=>'danger']);;
+        $blogs = Blog::withTrashed()->find($id);
+        $permission = Gate::inspect('restore', $blogs);
+
+        if (! $permission->allowed()) {
+            redirect()->route('blogs.index')->with(['success' => __('blog.permission_denied_error'),'type'=>'danger']);
+            return $id;
         }
 
+        $blogs->restore();
+
+        redirect()->route('blogs.trash_bin')->with(['success' => __('blog.restore_success_message'),'type'=>'success']);
+        return $id;
     }
 
     /**
@@ -199,8 +240,10 @@ class BlogController extends Controller
      */
     public function restoreAll()
     {
-        Blog::onlyTrashed()->restore();
+        $blogs = Blog::onlyTrashed()->where(['user_id' => Auth::id()]);
+        $blogs->restore();
 
-        return redirect()->back();
+        redirect()->route('blogs.index')->with(['success' => __('blog.restore_success_message'),'type'=>'success']);
+        return true;
     }
 }

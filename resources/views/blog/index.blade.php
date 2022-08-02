@@ -68,7 +68,7 @@
                                     <a href="{{route('blogs.edit',[$blog])}}" class="btn btn-xs">
                                         <span><i class="fa fa-pencil"></i></span>
                                     </a>
-                                    <a onclick="removeBlog('{{route('blogs.destroy',[$blog])}}','{{$blog->title}}')" class="btn btn-xs">
+                                    <a href="javascript:void(0)" onclick="removeBlog('{{route('blogs.destroy',[$blog])}}','{{$blog->title}}')" class="btn btn-xs">
                                         <span><i class="fa fa-trash"></i></span>
                                     </a>
                                 @endif

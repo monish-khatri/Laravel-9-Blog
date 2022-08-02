@@ -79,7 +79,7 @@ class BlogPolicy
      */
     public function restore(User $user, Blog $blog)
     {
-        //
+        return $user->id === $blog->user_id ? Response::allow(): Response::deny(__('blog.permission_denied_error'));
     }
 
     /**
@@ -91,6 +91,6 @@ class BlogPolicy
      */
     public function forceDelete(User $user, Blog $blog)
     {
-        //
+        return $user->id === $blog->user_id ? Response::allow(): Response::deny(__('blog.permission_denied_error'));
     }
 }
