@@ -20,9 +20,7 @@
                             <th>{{__('blog.description')}}</th>
                             <th>{{__('blog.published')}}</th>
                             <th>{{__('blog.blog_owner')}}</th>
-                            @can('isAdmin')
-                                <th class="actions">{{__('blog.actions')}}</th>
-                            @endcan
+                            <th class="actions">{{__('blog.actions')}}</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -37,9 +35,9 @@
                             <td>{{ Str::limit($blog->description, 100) }}</td>
                             <td>
                                 @if ($blog->is_published)
-                                    <span @if($blog->user->id == auth()->user()->id) title="{{__('blog.change_status_text')}}" data-original-title="Tooltip on right" @endif class="@if($blog->user->id == auth()->user()->id)change-status published @endif badge badge-success" blog-id="{{$blog->id}}" blog-title="{{$blog->title}}">{{__('blog.published')}}</span>
+                                    <span @can('isOwner',$blog)title="{{__('blog.change_status_text')}}" data-original-title="Tooltip on right" @endcan class="@can('isOwner',$blog)change-status published @endcan badge badge-success" blog-id="{{$blog->slug}}" blog-title="{{$blog->title}}">{{__('blog.published')}}</span>
                                 @else
-                                    <span @if($blog->user->id == auth()->user()->id) title="{{__('blog.change_status_text')}}" data-original-title="Tooltip on right" @endif class="@if($blog->user->id == auth()->user()->id)change-status not-published @endif badge badge-danger" blog-id="{{$blog->id}}" blog-title="{{$blog->title}}">{{__('blog.not_published')}}</span>
+                                    <span @can('isOwner',$blog) title="{{__('blog.change_status_text')}}" data-original-title="Tooltip on right" @endcan class="@can('isOwner',$blog)change-status not-published @endcan badge badge-danger" blog-id="{{$blog->slug}}" blog-title="{{$blog->title}}">{{__('blog.not_published')}}</span>
                                 @endif
                             </td>
                             <td>

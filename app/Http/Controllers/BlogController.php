@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Str;
 
 class BlogController extends Controller
 {
@@ -68,6 +69,7 @@ class BlogController extends Controller
 
         $blogs = new Blog;
         $blogs->title = $validated['title'];
+        $blogs->slug = Str::slug($blogs->title , "-");
         $blogs->description = $validated['description'];
         $blogs->is_published = $request->is_published ?? false;
         $blogs->user_id = Auth::id();
@@ -87,7 +89,7 @@ class BlogController extends Controller
      */
     public function show($id)
     {
-        $blogs = Blog::findOrFail($id);
+        $blogs = Blog::where('slug', $id)->firstOrFail();
         // Gate::authorize('blog-actions', $blogs); // Throws 403 "THIS ACTION IS UNAUTHORIZED"
         return view('blog.view', [
             'blog' => $blogs
@@ -102,7 +104,7 @@ class BlogController extends Controller
      */
     public function edit($id)
     {
-        $blogs = Blog::findOrFail($id);
+        $blogs = Blog::where('slug', $id)->firstOrFail();
         $permission = Gate::inspect('update', $blogs);
         if (! $permission->allowed()) {
             return redirect()->route('blogs.index')->with(['success' => $permission->message(),'type'=>'danger']);
@@ -122,7 +124,7 @@ class BlogController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $blogs = Blog::findOrFail($id);
+        $blogs = Blog::where('slug', $id)->firstOrFail();
         $permission = Gate::inspect('update', $blogs);
         if (! $permission->allowed()) {
             return redirect()->route('blogs.index')->with(['success' => $permission->message(),'type'=>'danger']);
@@ -137,13 +139,14 @@ class BlogController extends Controller
                 'description' => 'required|min:20|max:250',
             ],$messages)->validate();
             $blogs->title = $validated['title'];
+            $blogs->slug = Str::slug($blogs->title , "-");
             $blogs->description = $validated['description'];
             $blogs->user_id = Auth::id();
         }
         $blogs->is_published = (bool)$request->is_published ?? false;
         $result = $blogs->save();
         if ($isPatch){
-            return $blogs->id;
+            return true;
         }
         if ($result) {
             return redirect()->route('blogs.index')->with(['success' => __('blog.update_success_message'),'type'=>'success']);
@@ -155,46 +158,44 @@ class BlogController extends Controller
     /**
      * Move the specified resource from storage to trashbin.
      *
-     * @param  \Illuminate\Http\Request  $request
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Request $request,$id)
+    public function destroy($id)
     {
-        $blogs = Blog::find($id);
+        $blogs = Blog::where('slug', $id)->firstOrFail();
 
         if (! Gate::allows('isOwner', $blogs)) {
             redirect()->route('blogs.index')->with(['success' => __('blog.permission_denied_error'),'type'=>'danger']);
-            return $id;
+            return true;
         }
         $blogs->delete();
 
         redirect()->route('blogs.index')->with(['success' => __('blog.delete_success_message'),'type'=>'success']);
-        return $id;
+        return true;
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \Illuminate\Http\Request  $request
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function forceDestroy(Request $request,$id)
+    public function forceDestroy($id)
     {
-        $blogs = Blog::withTrashed()->find($id);
+        $blogs = Blog::withTrashed()->where('slug', $id)->firstOrFail();
 
         $permission = Gate::inspect('forceDelete', $blogs);
 
         if (! $permission->allowed()) {
             redirect()->route('blogs.index')->with(['success' => __('blog.permission_denied_error'),'type'=>'danger']);
-            return $id;
+            return true;
         }
 
         $blogs->forceDelete();
 
         redirect()->route('blogs.trash_bin')->with(['success' => __('blog.delete_success_message'),'type'=>'success']);
-        return $id;
+        return true;
     }
 
     /**
@@ -219,18 +220,18 @@ class BlogController extends Controller
      */
     public function restore($id)
     {
-        $blogs = Blog::withTrashed()->find($id);
+        $blogs = Blog::withTrashed()->where('slug', $id)->firstOrFail();
         $permission = Gate::inspect('restore', $blogs);
 
         if (! $permission->allowed()) {
             redirect()->route('blogs.index')->with(['success' => __('blog.permission_denied_error'),'type'=>'danger']);
-            return $id;
+            return true;
         }
 
         $blogs->restore();
 
         redirect()->route('blogs.trash_bin')->with(['success' => __('blog.restore_success_message'),'type'=>'success']);
-        return $id;
+        return true;
     }
 
     /**

@@ -63,6 +63,7 @@ class StoreBlogRequest extends FormRequest
     {
         $this->merge([
             'title' => Str::ucfirst($this->title),
+            'slug' => Str::slug($this->title , "-"),
         ]);
     }
 }
