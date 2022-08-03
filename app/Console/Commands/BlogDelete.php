@@ -31,7 +31,7 @@ class BlogDelete extends Command
     {
         // Calling Commands From Other Commands
         $this->call('blog:list');
-        $this->line('Note:You can delete Multiple blog by giving id in comma seprated.');
+        $this->line('Note:You can delete Multiple blog by giving id in comma seprated format.');
         $blogId = $this->option('id');
         if(empty($blogId)){
 

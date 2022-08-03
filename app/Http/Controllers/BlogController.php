@@ -25,7 +25,7 @@ class BlogController extends Controller
     public function index()
     {
         // Call Command Programmatically
-        // Artisan::call('blog:delete --id=77');
+        // dd(Artisan::call('blog:list'));
         $blogs = Blog::orderBy('id', 'desc')->where(['user_id' => Auth::id()])->paginate(5)->withQueryString();
 
         return view('blog.index', [
