@@ -41,7 +41,7 @@
                 <form method="post" action="{{ route('comments.store') }}">
                     @csrf
                     <div class="form-group">
-                        <textarea placeholder="Add Comment" class="form-control appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500" name="body_"></textarea>
+                        <textarea placeholder="{{__('comment.add_comment')}}" class="form-control appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500" name="body_"></textarea>
                         @error('body_')
                             <div class="text-red">{{ $message }}</div>
                         @enderror

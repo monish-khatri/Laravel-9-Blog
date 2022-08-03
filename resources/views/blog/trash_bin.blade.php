@@ -50,7 +50,7 @@
                         </tr>
                         @empty
                             <tr>
-                                <td colspan="6"><?= __('No record found!!!') ?></td>
+                                <td colspan="6"><?= __('blog.no_record_found')?></td>
                             </tr>
                         @endforelse
                     </tbody>
