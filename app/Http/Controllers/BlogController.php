@@ -8,6 +8,7 @@ use App\Http\Resources\BlogResource;
 use App\Models\Blog;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Route;
@@ -23,6 +24,8 @@ class BlogController extends Controller
      */
     public function index()
     {
+        // Call Command Programmatically
+        // Artisan::call('blog:delete --id=77');
         $blogs = Blog::orderBy('id', 'desc')->where(['user_id' => Auth::id()])->paginate(5)->withQueryString();
 
         return view('blog.index', [

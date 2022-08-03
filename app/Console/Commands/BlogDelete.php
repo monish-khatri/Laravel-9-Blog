@@ -29,14 +29,19 @@ class BlogDelete extends Command
      */
     public function handle()
     {
+        // Calling Commands From Other Commands
+        $this->call('blog:list');
+        $this->line('Note:You can delete Multiple blog by giving id in comma seprated.');
         $blogId = $this->option('id');
         if(empty($blogId)){
-            $blogId = $this->ask('Which blog you want to delete?');
+
+            $blogId = $this->ask('Please enter ID of blog Which you want to delete?');
         }
         try {
-            $blogs = Blog::where('id', $blogId)->firstOrFail();
-            if ($this->confirm('Are You Sure you want to delete "'.$blogs->title.'"?')) {
-                $deleted = $this->withProgressBar([$blogs], function ($blog) {
+            $ids = explode(',',$blogId);
+            $blogs = Blog::whereIn('id', $ids)->get();
+            if ($this->confirm('Are You Sure you want to delete?')) {
+                $deleted = $this->withProgressBar($blogs, function ($blog) {
                     $blog->delete();
                 });
                 $this->newLine(2);
