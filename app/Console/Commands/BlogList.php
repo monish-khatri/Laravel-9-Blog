@@ -28,9 +28,13 @@ class BlogList extends Command
      */
     public function handle()
     {
+
         $this->table(
-            ['Id','Title', 'Description'],
-            Blog::all(['id','title', 'description'])->toArray()
+            ['Id','Title', 'Description','Author'],
+            Blog::select(['blogs.id','blogs.title', 'blogs.description', 'users.name'])
+                ->join('users', 'blogs.user_id', '=', 'users.id')
+                ->get()
+                ->toArray()
         );
     }
 }

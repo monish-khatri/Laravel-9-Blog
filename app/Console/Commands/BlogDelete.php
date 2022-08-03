@@ -13,7 +13,7 @@ class BlogDelete extends Command
      *
      * @var string
      */
-    protected $signature = 'blog:delete {--id= Id of the blog}';
+    protected $signature = 'blog:delete {--id=}';
 
     /**
      * The console command description.
@@ -36,7 +36,10 @@ class BlogDelete extends Command
         try {
             $blogs = Blog::where('id', $blogId)->firstOrFail();
             if ($this->confirm('Are You Sure you want to delete "'.$blogs->title.'"?')) {
-                $deleted  = $blogs->delete();
+                $deleted = $this->withProgressBar([$blogs], function ($blog) {
+                    $blog->delete();
+                });
+                $this->newLine(2);
                 if($deleted){
                     $this->info('Blog Deleted Succussfully!!');
                 } else {
