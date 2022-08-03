@@ -29,7 +29,6 @@ class BlogList extends Command
     public function handle()
     {
         // define('STDIN',fopen("php://stdin","r"));
-
         $this->table(
             ['Id','Title', 'Description','Author'],
             Blog::select(['blogs.id','blogs.title', 'blogs.description', 'users.name'])

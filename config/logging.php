@@ -51,6 +51,10 @@ return [
     */
 
     'channels' => [
+        'deprecations' => [
+            'driver' => 'single',
+            'path' => storage_path('logs/php-deprecation-warnings.log'),
+        ],
         'stack' => [
             'driver' => 'stack',
             'channels' => ['single'],
