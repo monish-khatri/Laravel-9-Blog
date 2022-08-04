@@ -21,9 +21,6 @@
                     <x-nav-link :href="route('blogs.published')" :active="request()->is('*published')">
                         {{ __('blog.all_blogs') }}
                     </x-nav-link>
-                    <x-nav-link :href="route('blogs.trash_bin')" :active="request()->is('*trash-bin')">
-                        {{ __('blog.trash_bin_title') }}
-                    </x-nav-link>
                 </div>
             </div>
 
@@ -68,6 +65,9 @@
 
                     <x-slot name="content">
                         <!-- Authentication -->
+                        <x-dropdown-link :href="route('blogs.trash_bin')">
+                            {{ __('blog.trash_bin_title') }}
+                        </x-dropdown-link>
                         <form method="POST" action="{{ route('logout') }}">
                             @csrf
 
