@@ -6,10 +6,12 @@ use App\Http\Requests\StoreBlogRequest;
 use App\Http\Resources\BlogCollection;
 use App\Http\Resources\BlogResource;
 use App\Models\Blog;
+use App\Services\Counter;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Route;
@@ -18,6 +20,12 @@ use Illuminate\Support\Str;
 
 class BlogController extends Controller
 {
+    private $counter;
+
+    public function __construct(Counter $counter)
+    {
+        $this->counter = $counter;
+    }
     /**
      * Display a listing of the resource.
      *
@@ -93,10 +101,13 @@ class BlogController extends Controller
      */
     public function show($id)
     {
-        $blogs = Blog::where('slug', $id)->firstOrFail();
+        $blogs = Cache::tags(['blog'])->remember("blog-{$id}", 60, function() use($id) {
+            return Blog::with('comments','user')->where('slug', $id)->firstOrFail();
+        });
         // Gate::authorize('blog-actions', $blogs); // Throws 403 "THIS ACTION IS UNAUTHORIZED"
         return view('blog.view', [
-            'blog' => $blogs
+            'blog' => $blogs,
+            'counter' => $this->counter->increment("blog-{$id}", ['blog']),
         ]);
     }
 

@@ -43,11 +43,11 @@ Route::middleware(['auth'])->group(function () {
 
 
     Route::get('/response/{user}', [ResponseController::class, 'index'])->name('response');
-    Route::get('/blogs/published', [BlogController::class, 'published'])->name('blogs.published');
-    Route::get('/blogs/trash-bin', [BlogController::class, 'trashBin'])->name('blogs.trash_bin');
-    Route::post('/blogs/trash-bin/{blog}', [BlogController::class, 'restore'])->name('blogs.restore');
-    Route::delete('/blogs/force-delete/{blog}', [BlogController::class, 'forceDestroy'])->name('blogs.forceDestroy');
-    Route::post('/blogs/restore-all', [BlogController::class, 'restoreAll'])->name('blogs.restoreAll');
+    Route::get('/published/blogs', [BlogController::class, 'published'])->name('blogs.published');
+    Route::get('/trash-bin/blogs', [BlogController::class, 'trashBin'])->name('blogs.trash_bin');
+    Route::post('/trash-bin/{blog}/blogs', [BlogController::class, 'restore'])->name('blogs.restore');
+    Route::delete('/force-delete/{blog}/blogs', [BlogController::class, 'forceDestroy'])->name('blogs.forceDestroy');
+    Route::post('/restore-all/blogs', [BlogController::class, 'restoreAll'])->name('blogs.restoreAll');
 
     Route::resource('blogs', BlogController::class)->missing(function (Request $request) {
         return Redirect::route('blogs.index');

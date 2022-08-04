@@ -3,8 +3,11 @@
 namespace App\Providers;
 use App\Http\Middleware\EnsureUserHasRole;
 use App\Http\Middleware\TrimStrings;
+use App\Services\Counter;
 use App\View\Components\Alert;
 use App\View\Components\AlertMessage;
+use Illuminate\Contracts\Cache\Factory;
+use Illuminate\Contracts\Session\Session;
 use Illuminate\Foundation\Http\Middleware\ConvertEmptyStringsToNull;
 use Illuminate\Support\Facades\Response;
 use Illuminate\Support\ServiceProvider;
@@ -53,5 +56,17 @@ class AppServiceProvider extends ServiceProvider
         Blade::component('package-alert', AlertMessage::class);
 
         // Pluralizer::useLanguage('spanish');
+
+        $this->app->singleton(Counter::class, function ($app) {
+            return new Counter(
+                $app->make(Factory::class),
+                $app->make(Session::class),
+                1
+            );
+        });
+
+        // $this->app->when(Counter::class)
+        //     ->needs('$timeout')
+        //     ->give(1);
     }
 }

@@ -28,7 +28,7 @@
                         <tr @if($loop->odd) class="odd-row" @endif>
                             <td>{{ $loop->iteration + $blogs->firstItem() - 1 }}</td>
                             <td>
-                                <a href="{{route('blogs.edit',[$blog])}}" class="btn btn-xs">
+                                <a href="{{route('blogs.show',[$blog])}}" class="btn btn-xs">
                                     {{ $blog->title }}
                                 </a>
                             </td>
