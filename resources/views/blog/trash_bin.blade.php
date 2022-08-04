@@ -14,10 +14,10 @@
                     <thead>
                         <tr>
                             <th>{{__('blog.sr_no')}}</th>
-                            <th>{{__('blog.title')}}</th>
-                            <th>{{__('blog.description')}}</th>
-                            <th>{{__('blog.published')}}</th>
-                            <th>{{__('blog.blog_owner')}}</th>
+                            <th>@sortablelink('title',__('blog.title'))</th>
+                            <th>@sortablelink('description',__('blog.description'))</th>
+                            <th>@sortablelink('is_published',__('blog.published'))</th>
+                            <th>@sortablelink('user.name',__('blog.blog_owner'))</th>
                             <th class="actions">{{__('blog.actions')}}</th>
                         </tr>
                     </thead>

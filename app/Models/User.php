@@ -7,10 +7,11 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
+use Kyslik\ColumnSortable\Sortable;
 
 class User extends Authenticatable implements MustVerifyEmail
 {
-    use HasApiTokens, HasFactory, Notifiable;
+    use Sortable, HasApiTokens, HasFactory, Notifiable;
 
     const USER_ACCESS = 'user';
     const ADMIN_ACCESS = 'admin';
@@ -24,6 +25,7 @@ class User extends Authenticatable implements MustVerifyEmail
         'email',
         'password',
     ];
+    public $sortable = ['name'];
 
     /**
      * The attributes that should be hidden for serialization.

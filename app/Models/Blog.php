@@ -7,11 +7,12 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
+use Kyslik\ColumnSortable\Sortable;
 
 
 class Blog extends Model
 {
-    use HasFactory, SoftDeletes;
+    use Sortable, HasFactory, SoftDeletes;
 
     /**
      * The model's default values for attributes.
@@ -22,6 +23,7 @@ class Blog extends Model
         // 'user_id' => Auth::id(),
     ];
 
+    public $sortable = ['id','title','description','is_published'];
     protected $fillable = [
         'title',
         'description',

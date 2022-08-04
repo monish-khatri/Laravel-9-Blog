@@ -35,7 +35,7 @@ class BlogController extends Controller
     {
         // Call Command Programmatically
         // dd(Artisan::call('blog:list'));
-        $blogs = Blog::orderBy('id', 'desc')->where(['user_id' => Auth::id()])->paginate(5)->withQueryString();
+        $blogs = Blog::sortable()->orderBy('id', 'desc')->where(['user_id' => Auth::id()])->paginate(5)->withQueryString();
 
         return view('blog.index', [
             'blogs' => $blogs,
@@ -50,7 +50,7 @@ class BlogController extends Controller
      */
     public function published()
     {
-        $blogs = Blog::orderBy('id', 'desc')->where('is_published',1)->paginate(5)->withQueryString();
+        $blogs = Blog::sortable()->orderBy('id', 'desc')->where('is_published',1)->paginate(5)->withQueryString();
 
         return view('blog.index', [
             'blogs' => $blogs,
@@ -220,7 +220,7 @@ class BlogController extends Controller
      */
     public function trashBin()
     {
-        $blogs = Blog::onlyTrashed()->where(['user_id' => Auth::id()])->paginate(5);
+        $blogs = Blog::sortable()->onlyTrashed()->where(['user_id' => Auth::id()])->paginate(5);
 
         return view('blog.trash_bin', [
             'blogs' => $blogs,
