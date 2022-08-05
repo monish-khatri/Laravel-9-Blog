@@ -57,5 +57,12 @@
                 </x-button>
             </div>
         </form>
+        @if (Route::has('google.login'))
+            <div class="d-flex justify-content-center mt-4">
+                <a href="{{route('google.login')}}">
+                    <img src="https://developers.google.com/identity/images/btn_google_signin_dark_normal_web.png" style="margin: auto;">
+                </a>
+            </div>
+        @endif
     </x-auth-card>
 </x-guest-layout>

@@ -4,6 +4,7 @@ use App\Http\Controllers\PhpInfoController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\BlogController;
 use App\Http\Controllers\CommentController;
+use App\Http\Controllers\GoogleController;
 use App\Http\Controllers\ResponseController;
 use App\Http\Controllers\SessionController;
 use App\Models\User;
@@ -56,6 +57,13 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/add_comment', [CommentController::class, 'store'])->name('comments.store');
     Route::delete('/remove_comment/{comment}', [CommentController::class, 'destroy'])->name('comments.destroy');
 });
+
+// Google Login
+Route::prefix('google')->name('google.')->group( function(){
+    Route::get('login', [GoogleController::class, 'loginWithGoogle'])->name('login');
+    Route::any('callback', [GoogleController::class, 'callbackFromGoogle'])->name('callback');
+});
+
 // Basic Routing
 Route::get('/greeting', function () {
     return 'Hello World';
