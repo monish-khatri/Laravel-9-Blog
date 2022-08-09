@@ -6,8 +6,10 @@
                 <x-alert-message type="{!! Session::get('type')!!}" message="{{$message}}" class="alert-block"/>
                 @endif
                 @if(!$published)
-                    <a href="{{route('blogs.create')}}" class="btn btn-primary-color float-right">{{__('blog.new_blog_button')}}</a>
-                    <h3>{{__('blog.index_blog_title')}}</h3>
+                    @can('isUser')
+                        <a href="{{route('blogs.create')}}" class="btn btn-primary-color float-right">{{__('blog.new_blog_button')}}</a>
+                        <h3>{{__('blog.index_blog_title')}}</h3>
+                    @endcan
                 @else
                     <h3>{{__('blog.all_blogs')}}</h3>
                 @endif
@@ -20,6 +22,9 @@
                             <th>@sortablelink('description',__('blog.description'))</th>
                             <th>@sortablelink('is_published',__('blog.published'))</th>
                             <th>@sortablelink('user.name',__('blog.blog_owner'))</th>
+                            @if(! $published)
+                                <th>@sortablelink('status',__('blog.blog_status'))</th>
+                            @endif
                             <th class="actions">{{__('blog.actions')}}</th>
                         </tr>
                     </thead>
@@ -43,6 +48,19 @@
                             <td>
                                 {{$blog->user->name}}
                             </td>
+                            @if(! $published)
+                                <td>
+                                    @if ($blog->status == 'pending')
+                                        <span class="badge badge-warning" blog-id="{{$blog->slug}}" blog-title="{{$blog->title}}">{{__('blog.pending_tooltip')}}</span>
+                                    @elseif($blog->status == 'approved')
+                                        <span class="badge badge-success" blog-id="{{$blog->slug}}" blog-title="{{$blog->title}}">{{__('blog.approve_tooltip')}}</span>
+                                    @elseif($blog->status == 'draft')
+                                        <span class="badge badge-info" blog-id="{{$blog->slug}}" blog-title="{{$blog->title}}">{{__('blog.on_action_tooltip')}}</span>
+                                    @else
+                                        <span class="badge badge-danger" blog-id="{{$blog->slug}}" blog-title="{{$blog->title}}">{{__('blog.reject_tooltip')}}</span>
+                                    @endif
+                                </td>
+                            @endif
                             <td>
                                 @if($published)
                                     <a href="{{route('blogs.show',[$blog])}}" class="btn btn-xs">
@@ -61,12 +79,14 @@
                                     @endcan
                                 @else
                                     @can('isAdmin')
-                                        <a href="{{route('blogs.edit',[$blog])}}" class="btn btn-xs">
-                                            <span><i class="fa fa-check" title="{{__('blog.approve_tooltip')}}"></i></span>
-                                        </a>
-                                        <a href="javascript:void(0)" onclick="removeBlog('{{route('blogs.destroy',[$blog])}}','{{$blog->title}}')" class="btn btn-xs">
-                                            <span><i class="fa fa-times" title="{{__('blog.reject_tooltip')}}"></i></span>
-                                        </a>
+                                        @if($blog->status == 'pending')
+                                            <a href="javascript:void(0)" onclick="updateStatus('{{route('blogs.update_status',[$blog])}}','{{$blog->title}}','approved')" class="btn btn-xs">
+                                                <span><i class="fa fa-check" title="{{__('blog.approve_tooltip')}}"></i></span>
+                                            </a>
+                                        <a href="javascript:void(0)" onclick="updateStatus('{{route('blogs.update_status',[$blog])}}','{{$blog->title}}','rejected')" class="btn btn-xs">
+                                                <span><i class="fa fa-times" title="{{__('blog.reject_tooltip')}}"></i></span>
+                                            </a>
+                                        @endif
                                     @endcan
                                     @can('isUser')
                                         <a href="{{route('blogs.show',[$blog])}}" class="btn btn-xs">
@@ -84,7 +104,7 @@
                         </tr>
                         @empty
                             <tr>
-                                <td colspan="6"><?= __('blog.no_record_found') ?></td>
+                                <td colspan=" @if(! $published) 7 @else 6 @endif"><?= __('blog.no_record_found') ?></td>
                             </tr>
                         @endforelse
                     </tbody>
@@ -111,6 +131,37 @@
                         type : "DELETE",
                         url : deleteUrl,
                         dataType: 'json',
+                        headers: {
+                            'X-CSRF-TOKEN': '<?= csrf_token() ?>'
+                        },
+                        success : function(response) {
+                            location.reload();
+                        }
+                    });
+                }
+            })
+        }
+        function updateStatus(updateUrl,blogName,status){
+            var html = "{!!__('blog.approve_description', ['blogName' => '"+blogName+"'])!!}";
+            var button = "{{__('blog.approve_button')}}";
+            if(status == 'rejected'){
+                html = "{!!__('blog.reject_description', ['blogName' => '"+blogName+"'])!!}";
+                button = "{{__('blog.reject_button')}}";
+            }
+            Swal.fire({
+                icon: 'warning',
+                title:'{{__('blog.confirmation_title')}}',
+                html: html,
+                showCancelButton: true,
+                confirmButtonText: button,
+                cancelButtonText: '{{__('blog.cancel_button')}}',
+                }).then((result) => {
+                if (result.isConfirmed) {
+                    $.ajax({
+                        type : "POST",
+                        url : updateUrl,
+                        dataType: 'json',
+                        data: {'status':status,_method: 'PATCH'},
                         headers: {
                             'X-CSRF-TOKEN': '<?= csrf_token() ?>'
                         },

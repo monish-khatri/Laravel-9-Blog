@@ -55,7 +55,7 @@ class BlogPolicy
      */
     public function update(User $user, Blog $blog)
     {
-        return $user->id === $blog->user_id ? Response::allow() : Response::deny(__('blog.permission_denied_error'));
+        return $user->id === $blog->user_id || $user->role == User::ADMIN_ACCESS ? Response::allow() : Response::deny(__('blog.permission_denied_error'));
     }
 
     /**

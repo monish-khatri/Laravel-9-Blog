@@ -13,7 +13,7 @@
                 <!-- Navigation Links -->
                 <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
                     <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
-                        {{ __('Dashboard') }}
+                        {{ __('blog.dashboard') }}
                     </x-nav-link>
                     <x-nav-link :href="route('blogs.index')" :active="request()->is('blogs*')">
                         {{ __('blog.index_blog_title') }}
@@ -65,11 +65,9 @@
 
                     <x-slot name="content">
                         <!-- Authentication -->
-                        @can('isUser')
                         <x-dropdown-link :href="route('blogs.trash_bin')">
                             {{ __('blog.trash_bin_title') }}
                         </x-dropdown-link>
-                        @endcan
                         <form method="POST" action="{{ route('logout') }}">
                             @csrf
 

@@ -14,6 +14,11 @@ class Blog extends Model
 {
     use Sortable, HasFactory, SoftDeletes;
 
+    const STATUS_APPROVE = 'approved';
+    const STATUS_REJECTED = 'rejected';
+    const STATUS_PENDING = 'pending';
+    const STATUS_DRAFT = 'draft';
+
     /**
      * The model's default values for attributes.
      *
@@ -29,6 +34,8 @@ class Blog extends Model
         'description',
         'slug',
         'is_published',
+        'status',
+        'approve_by',
     ];
 
     /**

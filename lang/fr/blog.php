@@ -13,6 +13,7 @@ return [
     |
     */
 
+    'dashboard' => 'Tableau de bord',
     'new_blog_button' => 'Nouveau blog',
     'restore_all_button' => 'Tout restaurer',
     'title' => 'Titre',
@@ -28,10 +29,14 @@ return [
     'delete_button' => 'Supprimer',
     'restore_button' => 'Restaurer',
     'cancel_button' => 'Annuler',
+    'approve_button' => 'approuver',
+    'reject_button' => 'Rejeter',
     'confirmation_title' => 'Êtes-vous sûr ?',
     'no_record_found' => 'Aucun Enregistrement Trouvé!!!',
     'delete_description' => 'vous voulez supprimer le blog <strong>:blogName</strong> ?',
     'restore_description' => 'vous voulez Restaurer le blog <strong>:blogName</strong> ?',
+    'approve_description' => 'vous voulez approuver le blog<strong>:blogName</strong> ?',
+    'reject_description' => 'vous voulez rejeter le blog<strong>:blogName</strong> ?',
     'restore_all_description' => 'vous voulez restaurer tout le blog ?',
     'created_date' => 'date créée',
     'create_success_message' => 'Blog créé avec succès !!',
@@ -43,7 +48,7 @@ return [
     'sr_no' => 'Sr non',
     'view_blog_title' => 'Détail du blog : <strong>:blogName</strong>',
     'blog_owner'=> 'Auteur',
-    'all_blogs' => 'Tous les blogs',
+    'all_blogs' => 'Blogues publiés',
     'trash_bin_title' => 'Corbeille',
     'update_status_description' => 'Vous voulez :status <strong>:blogName</strong> blog ?',
     'publish_text' => 'Publier',
@@ -55,6 +60,9 @@ return [
     'view_tooltip' => 'Voir',
     'restore_tooltip' => 'Restaurer',
     'comment_tooltip' => 'Commentaire',
-    'approve_tooltip' => 'Approuver',
-    'reject_tooltip' => 'Rejeter',
+    'approve_tooltip' => 'Approuvée',
+    'reject_tooltip' => 'rejetée',
+    'pending_tooltip' => 'En attente',
+    'on_action_tooltip' => 'Brouillon',
+    'blog_status' => 'Statut',
 ];

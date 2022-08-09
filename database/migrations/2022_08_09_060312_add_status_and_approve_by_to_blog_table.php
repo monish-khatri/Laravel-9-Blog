@@ -14,7 +14,7 @@ return new class extends Migration
     public function up()
     {
         Schema::table('blogs', function (Blueprint $table) {
-            $table->enum('status',  ['pending', 'approved','rejected'])->default('pending');
+            $table->enum('status',  ['draft','pending', 'approved','rejected'])->default('draft');
             $table->foreignId('action_by')->nullable()->constrained('users');
         });
     }

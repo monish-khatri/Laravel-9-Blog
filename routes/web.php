@@ -49,6 +49,7 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/trash-bin/{blog}/blogs', [BlogController::class, 'restore'])->name('blogs.restore');
     Route::delete('/force-delete/{blog}/blogs', [BlogController::class, 'forceDestroy'])->name('blogs.forceDestroy');
     Route::post('/restore-all/blogs', [BlogController::class, 'restoreAll'])->name('blogs.restoreAll');
+    Route::patch('/blogs/update_status/{blog}', [BlogController::class, 'updateStatus'])->name('blogs.update_status');
 
     Route::resource('blogs', BlogController::class)->missing(function (Request $request) {
         return Redirect::route('blogs.index');

@@ -33,9 +33,17 @@ class BlogController extends Controller
      */
     public function index()
     {
-        $blogs = Blog::sortable()->orderBy('id', 'desc')->where(['user_id' => Auth::id()])->paginate(5)->withQueryString();
+        $blogs = Blog::sortable()
+            ->orderBy('id', 'desc')
+            ->where(['user_id' => Auth::id()])
+            ->paginate(5)
+            ->withQueryString();
         if (Gate::allows('isAdmin')) {
-            $blogs = Blog::sortable()->orderBy('id', 'desc')->paginate(5)->withQueryString();
+            $blogs = Blog::sortable()
+                ->orderBy('id', 'desc')
+                ->whereNot('status',Blog::STATUS_DRAFT)
+                ->paginate(5)
+                ->withQueryString();
         }
 
         return view('blog.index', [
@@ -51,7 +59,14 @@ class BlogController extends Controller
      */
     public function published()
     {
-        $blogs = Blog::sortable()->orderBy('id', 'desc')->where('is_published',1)->paginate(5)->withQueryString();
+        $blogs = Blog::sortable()
+            ->orderBy('id', 'desc')
+            ->where([
+                'is_published' => true,
+                'status' => Blog::STATUS_APPROVE
+            ])
+            ->paginate(5)
+            ->withQueryString();
 
         return view('blog.index', [
             'blogs' => $blogs,
@@ -84,7 +99,8 @@ class BlogController extends Controller
         $blogs->title = $validated['title'];
         $blogs->slug = Str::slug($blogs->title , "-");
         $blogs->description = $validated['description'];
-        $blogs->is_published = $request->is_published ?? false;
+        $blogs->is_published = (bool)$request->is_published ?? false;
+        $blogs->status = $this->blogStatus($blogs->is_published);
         $blogs->user_id = Auth::id();
         $result = $blogs->save();
         if ($result) {
@@ -160,6 +176,7 @@ class BlogController extends Controller
             $blogs->user_id = Auth::id();
         }
         $blogs->is_published = (bool)$request->is_published ?? false;
+        $blogs->status = $this->blogStatus($blogs->is_published,$blogs->status);
         $result = $blogs->save();
         if ($isPatch){
             return true;
@@ -262,5 +279,55 @@ class BlogController extends Controller
 
         redirect()->route('blogs.index')->with(['success' => __('blog.restore_success_message'),'type'=>'success']);
         return true;
+    }
+
+
+    /**
+     * Function will return the status for published/unpublished blog
+     *
+     * @param bool published blog is $published or Not
+     * @param bool $blogStatus pervious status of the blog
+     *
+     * @return string
+     */
+    public function blogStatus($published,$blogStatus = null)
+    {
+        if(! $published || empty($blogStatus)) {
+            $status = Blog::STATUS_DRAFT;
+        } else {
+            $status = Blog::STATUS_PENDING;
+        }
+
+        return $status;
+    }
+
+    /**
+     * Function description
+     *
+     * @param int variable Description $variable comment about this variable
+     *
+     * @return array
+     */
+    public function updateStatus(Request $request,$id)
+    {
+        $blogs = Blog::where('slug', $id)->firstOrFail();
+        $permission = Gate::inspect('update', $blogs);
+        if (! $permission->allowed()) {
+            redirect()->route('blogs.index')->with(['success' => $permission->message(),'type'=>'danger']);
+            return false;
+        }
+        if ($request->status == Blog::STATUS_REJECTED) {
+            $blogs->status = Blog::STATUS_REJECTED;
+            $blogs->is_published = false;
+        } elseif($request->status == Blog::STATUS_APPROVE){
+            $blogs->status = Blog::STATUS_APPROVE;
+            $blogs->updated_at = now();
+        }
+        $blogs->action_by = Auth::id();
+        $result = $blogs->save();
+        if ($result){
+            return true;
+        }
+        return false;
     }
 }
