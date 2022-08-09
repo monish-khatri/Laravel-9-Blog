@@ -33,9 +33,10 @@ class BlogController extends Controller
      */
     public function index()
     {
-        // Call Command Programmatically
-        // dd(Artisan::call('blog:list'));
         $blogs = Blog::sortable()->orderBy('id', 'desc')->where(['user_id' => Auth::id()])->paginate(5)->withQueryString();
+        if (Gate::allows('isAdmin')) {
+            $blogs = Blog::sortable()->orderBy('id', 'desc')->paginate(5)->withQueryString();
+        }
 
         return view('blog.index', [
             'blogs' => $blogs,

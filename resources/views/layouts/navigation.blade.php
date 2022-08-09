@@ -65,9 +65,11 @@
 
                     <x-slot name="content">
                         <!-- Authentication -->
+                        @can('isUser')
                         <x-dropdown-link :href="route('blogs.trash_bin')">
                             {{ __('blog.trash_bin_title') }}
                         </x-dropdown-link>
+                        @endcan
                         <form method="POST" action="{{ route('logout') }}">
                             @csrf
 

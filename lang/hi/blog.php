@@ -50,4 +50,11 @@ return [
     'unpublish_text' => 'अप्रकाशित',
     'change_status_text' => 'स्थिति बदलने के लिए क्लिक करें',
     'permission_denied_error' => 'आपको यह क्रिया करने की अनुमति नहीं है',
+    'delete_tooltip' => 'डिलीट',
+    'edit_tooltip' => 'संपादित करें',
+    'view_tooltip' => 'व्यू',
+    'restore_tooltip' => 'रिस्टोर',
+    'comment_tooltip' => 'टिप्पणी',
+    'approve_tooltip' => 'स्वीकृत करें',
+    'reject_tooltip' => 'अस्वीकार करें',
 ];

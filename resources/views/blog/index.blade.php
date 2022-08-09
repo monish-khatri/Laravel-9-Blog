@@ -48,27 +48,37 @@
                                     <a href="{{route('blogs.show',[$blog])}}" class="btn btn-xs">
                                         <span>
                                         <span>{{count($blog->totalComments)}}</span>
-                                        <i class="fa fa-comment"></i>
+                                        <i class="fa fa-comment" title="{{__('blog.comment_tooltip')}}"></i>
                                         </span>
                                     </a>
                                     @can('isOwner',$blog)
                                         <a href="{{route('blogs.edit',[$blog])}}" class="btn btn-xs">
-                                            <span><i class="fa fa-pencil"></i></span>
+                                            <span><i class="fa fa-pencil" title="{{__('blog.edit_tooltip')}}"></i></span>
                                         </a>
-                                        <a onclick="removeBlog('{{route('blogs.destroy',[$blog])}}','{{$blog->title}}')" class="btn btn-xs">
-                                            <span><i class="fa fa-trash"></i></span>
+                                        <a href="javascript:void(0)" onclick="removeBlog('{{route('blogs.destroy',[$blog])}}','{{$blog->title}}')" class="btn btn-xs">
+                                            <span><i class="fa fa-trash" title="{{__('blog.delete_tooltip')}}"></i></span>
                                         </a>
                                     @endcan
                                 @else
-                                    <a href="{{route('blogs.show',[$blog])}}" class="btn btn-xs">
-                                        <span><i class="fa fa-eye"></i></span>
-                                    </a>
-                                    <a href="{{route('blogs.edit',[$blog])}}" class="btn btn-xs">
-                                        <span><i class="fa fa-pencil"></i></span>
-                                    </a>
-                                    <a href="javascript:void(0)" onclick="removeBlog('{{route('blogs.destroy',[$blog])}}','{{$blog->title}}')" class="btn btn-xs">
-                                        <span><i class="fa fa-trash"></i></span>
-                                    </a>
+                                    @can('isAdmin')
+                                        <a href="{{route('blogs.edit',[$blog])}}" class="btn btn-xs">
+                                            <span><i class="fa fa-check" title="{{__('blog.approve_tooltip')}}"></i></span>
+                                        </a>
+                                        <a href="javascript:void(0)" onclick="removeBlog('{{route('blogs.destroy',[$blog])}}','{{$blog->title}}')" class="btn btn-xs">
+                                            <span><i class="fa fa-times" title="{{__('blog.reject_tooltip')}}"></i></span>
+                                        </a>
+                                    @endcan
+                                    @can('isUser')
+                                        <a href="{{route('blogs.show',[$blog])}}" class="btn btn-xs">
+                                            <span><i class="fa fa-eye" title="{{__('blog.view_tooltip')}}"></i></span>
+                                        </a>
+                                        <a href="{{route('blogs.edit',[$blog])}}" class="btn btn-xs">
+                                            <span><i class="fa fa-pencil" title="{{__('blog.edit_tooltip')}}"></i></span>
+                                        </a>
+                                        <a href="javascript:void(0)" onclick="removeBlog('{{route('blogs.destroy',[$blog])}}','{{$blog->title}}')" class="btn btn-xs">
+                                            <span><i class="fa fa-trash" title="{{__('blog.delete_tooltip')}}"></i></span>
+                                        </a>
+                                    @endcan
                                 @endif
                             </td>
                         </tr>

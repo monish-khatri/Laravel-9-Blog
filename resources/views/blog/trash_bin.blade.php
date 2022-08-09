@@ -41,10 +41,10 @@
                             </td>
                             <td>
                                 <a href="javascript:void(0)" onclick="restoreBlog('{{route('blogs.restore',[$blog])}}','{{$blog->title}}')" class="btn btn-xs">
-                                    <span><i class="fa fa-undo"></i></span>
+                                    <span><i class="fa fa-undo" title="{{__('blog.restore_tooltip')}}"></i></span>
                                 </a>
                                 <a href="javascript:void(0)" onclick="removeBlog('{{route('blogs.forceDestroy',[$blog])}}','{{$blog->title}}')" class="btn btn-xs">
-                                    <span><i class="fa fa-trash"></i></span>
+                                    <span><i class="fa fa-trash" title="{{__('blog.delete_tooltip')}}"></i></span>
                                 </a>
                             </td>
                         </tr>

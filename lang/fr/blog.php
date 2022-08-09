@@ -50,4 +50,11 @@ return [
     'unpublish_text' => 'Dépublier',
     'change_status_text' => 'cliquez pour changer de statut',
     'permission_denied_error' => 'Vous n\'êtes pas autorisé à effectuer cette action',
+    'delete_tooltip' => 'Supprimer',
+    'edit_tooltip' => 'Modifier',
+    'view_tooltip' => 'Voir',
+    'restore_tooltip' => 'Restaurer',
+    'comment_tooltip' => 'Commentaire',
+    'approve_tooltip' => 'Approuver',
+    'reject_tooltip' => 'Rejeter',
 ];

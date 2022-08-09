@@ -2,7 +2,6 @@
 
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
@@ -15,7 +14,8 @@ return new class extends Migration
     public function up()
     {
         Schema::table('blogs', function (Blueprint $table) {
-            $table->foreignId('user_id')->after('description')->constrained('users');
+            $table->enum('status',  ['pending', 'approved','rejected'])->default('pending');
+            $table->foreignId('action_by')->nullable()->constrained('users');
         });
     }
 
@@ -27,8 +27,9 @@ return new class extends Migration
     public function down()
     {
         Schema::table('blogs', function (Blueprint $table) {
-            $table->dropForeign(['user_id']);
-            $table->dropColumn(['user_id']);
+            $table->dropColumn('status');
+            $table->dropForeign(['action_by']);
+            $table->dropColumn('action_by');
         });
     }
 };

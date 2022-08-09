@@ -50,4 +50,11 @@ return [
     'unpublish_text' => 'Unpublish',
     'change_status_text' => 'Click to change status',
     'permission_denied_error' => 'You do not have permission to perform this action',
+    'delete_tooltip' => 'Delete',
+    'edit_tooltip' => 'Edit',
+    'view_tooltip' => 'View',
+    'restore_tooltip' => 'Restore',
+    'comment_tooltip' => 'Comment',
+    'approve_tooltip' => 'Approve',
+    'reject_tooltip' => 'Reject',
 ];
