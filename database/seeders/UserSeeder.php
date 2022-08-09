@@ -19,8 +19,10 @@ class UserSeeder extends Seeder
         DB::table('users')->delete();
 
         User::create([
-            "name" => 'Monish Khatri',
+            "name" => 'Administrator',
             "email" => 'admin@admin.com',
+            "email_verified_at" => now(),
+            "role" => 'admin',
             "password" => bcrypt('admin'),
             "language" => 'en',
         ]);
