@@ -38,7 +38,7 @@
                                 @elseif($blog->status == Blog::STATUS_DRAFT)
                                     <span class="badge badge-info" blog-id="{{$blog->slug}}" blog-title="{{$blog->title}}">{{__('blog.on_action_tooltip')}}</span>
                                 @else
-                                    <span class="badge badge-danger"blog-id="{{$blog->slug}}" blog-title="{{$blog->title}}">{{__('blog.reject_tooltip')}}</span><p>{{$blog->reject_reason}}</p>
+                                    <p><span class="badge badge-danger mr-1" blog-id="{{$blog->slug}}" blog-title="{{$blog->title}}">{{__('blog.reject_tooltip')}}</span>[<strong>{{__('blog.reject_modal_title')}}</strong> {{$blog->reject_reason}}]</p>
                                 @endif
                             </td>
                         </tr>

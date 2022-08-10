@@ -65,5 +65,6 @@ return [
     'pending_tooltip' => 'Pending',
     'on_action_tooltip' => 'Draft',
     'blog_status' => 'Status',
-    'want_to_publish' => 'Want to publish blog?'
+    'want_to_publish' => 'Want to publish blog?',
+    'reject_modal_title' => 'Reason:',
 ];

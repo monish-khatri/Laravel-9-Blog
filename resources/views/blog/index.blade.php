@@ -88,7 +88,7 @@
                                                 <span><i class="fa fa-check" title="{{__('blog.approve_tooltip')}}"></i></span>
                                             </a>
                                             <a href="javascript:void(0)" onclick="reasonPopup(this)" data-url= '{{route('blogs.update_status',[$blog])}}' data-title='{{$blog->title}}' class="btn btn-xs">
-                                                <span><i class="fa fa-times" title="{{__('blog.reject_tooltip')}}"></i></span>
+                                                <span><i class="fa fa-times" title="[{{__('blog.reject_tooltip')}}]"></i></span>
                                             </a>
                                         @endif
                                     @endcan
@@ -124,7 +124,7 @@
             <div class="modal-dialog">
                 <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="reasonModalLabel">{{__('Reason:')}}</h5>
+                    <h5 class="modal-title" id="reasonModalLabel">{{__('blog.reject_modal_title')}}</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                     </button>
