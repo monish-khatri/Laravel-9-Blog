@@ -119,9 +119,11 @@ class BlogController extends Controller
      */
     public function show($id)
     {
-        $blogs = Cache::tags(['blog'])->remember("blog-{$id}", 60, function() use($id) {
-            return Blog::with('comments','user')->where('slug', $id)->firstOrFail();
-        });
+        $blogs = Blog::with('comments')->where('slug', $id)->firstOrFail();
+        $permission = Gate::inspect('view', $blogs);
+        if (! $permission->allowed()) {
+            return redirect()->route('blogs.index')->with(['success' => $permission->message(),'type'=>'danger']);
+        }
         // Gate::authorize('blog-actions', $blogs); // Throws 403 "THIS ACTION IS UNAUTHORIZED"
         return view('blog.view', [
             'blog' => $blogs,
