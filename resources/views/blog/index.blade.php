@@ -27,7 +27,7 @@
                             <th>@sortablelink('is_published',__('blog.published'))</th>
                             <th>@sortablelink('user.name',__('blog.blog_owner'))</th>
                             @if(! $published)
-                                <th>@sortablelink('status',__('blog.blog_status'))</th>
+                                <th>{{__('blog.blog_status')}}</th>
                             @endif
                             <th class="actions">{{__('blog.actions')}}</th>
                         </tr>
@@ -54,11 +54,11 @@
                             </td>
                             @if(! $published)
                                 <td>
-                                    @if ($blog->status == 'pending')
+                                    @if ($blog->status == Blog::STATUS_PENDING)
                                         <span class="badge badge-warning" blog-id="{{$blog->slug}}" blog-title="{{$blog->title}}">{{__('blog.pending_tooltip')}}</span>
-                                    @elseif($blog->status == 'approved')
+                                    @elseif($blog->status == Blog::STATUS_APPROVE)
                                         <span class="badge badge-success" blog-id="{{$blog->slug}}" blog-title="{{$blog->title}}">{{__('blog.approve_tooltip')}}</span>
-                                    @elseif($blog->status == 'draft')
+                                    @elseif($blog->status == Blog::STATUS_DRAFT)
                                         <span class="badge badge-info" blog-id="{{$blog->slug}}" blog-title="{{$blog->title}}">{{__('blog.on_action_tooltip')}}</span>
                                     @else
                                         <span class="badge badge-danger" title="{{$blog->reject_reason}}" blog-id="{{$blog->slug}}" blog-title="{{$blog->title}}">{{__('blog.reject_tooltip')}}</span>

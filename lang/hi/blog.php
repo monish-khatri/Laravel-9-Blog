@@ -65,4 +65,5 @@ return [
     'pending_tooltip' => 'लंबित',
     'on_action_tooltip' => 'ड्राफ्ट',
     'blog_status' => 'स्थिति',
+    'want_to_publish' => 'ब्लॉग प्रकाशित करना चाहते हैं?'
 ];

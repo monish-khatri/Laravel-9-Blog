@@ -25,8 +25,23 @@
                                     <span class="badge badge-success">{{__('blog.published')}}</span>
                                 @else
                                     <span class="badge badge-danger">{{__('blog.not_published')}}</span>
-                                @endif</td>
-                            </tr>
+                                @endif
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>{{__('blog.blog_status')}}:</td>
+                            <td>
+                                @if ($blog->status == Blog::STATUS_PENDING)
+                                    <span class="badge badge-warning" blog-id="{{$blog->slug}}" blog-title="{{$blog->title}}">{{__('blog.pending_tooltip')}}</span>
+                                @elseif($blog->status == Blog::STATUS_APPROVE)
+                                    <span class="badge badge-success" blog-id="{{$blog->slug}}" blog-title="{{$blog->title}}">{{__('blog.approve_tooltip')}}</span>
+                                @elseif($blog->status == Blog::STATUS_DRAFT)
+                                    <span class="badge badge-info" blog-id="{{$blog->slug}}" blog-title="{{$blog->title}}">{{__('blog.on_action_tooltip')}}</span>
+                                @else
+                                    <span class="badge badge-danger"blog-id="{{$blog->slug}}" blog-title="{{$blog->title}}">{{__('blog.reject_tooltip')}}</span><p>{{$blog->reject_reason}}</p>
+                                @endif
+                            </td>
+                        </tr>
                         <tr>
                             <td>{{__('blog.created_date')}}:</td>
                             <td><strong><?= $blog->created_at->format('d M Y H:i A') ; ?></strong></td>
@@ -34,7 +49,7 @@
                     </tbody>
                 </table>
             </div>
-        @if($blog->is_published)
+        @if($blog->is_published && $blog->status == Blog::STATUS_APPROVE)
             <div class="col-md-12 content comment-div">
                 <h3>{{__('comment.comments_title')}}</h4>
                 @include('blog.commentsDisplay', ['comments' => $blog->comments, 'blog_id' => $blog->id])

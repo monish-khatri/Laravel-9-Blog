@@ -31,7 +31,7 @@
                                     </tr>
                                     <tr>
                                         <td>
-                                            <label for="is_published">{{__('blog.published')}}:</label>
+                                            <label for="is_published">{{__('blog.want_to_publish')}}</label>
                                         </td>
                                         <td>
                                             <select class="form-control" name="is_published" id="is_published">

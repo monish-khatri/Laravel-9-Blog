@@ -65,4 +65,5 @@ return [
     'pending_tooltip' => 'En attente',
     'on_action_tooltip' => 'Brouillon',
     'blog_status' => 'Statut',
+    'want_to_publish' => 'Vous voulez publier un blog ?'
 ];

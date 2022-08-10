@@ -292,10 +292,10 @@ class BlogController extends Controller
      */
     public function blogStatus($published,$blogStatus = null)
     {
-        if(! $published || empty($blogStatus)) {
-            $status = Blog::STATUS_DRAFT;
-        } else {
+        if($published) {
             $status = Blog::STATUS_PENDING;
+        } elseif(! $published || empty($blogStatus)) {
+            $status = Blog::STATUS_DRAFT;
         }
 
         return $status;
