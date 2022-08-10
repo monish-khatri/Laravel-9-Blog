@@ -28,6 +28,8 @@ class BlogCleaner extends Command
      */
     public function handle()
     {
-        return Blog::onlyTrashed()->forceDelete();
+        return Blog::onlyTrashed()->where(
+            'deleted_at', '<=', now()->subDays(7)->toDateTimeString()
+        )->forceDelete();
     }
 }
