@@ -310,14 +310,21 @@ class BlogController extends Controller
      */
     public function updateStatus(Request $request,$id)
     {
+        $validator = Validator::make($request->all(), [
+            'status'     => 'required|string',
+            'reject_reason' => 'required_if:status,==,rejected|nullable',
+        ]);
+        if($validator->fails()) {
+            return response()->json(['errors'=>$validator->errors()->all()]);
+        }
         $blogs = Blog::where('slug', $id)->firstOrFail();
         $permission = Gate::inspect('update', $blogs);
         if (! $permission->allowed()) {
-            redirect()->route('blogs.index')->with(['success' => $permission->message(),'type'=>'danger']);
-            return false;
+            return response()->json(['success' => $permission->message(),'type'=>'danger']);
         }
         if ($request->status == Blog::STATUS_REJECTED) {
             $blogs->status = Blog::STATUS_REJECTED;
+            $blogs->reject_reason = $request->reject_reason;
             $blogs->is_published = false;
         } elseif($request->status == Blog::STATUS_APPROVE){
             $blogs->status = Blog::STATUS_APPROVE;

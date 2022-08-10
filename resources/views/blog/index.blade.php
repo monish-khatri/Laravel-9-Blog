@@ -1,4 +1,8 @@
 <x-app-layout>
+@push('css')
+    <script src="https://cdn.jsdelivr.net/jquery.validation/1.16.0/jquery.validate.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/jquery.validation/1.16.0/additional-methods.min.js"></script>
+@endpush
     <div class="py-12">
         <div class="container" style="margin:auto;">
             <div class="col-md-12 content">
@@ -57,7 +61,7 @@
                                     @elseif($blog->status == 'draft')
                                         <span class="badge badge-info" blog-id="{{$blog->slug}}" blog-title="{{$blog->title}}">{{__('blog.on_action_tooltip')}}</span>
                                     @else
-                                        <span class="badge badge-danger" blog-id="{{$blog->slug}}" blog-title="{{$blog->title}}">{{__('blog.reject_tooltip')}}</span>
+                                        <span class="badge badge-danger" title="{{$blog->reject_reason}}" blog-id="{{$blog->slug}}" blog-title="{{$blog->title}}">{{__('blog.reject_tooltip')}}</span>
                                     @endif
                                 </td>
                             @endif
@@ -80,10 +84,10 @@
                                 @else
                                     @can('isAdmin')
                                         @if($blog->status == 'pending')
-                                            <a href="javascript:void(0)" onclick="updateStatus('{{route('blogs.update_status',[$blog])}}','{{$blog->title}}','approved')" class="btn btn-xs">
+                                            <a href="javascript:void(0)" onclick="updateStatus('{{route('blogs.update_status',[$blog])}}','{{$blog->title}}','{{Blog::STATUS_APPROVE}}')" class="btn btn-xs">
                                                 <span><i class="fa fa-check" title="{{__('blog.approve_tooltip')}}"></i></span>
                                             </a>
-                                        <a href="javascript:void(0)" onclick="updateStatus('{{route('blogs.update_status',[$blog])}}','{{$blog->title}}','rejected')" class="btn btn-xs">
+                                            <a href="javascript:void(0)" onclick="reasonPopup(this)" data-url= '{{route('blogs.update_status',[$blog])}}' data-title='{{$blog->title}}' class="btn btn-xs">
                                                 <span><i class="fa fa-times" title="{{__('blog.reject_tooltip')}}"></i></span>
                                             </a>
                                         @endif
@@ -115,7 +119,35 @@
                 @endif
             </div>
         </div>
-    </div>
+        @can('isAdmin')
+        <div class="modal fade" id="reasonModal" tabindex="-1" aria-labelledby="reasonModalLabel" aria-hidden="true" data-backdrop="static" data-keyboard="false">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="reasonModalLabel">{{__('Reason:')}}</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form id="rejectForm">
+                        <input type="hidden" id="modalTitle" name="title"/>
+                        <input type="hidden" id="modalType" name="type"/>
+                        <div class="form-group">
+                            <textarea class="form-control" id="reject_reason" name="reject_reason"></textarea>
+                            <div id="reason_error" class="text-red">{{ $message }}</div>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger" data-dismiss="modal">{{__('blog.cancel_button')}}</button>
+                    <button id="rejectBlog" type="button" class="btn btn-primary-color">{{__('blog.reject_button')}}</button>
+                </div>
+                </div>
+            </div>
+        </div>
+        @endcan
+   </div>
     <script>
         function removeBlog(deleteUrl,blogName){
             Swal.fire({
@@ -141,12 +173,29 @@
                 }
             })
         }
-        function updateStatus(updateUrl,blogName,status){
+        @can('isAdmin')
+        function reasonPopup(event){
+            $('#modalTitle').val($(event).data('title'))
+            $('#modalType').val('{{Blog::STATUS_REJECTED}}')
+            $('#rejectForm').attr('action',$(event).data('url'))
+            $("#reasonModal").modal('show');
+        }
+        $(document).on('click','#rejectBlog',function(e){
+            e.preventDefault();
+            blogName = $('#modalTitle').val()
+            status = $('#modalType').val()
+            updateUrl = $('#rejectForm').attr('action')
+            rejectReason = $('#reject_reason').val()
+
+            updateStatus(updateUrl,blogName,status,rejectReason)
+        })
+        function updateStatus(updateUrl,blogName,status,rejectReason = null){
             var html = "{!!__('blog.approve_description', ['blogName' => '"+blogName+"'])!!}";
             var button = "{{__('blog.approve_button')}}";
             if(status == 'rejected'){
                 html = "{!!__('blog.reject_description', ['blogName' => '"+blogName+"'])!!}";
                 button = "{{__('blog.reject_button')}}";
+                $("#reasonModal").modal('hide');
             }
             Swal.fire({
                 icon: 'warning',
@@ -161,17 +210,24 @@
                         type : "POST",
                         url : updateUrl,
                         dataType: 'json',
-                        data: {'status':status,_method: 'PATCH'},
+                        data: {'status':status,_method: 'PATCH',reject_reason:rejectReason},
                         headers: {
                             'X-CSRF-TOKEN': '<?= csrf_token() ?>'
                         },
                         success : function(response) {
-                            location.reload();
+                            if(response.errors) {
+                                $('#reason_error').html(response.errors[0])
+                                $("#reasonModal").modal('show');
+                            } else {
+                                location.reload();
+                            }
                         }
                     });
                 }
             })
         }
+        
+        @endcan
         $(document).on('click','.change-status',function(){
             var blogId = $(this).attr('blog-id');
             var blogTitle = $(this).attr('blog-title');

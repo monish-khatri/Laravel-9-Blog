@@ -36,6 +36,7 @@ class Blog extends Model
         'is_published',
         'status',
         'approve_by',
+        'reject_reason',
     ];
 
     /**

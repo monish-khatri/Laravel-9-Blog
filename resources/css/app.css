@@ -1343,6 +1343,16 @@ h1, h2, h3, h4, h5, h6,
   background-color: #218838 !important;
   border-color: #1e7e34 !important;
 }
+.btn-danger {
+  color: #fff;
+  background-color: #dc3545 !important;
+  border-color: #dc3545;
+}
+.btn-danger:hover {
+  background-color: #fff !important;
+  color: #dc3545 !important;
+  border-color: #dc3545;
+}
 .btn-success:hover {
   background-color: #fff !important;
   color: #218838 !important;
