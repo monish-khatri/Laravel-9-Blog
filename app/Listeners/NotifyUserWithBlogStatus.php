@@ -32,7 +32,7 @@ class NotifyUserWithBlogStatus
         if (in_array($event->blog->status,[Blog::STATUS_APPROVE,Blog::STATUS_REJECTED])) {
             $user = $event->blog->user;
             Mail::send('emails.blog_action', ['user' => $user,'blog'=>$event->blog], function ($message) use ($user) {
-                $message->from('admin@admin.com', 'Admin');
+                $message->from('admin@admin.com', 'MBS['.config('app.name').']');
                 $message->subject('Action Performed on you Blog!');
                 $message->to($user->email);
             });
