@@ -66,6 +66,13 @@ class Blog extends Model
     {
         return $this->hasOne(User::class,'id','user_id');
     }
+    /**
+     * Get the user associated with the blog.
+     */
+    public function admin()
+    {
+        return $this->hasOne(User::class,'id','action_by');
+    }
 
     /**
      * The has Many Relationship

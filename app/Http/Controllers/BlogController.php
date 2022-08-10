@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\BlogApprovedRejected;
 use App\Http\Requests\StoreBlogRequest;
 use App\Http\Resources\BlogCollection;
 use App\Http\Resources\BlogResource;
@@ -333,6 +334,7 @@ class BlogController extends Controller
         $blogs->action_by = Auth::id();
         $result = $blogs->save();
         if ($result){
+            event(new BlogApprovedRejected($blogs));
             return true;
         }
         return false;
