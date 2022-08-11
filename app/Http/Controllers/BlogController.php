@@ -8,6 +8,7 @@ use App\Http\Resources\BlogCollection;
 use App\Http\Resources\BlogResource;
 use App\Models\Blog;
 use App\Services\Counter;
+use App\Models\Tag;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Artisan;
@@ -82,7 +83,9 @@ class BlogController extends Controller
      */
     public function create()
     {
-        return view('blog.add');
+        $tagsObject = new TagController();
+        $tags = $tagsObject->get();
+        return view('blog.add',compact('tags'));
     }
 
     /**
@@ -95,7 +98,6 @@ class BlogController extends Controller
     {
         // Retrieve the validated input data...
         $validated = $request->validated();
-
         $blogs = new Blog;
         $blogs->title = $validated['title'];
         $blogs->slug = Str::slug($blogs->title , "-");
@@ -104,6 +106,13 @@ class BlogController extends Controller
         $blogs->status = $this->blogStatus($blogs->is_published);
         $blogs->user_id = Auth::id();
         $result = $blogs->save();
+        if($request->filled('tags')){
+            $tags = new TagController();
+            $relatedTags = $tags->store($request->input('tags'));
+
+            $blogs->tags()->sync($relatedTags);
+        }
+
         if ($result) {
             return redirect()->route('blogs.index')->with(['success' => __('blog.create_success_message'),'type'=>'success']);
         } else {
@@ -139,14 +148,16 @@ class BlogController extends Controller
      */
     public function edit($id)
     {
+        $tagsObject = new TagController();
+        $tags = $tagsObject->get();
         $blogs = Blog::where('slug', $id)->firstOrFail();
         $permission = Gate::inspect('update', $blogs);
         if (! $permission->allowed()) {
             return redirect()->route('blogs.index')->with(['success' => $permission->message(),'type'=>'danger']);
         }
-
         return view('blog.edit', [
             'blog' => $blogs,
+            'tags' => $tags,
         ]);
     }
 
@@ -177,6 +188,11 @@ class BlogController extends Controller
             $blogs->slug = Str::slug($blogs->title , "-");
             $blogs->description = $validated['description'];
             $blogs->user_id = Auth::id();
+            if($request->filled('tags')){
+                $tags = new TagController();
+                $relatedTags = $tags->store($request->input('tags'));
+                $blogs->tags()->sync($relatedTags);
+            }
         }
         $blogs->is_published = (bool)$request->is_published ?? false;
         $blogs->status = $this->blogStatus($blogs->is_published,$blogs->status);

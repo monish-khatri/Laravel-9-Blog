@@ -53,10 +53,11 @@ class Blog extends Model
      * Increment blog slug with count if exists.
      */
     public function setSlugAttribute($value) {
-        if (static::whereSlug($slug = Str::slug($value , "-"))->where('id','!=',$this->id)->exists()) {
-            $slug = "{$slug}-{$this->id}";
+        if(empty($this->id) && static::whereSlug($slug = Str::slug($value , "-"))->exists()){
+            $slug = "{$value}-".random_int(1,999)."";
+        }elseif (static::whereSlug($slug = Str::slug($value , "-"))->where('id','!=',$this->id)->exists()) {
+            $slug = "{$value}-{$this->id}";
         }
-
         $this->attributes['slug'] = $slug;
     }
     /**
@@ -92,5 +93,15 @@ class Blog extends Model
     public function totalComments()
     {
         return $this->hasMany(Comment::class);
+    }
+
+    /**
+     * The has Many Relationship
+     *
+     * @var array
+     */
+    public function tags()
+    {
+        return $this->belongsToMany(Tag::class,'blog_tag','blog_id','tag_id');
     }
 }

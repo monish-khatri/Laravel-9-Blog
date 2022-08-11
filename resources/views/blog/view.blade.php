@@ -29,6 +29,16 @@
                             </td>
                         </tr>
                         <tr>
+                            <td>{{__('blog.tags')}}:</td>
+                            <td>
+                                @forelse($blog->tags as $tag)
+                                    <span class="badge rounded-pill badge-primary">{{ $tag->name }}</span>
+                                @empty
+                                    <span class="badge rounded-pill badge-secondary">No Tags</span>
+                                @endforelse
+                            </td>
+                        </tr>
+                        <tr>
                             <td>{{__('blog.blog_status')}}:</td>
                             <td>
                                 @if ($blog->status == Blog::STATUS_PENDING)

@@ -1,4 +1,5 @@
 <x-app-layout>
+
     <div class="py-12">
         <div class="container">
             <div class="col-md-12 content">
@@ -38,6 +39,14 @@
                                                 <option value="1" @if (old('is_published') == "1") {{ 'selected' }} @endif>Yes</option>
                                                 <option value="0" @if (old('is_published') == "0") {{ 'selected' }} @endif>No</option>
                                             </select>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <label for="tags">{{__('blog.tags')}}</label>
+                                        </td>
+                                        <td>
+                                            @include('blog.tags', ['tags' => $tags, 'selected' => []])
                                         </td>
                                     </tr>
                                     <tr>

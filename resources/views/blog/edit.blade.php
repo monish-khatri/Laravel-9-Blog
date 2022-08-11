@@ -42,6 +42,14 @@
                                         </td>
                                     </tr>
                                     <tr>
+                                        <td>
+                                            <label for="tags">{{__('blog.tags')}}</label>
+                                        </td>
+                                        <td>
+                                            @include('blog.tags', ['tags' => $tags, 'selected' => $blog->tags->pluck('name')->toArray()])
+                                        </td>
+                                    </tr>
+                                    <tr>
                                         <td colspan="2" style="text-align: center;">
                                             <button type="submit" class="btn btn-primary-color">{{__('blog.submit_button')}}</button>
                                             <a href="{{ route('blogs.index') }}" class="btn btn-danger">{{__('blog.back_button')}}</a>

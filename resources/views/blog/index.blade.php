@@ -24,6 +24,7 @@
                             <th>{{__('blog.sr_no')}}</th>
                             <th>@sortablelink('title',__('blog.title'))</th>
                             <th>@sortablelink('description',__('blog.description'))</th>
+                            <th>{{__('blog.tags')}}</th>
                             <th>@sortablelink('is_published',__('blog.published'))</th>
                             <th>@sortablelink('user.name',__('blog.blog_owner'))</th>
                             @if(! $published)
@@ -42,6 +43,13 @@
                                 </a>
                             </td>
                             <td>{{ Str::limit($blog->description, 100) }}</td>
+                            <td>
+                                @forelse($blog->tags as $tag)
+                                    <span class="badge rounded-pill badge-primary">{{ $tag->name }}</span>
+                                @empty
+                                    <span class="badge rounded-pill badge-secondary">No Tags</span>
+                                @endforelse
+                            </td>
                             <td>
                                 @if ($blog->is_published)
                                     <span @can('isOwner',$blog)title="{{__('blog.change_status_text')}}" data-original-title="Tooltip on right" @endcan class="@can('isOwner',$blog)change-status published @endcan badge badge-success" blog-id="{{$blog->slug}}" blog-title="{{$blog->title}}">{{__('blog.published')}}</span>
@@ -108,7 +116,7 @@
                         </tr>
                         @empty
                             <tr>
-                                <td colspan=" @if(! $published) 7 @else 6 @endif"><?= __('blog.no_record_found') ?></td>
+                                <td colspan=" @if(! $published) 8 @else 7 @endif"><?= __('blog.no_record_found') ?></td>
                             </tr>
                         @endforelse
                     </tbody>
