@@ -303,6 +303,12 @@ menu {
   padding: 0;
 }
 
+.select2.select2-container {
+  width: 100% !important;
+}
+.select{
+  -webkit-appearance: listbox !important
+}
 /*
 Prevent resizing textareas horizontally by default.
 */

@@ -32,9 +32,9 @@
                             <td>{{__('blog.tags')}}:</td>
                             <td>
                                 @forelse($blog->tags as $tag)
-                                    <span class="badge rounded-pill badge-primary">{{ $tag->name }}</span>
+                                    <span class="badge badge-pill badge-primary">{{ $tag->name }}</span>
                                 @empty
-                                    <span class="badge rounded-pill badge-secondary">No Tags</span>
+                                    <span class="badge badge-pill badge-secondary">No Tags</span>
                                 @endforelse
                             </td>
                         </tr>

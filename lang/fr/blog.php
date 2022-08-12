@@ -67,4 +67,6 @@ return [
     'blog_status' => 'Statut',
     'want_to_publish' => 'Vous voulez publier un blog ?',
     'reject_modal_title' => 'Raison:',
+    'tags' => 'Mots clés',
+    'no_tags' => 'pas de balises',
 ];

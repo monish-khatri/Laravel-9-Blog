@@ -45,9 +45,9 @@
                             <td>{{ Str::limit($blog->description, 100) }}</td>
                             <td>
                                 @forelse($blog->tags as $tag)
-                                    <span class="badge rounded-pill badge-primary">{{ $tag->name }}</span>
+                                    <span class="badge badge-pill badge-primary">{{ $tag->name }}</span>
                                 @empty
-                                    <span class="badge rounded-pill badge-secondary">No Tags</span>
+                                    <span class="badge badge-pill badge-secondary">{{__('blog.no_tags')}}</span>
                                 @endforelse
                             </td>
                             <td>

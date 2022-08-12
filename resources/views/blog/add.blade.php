@@ -43,7 +43,7 @@
                                     </tr>
                                     <tr>
                                         <td>
-                                            <label for="tags">{{__('blog.tags')}}</label>
+                                            <label for="tags">{{__('blog.tags')}}:</label>
                                         </td>
                                         <td>
                                             @include('blog.tags', ['tags' => $tags, 'selected' => []])

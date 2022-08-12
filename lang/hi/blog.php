@@ -67,4 +67,6 @@ return [
     'blog_status' => 'स्थिति',
     'want_to_publish' => 'ब्लॉग प्रकाशित करना चाहते हैं?',
     'reject_modal_title' => 'कारण:',
+    'tags' => 'टैग',
+    'no_tags' => 'कोई टैग नहीं',
 ];

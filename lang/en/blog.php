@@ -67,4 +67,6 @@ return [
     'blog_status' => 'Status',
     'want_to_publish' => 'Want to publish blog?',
     'reject_modal_title' => 'Reason:',
+    'tags' => 'Tags',
+    'no_tags' => 'No Tag',
 ];
