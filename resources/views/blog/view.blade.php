@@ -90,7 +90,7 @@
                     'X-CSRF-TOKEN': '<?= csrf_token() ?>'
                 },
                 success : function(response) {
-                    location.reload();
+                    refreshComments();
                 }
             });
         }
@@ -104,7 +104,7 @@
                     'X-CSRF-TOKEN': '<?= csrf_token() ?>'
                 },
                 success : function(response) {
-                    location.reload();
+                    refreshComments();
                 }
             });
         }
@@ -113,7 +113,7 @@
 
             $.ajax({
                 type : "GET",
-                url : "{{route('blogs.show',['blog'=>$blog->id])}}",
+                url : "{{route('blogs.show',['blog'=>$blog])}}",
                 dataType: 'html',
                 success : function(response) {
                     var $htmlResponse = $(response);

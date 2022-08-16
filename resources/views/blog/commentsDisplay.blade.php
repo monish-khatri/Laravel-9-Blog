@@ -35,9 +35,11 @@
                 <a href="javascript:void(0)" onclick="$('#commentForm_{{$comment->id}}').submit();" class="btn btn-xs">
                     <span class="badge badge-success">{{__('comment.comments_reply')}}</span>
                 </a>
-                <a href="javascript:void(0)" onclick="removeComment('{{route('comments.destroy',[$comment])}}')" class="btn btn-xs">
-                    <span class="badge badge-danger">{{__('blog.delete_button')}}</span>
-                </a>
+                @if($comment->user->id == auth()->user()->id)
+                    <a href="javascript:void(0)" onclick="removeComment('{{route('comments.destroy',[$comment])}}')" class="btn btn-xs">
+                        <span class="badge badge-danger">{{__('blog.delete_button')}}</span>
+                    </a>
+                @endif
             </div>
         </form>
         @include('blog.commentsDisplay', ['comments' => $comment->replies])
