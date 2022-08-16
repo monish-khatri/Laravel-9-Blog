@@ -62,7 +62,7 @@
         @if($blog->is_published && $blog->status == Blog::STATUS_APPROVE)
             <div class="col-md-12 content comment-div">
                 <h3>{{__('comment.comments_title')}}</h4>
-                @include('blog.commentsDisplay', ['comments' => $blog->comments, 'blog_id' => $blog->id])
+                @include('blog.commentsDisplay', ['comments' => $blog->comments, 'blog' => $blog])
                 <form method="post" action="{{ route('comments.store') }}">
                     @csrf
                     <div class="form-group">
@@ -86,6 +86,20 @@
                 type : "DELETE",
                 url : deleteUrl,
                 dataType: 'json',
+                headers: {
+                    'X-CSRF-TOKEN': '<?= csrf_token() ?>'
+                },
+                success : function(response) {
+                    location.reload();
+                }
+            });
+        }
+        function pinComment(url,type){
+            $.ajax({
+                type : "POST",
+                url : url,
+                dataType: 'json',
+                data: {type:type},
                 headers: {
                     'X-CSRF-TOKEN': '<?= csrf_token() ?>'
                 },

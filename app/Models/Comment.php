@@ -13,7 +13,7 @@ class Comment extends Model
      *
      * @var array
      */
-    protected $fillable = ['user_id', 'blog_id', 'parent_id', 'body'];
+    protected $fillable = ['user_id', 'blog_id', 'parent_id', 'body','pinned'];
 
     /**
      * The belongs to Relationship
@@ -32,7 +32,7 @@ class Comment extends Model
      */
     public function replies()
     {
-        return $this->hasMany(Comment::class, 'parent_id');
+        return $this->hasMany(Comment::class, 'parent_id')->orderBy('pinned','DESC');
     }
 
     /**

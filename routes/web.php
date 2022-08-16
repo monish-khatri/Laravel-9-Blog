@@ -57,6 +57,7 @@ Route::middleware(['auth'])->group(function () {
 
     Route::post('/add_comment', [CommentController::class, 'store'])->name('comments.store');
     Route::delete('/remove_comment/{comment}', [CommentController::class, 'destroy'])->name('comments.destroy');
+    Route::post('/pin_comment/{comment}', [CommentController::class, 'pinComment'])->name('comments.pin_comment');
 });
 
 // Google Login

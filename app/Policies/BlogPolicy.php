@@ -32,7 +32,7 @@ class BlogPolicy
      */
     public function view(User $user, Blog $blog)
     {
-        return $user->id === $blog->user_id || $user->role == User::ADMIN_ACCESS ? Response::allow() : Response::deny(__('blog.permission_denied_error'));
+        return $blog->is_published == true || $user->id === $blog->user_id || $user->role == User::ADMIN_ACCESS ? Response::allow() : Response::deny(__('blog.permission_denied_error'));
     }
 
     /**

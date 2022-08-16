@@ -51,4 +51,20 @@ class CommentController extends Controller
 
         return $id;
     }
+
+
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  int  $id
+     * @return int
+     */
+    public function pinComment($id)
+    {
+        $type = request()->type == 'pin' ? true : false;
+        $comments = Comment::find($id);
+        $comments->pinned = $type;
+        $comments->save();
+        return true;
+    }
 }
