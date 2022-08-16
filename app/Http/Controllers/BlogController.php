@@ -347,7 +347,7 @@ class BlogController extends Controller
             $blogs->is_published = false;
         } elseif($request->status == Blog::STATUS_APPROVE){
             $blogs->status = Blog::STATUS_APPROVE;
-            $blogs->updated_at = now();
+            $blogs->published_at = now();
         }
         $blogs->action_by = Auth::id();
         $result = $blogs->save();

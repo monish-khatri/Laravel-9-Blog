@@ -9,7 +9,9 @@
 <script>
     $(document).ready(function () {
         $('#tags').select2({
-            tags: true
+            tags: true,
+            placeholder: "{{__('blog.tags')}}",
+            allowClear: true
         });
     });
 </script>
