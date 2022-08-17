@@ -9,6 +9,8 @@ use App\Http\Resources\BlogResource;
 use App\Models\Blog;
 use App\Services\Counter;
 use App\Models\Tag;
+use App\Models\User;
+use App\Notifications\BlogPublishRequest;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Artisan;
@@ -103,7 +105,7 @@ class BlogController extends Controller
         $blogs->slug = Str::slug($blogs->title , "-");
         $blogs->description = $validated['description'];
         $blogs->is_published = (bool)$request->is_published ?? false;
-        $blogs->status = $this->blogStatus($blogs->is_published);
+        $blogs->status = $this->blogStatus($blogs);
         $blogs->user_id = Auth::id();
         $result = $blogs->save();
         if($request->filled('tags')){
@@ -195,7 +197,7 @@ class BlogController extends Controller
             }
         }
         $blogs->is_published = (bool)$request->is_published ?? false;
-        $blogs->status = $this->blogStatus($blogs->is_published,$blogs->status);
+        $blogs->status = $this->blogStatus($blogs);
         $result = $blogs->save();
         if ($isPatch){
             return true;
@@ -309,11 +311,13 @@ class BlogController extends Controller
      *
      * @return string
      */
-    public function blogStatus($published,$blogStatus = null)
+    public function blogStatus($blog)
     {
-        if($published) {
+        if($blog->is_published) {
             $status = Blog::STATUS_PENDING;
-        } elseif(! $published || empty($blogStatus)) {
+            $users = User::where('role',User::ADMIN_ACCESS)->get();
+            $users->each->notify(new BlogPublishRequest($blog));
+        } elseif(! $blog->is_published || empty($blog->status)) {
             $status = Blog::STATUS_DRAFT;
         }
 

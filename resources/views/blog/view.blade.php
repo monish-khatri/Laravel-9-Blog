@@ -122,6 +122,6 @@
                 }
             });
         }
-        setInterval(refreshComments,5000);
+        setInterval(refreshComments,10000);
     </script>
 </x-app-layout>
