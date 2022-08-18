@@ -21,6 +21,9 @@
                     <x-nav-link :href="route('blogs.published')" :active="request()->is('published*')">
                         {{ __('blog.all_blogs') }}
                     </x-nav-link>
+                    <x-nav-link :href="route('randomJoke')" :active="request()->is('joke*')">
+                        {{ __('Joke') }}
+                    </x-nav-link>
                 </div>
             </div>
 

@@ -5,6 +5,7 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\BlogController;
 use App\Http\Controllers\CommentController;
 use App\Http\Controllers\GoogleController;
+use App\Http\Controllers\JokeController;
 use App\Http\Controllers\ResponseController;
 use App\Http\Controllers\SessionController;
 use App\Models\User;
@@ -58,6 +59,7 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/add_comment', [CommentController::class, 'store'])->name('comments.store');
     Route::delete('/remove_comment/{comment}', [CommentController::class, 'destroy'])->name('comments.destroy');
     Route::post('/pin_comment/{comment}', [CommentController::class, 'pinComment'])->name('comments.pin_comment');
+    Route::get('joke/random-joke',[JokeController::class, 'randomJoke'])->name('randomJoke');
 });
 
 // Google Login
@@ -311,3 +313,5 @@ Route::get('change-lang/{locale}', function (Request $request,$locale) {
     return redirect()->back();
 })->middleware('change_site_lang')->name('locale.setting');
 require __DIR__.'/auth.php';
+
+

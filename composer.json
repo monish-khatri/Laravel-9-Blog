@@ -7,7 +7,7 @@
     "require": {
         "php": "^8.0.2",
         "doctrine/dbal": "^3.4",
-        "guzzlehttp/guzzle": "^7.2",
+        "guzzlehttp/guzzle": "^7.4",
         "kyslik/column-sortable": "^6.4",
         "laravel/framework": "^9.24",
         "laravel/passport": "^10.4",
