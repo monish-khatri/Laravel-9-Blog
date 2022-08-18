@@ -30,6 +30,14 @@
                                         </td>
                                     </tr>
                                     <tr>
+                                        <td><label>{{__('blog.image')}}<span class="text-red">*</span>:</label></td>
+                                        <td><input type="file" name="image" class="form-control" placeholder="image">
+                                            @error('image')
+                                            <div class="text-red">{{ $message }}</div>
+                                            @enderror
+                                        </td>
+                                    </tr>
+                                    <tr>
                                         <td>
                                             <label for="is_published">{{__('blog.want_to_publish')}}</label>
                                         </td>

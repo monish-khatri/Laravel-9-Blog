@@ -69,4 +69,5 @@ return [
     'reject_modal_title' => 'Reason:',
     'tags' => 'Tags',
     'no_tags' => 'No Tag',
+    'image' => 'Image',
 ];

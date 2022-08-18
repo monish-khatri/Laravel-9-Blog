@@ -38,6 +38,7 @@ class Blog extends Model
         'approve_by',
         'reject_reason',
         'published_at',
+        'image',
     ];
 
     /**

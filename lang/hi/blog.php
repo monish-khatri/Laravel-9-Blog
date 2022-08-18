@@ -69,4 +69,5 @@ return [
     'reject_modal_title' => 'कारण:',
     'tags' => 'टैग',
     'no_tags' => 'कोई टैग नहीं',
+    'image' => 'छवि',
 ];

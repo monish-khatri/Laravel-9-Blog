@@ -19,6 +19,10 @@
                             <td><strong><?= $blog->user->name; ?></strong></td>
                         </tr>
                         <tr>
+                            <td><label>{{__('blog.image')}}:</label></td>
+                            <td><img src="@empty($blog->image)https://upload.wikimedia.org/wikipedia/commons/7/75/No_image_available.png @else {{ asset('storage/blog/'.$blog->image) }} @endempty" alt="{{$blog->image}}" width="200px"></td>
+                        </tr>
+                        <tr>
                             <td>{{__('blog.published')}}:</td>
                             <td>
                                 @if ($blog->is_published)
@@ -34,7 +38,7 @@
                                 @forelse($blog->tags as $tag)
                                     <span class="badge badge-pill badge-primary">{{ $tag->name }}</span>
                                 @empty
-                                    <span class="badge badge-pill badge-secondary">No Tags</span>
+                                    <span class="badge badge-pill badge-secondary">{{__('blog.no_tags')}}</span>
                                 @endforelse
                             </td>
                         </tr>

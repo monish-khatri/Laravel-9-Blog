@@ -5,7 +5,7 @@
                 <h3>{{__('blog.update_blog_title')}}</h3>
                 <table class="center">
                     <tbody>
-                        <form method="post" action="{{route('blogs.update',[$blog])}}" >
+                        <form method="post" action="{{route('blogs.update',[$blog])}}" enctype="multipart/form-data">
                             @csrf
                             @method('PUT')
                             <table>
@@ -27,6 +27,16 @@
                                             @error('description')
                                             <div class="text-red">{{ $message }}</div>
                                             @enderror
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td><label>{{__('blog.image')}}:</label></td>
+                                        <td><input type="hidden" name="old_image" value="{{ $blog->image }}" />
+                                            <input type="file" name="image" class="form-control mb-1" placeholder="image">
+                                            @error('image')
+                                            <div class="text-red">{{ $message }}</div>
+                                            @enderror
+                                            <img src="@empty($blog->image)https://upload.wikimedia.org/wikipedia/commons/7/75/No_image_available.png @else {{ asset('storage/blog/'.$blog->image) }} @endempty" alt="{{$blog->image}}" width="200px">
                                         </td>
                                     </tr>
                                     <tr>

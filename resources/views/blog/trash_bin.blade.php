@@ -15,6 +15,7 @@
                         <tr>
                             <th>{{__('blog.sr_no')}}</th>
                             <th>@sortablelink('title',__('blog.title'))</th>
+                            <th>{{__('blog.image')}}</th>
                             <th>@sortablelink('description',__('blog.description'))</th>
                             <th>@sortablelink('is_published',__('blog.published'))</th>
                             <th>@sortablelink('user.name',__('blog.blog_owner'))</th>
@@ -28,6 +29,7 @@
                             <td>
                                 {{ $blog->title }}
                             </td>
+                            <td><img src="@empty($blog->image)https://upload.wikimedia.org/wikipedia/commons/7/75/No_image_available.png @else {{ asset('storage/blog/'.$blog->image) }} @endempty" alt="{{$blog->image}}" width="100px"></td>
                             <td>{{ Str::limit($blog->description, 100) }}</td>
                             <td>
                                 @if ($blog->is_published)
@@ -50,7 +52,7 @@
                         </tr>
                         @empty
                             <tr>
-                                <td colspan="6"><?= __('blog.no_record_found')?></td>
+                                <td colspan="7"><?= __('blog.no_record_found')?></td>
                             </tr>
                         @endforelse
                     </tbody>

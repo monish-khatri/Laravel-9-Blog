@@ -69,4 +69,5 @@ return [
     'reject_modal_title' => 'Raison:',
     'tags' => 'Mots clés',
     'no_tags' => 'pas de balises',
+    'image' => 'Image',
 ];

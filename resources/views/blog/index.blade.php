@@ -23,6 +23,7 @@
                         <tr>
                             <th>{{__('blog.sr_no')}}</th>
                             <th>@sortablelink('title',__('blog.title'))</th>
+                            <th>{{__('blog.image')}}</th>
                             <th>@sortablelink('description',__('blog.description'))</th>
                             <th>{{__('blog.tags')}}</th>
                             <th>@sortablelink('is_published',__('blog.published'))</th>
@@ -42,10 +43,16 @@
                                     {{ $blog->title }}
                                 </a>
                             </td>
+                            <td><img src="@empty($blog->image)https://upload.wikimedia.org/wikipedia/commons/7/75/No_image_available.png @else {{ asset('storage/blog/'.$blog->image) }} @endempty" alt="{{$blog->image}}" width="100px"></td>
                             <td>{{ Str::limit($blog->description, 100) }}</td>
                             <td>
                                 @forelse($blog->tags as $tag)
-                                    <span class="badge badge-pill badge-primary">{{ $tag->name }}</span>
+                                    @if($loop->iteration <= 5)
+                                        <span class="badge badge-pill badge-primary">{{ $tag->name }}</span>
+                                    @else
+                                        <span class="badge badge-pill badge-secondary">...</span>
+                                        @break
+                                    @endif
                                 @empty
                                     <span class="badge badge-pill badge-secondary">{{__('blog.no_tags')}}</span>
                                 @endforelse
@@ -116,7 +123,7 @@
                         </tr>
                         @empty
                             <tr>
-                                <td colspan=" @if(! $published) 8 @else 7 @endif"><?= __('blog.no_record_found') ?></td>
+                                <td colspan=" @if(! $published) 9 @else 8 @endif"><?= __('blog.no_record_found') ?></td>
                             </tr>
                         @endforelse
                     </tbody>

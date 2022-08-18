@@ -105,8 +105,14 @@ class BlogController extends Controller
         $blogs->slug = Str::slug($blogs->title , "-");
         $blogs->description = $validated['description'];
         $blogs->is_published = (bool)$request->is_published ?? false;
-        $blogs->status = $this->blogStatus($blogs);
         $blogs->user_id = Auth::id();
+        $blogs->status = $this->blogStatus($blogs);
+        if ($image = $request->file('image')) {
+            $destinationPath = storage_path('app/public/blog/');
+            $blogImage = $blogs->slug . "." . $image->getClientOriginalExtension();
+            $image->move($destinationPath, $blogImage);
+            $blogs->image = $blogImage;
+        }
         $result = $blogs->save();
         if($request->filled('tags')){
             $tags = new TagController();
@@ -185,11 +191,21 @@ class BlogController extends Controller
             $validated = Validator::make($request->all(), [
                 'title' => 'required|between:3,50',
                 'description' => 'required|min:20|max:250',
+                'image' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
             ],$messages)->validate();
             $blogs->title = $validated['title'];
             $blogs->slug = Str::slug($blogs->title , "-");
             $blogs->description = $validated['description'];
             $blogs->user_id = Auth::id();
+            if ($image = $request->file('image')) {
+                $destinationPath = storage_path('app/public/blog/');
+                $blogImage = $blogs->slug . "." . $image->getClientOriginalExtension();
+                $image->move($destinationPath, $blogImage);
+                $blogs->image = $blogImage;
+                if (! empty($request->old_image) && $request->old_image != $blogImage){
+                    unlink(storage_path('app/public/blog/').$request->old_image);
+                }
+            }
             if($request->filled('tags')){
                 $tags = new TagController();
                 $relatedTags = $tags->store($request->input('tags'));
@@ -246,8 +262,10 @@ class BlogController extends Controller
             return true;
         }
 
+        if (! empty($blogs->image)){
+            unlink(storage_path('app/public/blog/').$blogs->image);
+        }
         $blogs->forceDelete();
-
         redirect()->route('blogs.trash_bin')->with(['success' => __('blog.delete_success_message'),'type'=>'success']);
         return true;
     }
