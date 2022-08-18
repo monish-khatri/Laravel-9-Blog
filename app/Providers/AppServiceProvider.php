@@ -9,10 +9,12 @@ use App\View\Components\AlertMessage;
 use Illuminate\Contracts\Cache\Factory;
 use Illuminate\Contracts\Session\Session;
 use Illuminate\Foundation\Http\Middleware\ConvertEmptyStringsToNull;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Response;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Pluralizer;
 use Illuminate\Support\Facades\Blade;
+use Illuminate\Support\Str;
 use Illuminate\Support\Facades\View;
 
 
@@ -47,6 +49,12 @@ class AppServiceProvider extends ServiceProvider
         // Response Macros
         Response::macro('caps', function ($value) {
             return Response::make(strtoupper($value));
+        });
+
+        Collection::macro('toUpper', function () {
+            return $this->map(function ($value) {
+                return Str::upper($value);
+            });
         });
 
         // Sharing Data With All Views
