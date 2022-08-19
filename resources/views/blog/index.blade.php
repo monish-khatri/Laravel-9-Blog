@@ -43,7 +43,7 @@
                                     {{ $blog->title }}
                                 </a>
                             </td>
-                            <td><img src="@empty($blog->image)https://upload.wikimedia.org/wikipedia/commons/7/75/No_image_available.png @else {{ asset('storage/blog/'.$blog->image) }} @endempty" alt="{{$blog->image}}" width="100px"></td>
+                            <td><img src="@empty($blog->image)https://upload.wikimedia.org/wikipedia/commons/7/75/No_image_available.png @else {{ asset('storage/blog/'.$blog->image) }} @endempty" alt="{{$blog->image}}" height="100px"  width="100px"></td>
                             <td>{{ Str::limit($blog->description, 100) }}</td>
                             <td>
                                 @forelse($blog->tags as $tag)

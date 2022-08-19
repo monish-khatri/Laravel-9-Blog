@@ -36,7 +36,7 @@
                                             @error('image')
                                             <div class="text-red">{{ $message }}</div>
                                             @enderror
-                                            <img src="@empty($blog->image)https://upload.wikimedia.org/wikipedia/commons/7/75/No_image_available.png @else {{ asset('storage/blog/'.$blog->image) }} @endempty" alt="{{$blog->image}}" width="200px">
+                                            <img src="@empty($blog->image)https://upload.wikimedia.org/wikipedia/commons/7/75/No_image_available.png @else {{ asset('storage/blog/'.$blog->image) }} @endempty" alt="{{$blog->image}}" height="200px" width="200px">
                                         </td>
                                     </tr>
                                     <tr>
