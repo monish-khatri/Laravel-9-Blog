@@ -59,14 +59,16 @@ class BlogController extends Controller
      */
     public function published()
     {
-        $blogs = Blog::sortable()
-            ->orderBy('id', 'desc')
-            ->where([
-                'is_published' => true,
-                'status' => Blog::STATUS_APPROVE
-            ])
-            ->paginate(5)
-            ->withQueryString();
+        $blogs = Cache::remember('publishedBlog',now()->addSeconds(60),function(){
+            return Blog::with(['user','tags','totalComments'])->sortable()
+                ->orderBy('id', 'desc')
+                ->where([
+                    'is_published' => true,
+                    'status' => Blog::STATUS_APPROVE
+                ])
+                ->paginate(5)
+                ->withQueryString();
+        });
 
         return view('blog.index', [
             'blogs' => $blogs,
