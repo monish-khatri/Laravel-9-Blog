@@ -83,8 +83,10 @@ class BlogController extends Controller
      */
     public function create()
     {
-        $tagsObject = new TagController();
-        $tags = $tagsObject->get();
+        $tags = Cache::remember('Tags',now()->addMinutes(45),function(){
+            $tagsObject = new TagController();
+            return $tagsObject->get();
+        });
         return view('blog.add',compact('tags'));
     }
 
@@ -154,8 +156,10 @@ class BlogController extends Controller
      */
     public function edit($id)
     {
-        $tagsObject = new TagController();
-        $tags = $tagsObject->get();
+        $tags = Cache::remember('Tags',now()->addMinutes(45),function(){
+            $tagsObject = new TagController();
+            return $tagsObject->get();
+        });
         $blogs = Blog::where('slug', $id)->firstOrFail();
         $permission = Gate::inspect('update', $blogs);
         if (! $permission->allowed()) {
