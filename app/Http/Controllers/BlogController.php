@@ -141,10 +141,11 @@ class BlogController extends Controller
         if (! $permission->allowed()) {
             return redirect()->route('blogs.index')->with(['success' => $permission->message(),'type'=>'danger']);
         }
+        $counter = $this->currentlyViewByUsers($id);
         // Gate::authorize('blog-actions', $blogs); // Throws 403 "THIS ACTION IS UNAUTHORIZED"
         return view('blog.view', [
             'blog' => $blogs,
-            'counter' => $this->counter->increment("blog-{$id}", ['blog']),
+            'counter' => $counter,
         ]);
     }
 
@@ -380,5 +381,47 @@ class BlogController extends Controller
             return true;
         }
         return false;
+    }
+
+    /**
+     * Function will give the total user which are reading blog at the moment
+     *
+     * @param string $id Blog Slug
+     *
+     * @return int
+     */
+    public function currentlyViewByUsers($id)
+    {
+        $sessionId = session()->getId();
+        $counterKey = "blog-post-{$id}-counter";
+        $usersKey = "blog-post-{$id}-users";
+
+        $users = Cache::get($usersKey, []);
+        $usersUpdate = [];
+        $diffrence = 0;
+        $now = now();
+        foreach ($users as $session => $lastVisit) {
+            if ($now->diffInMinutes($lastVisit) >= 1) {
+                $diffrence--;
+            } else {
+                $usersUpdate[$session] = $lastVisit;
+            }
+        }
+
+        if(! array_key_exists($sessionId, $users)
+            || $now->diffInMinutes($users[$sessionId]) >= 1
+        ) {
+            $diffrence++;
+        }
+
+        $usersUpdate[$sessionId] = $now;
+        Cache::forever($usersKey, $usersUpdate);
+
+        if (!Cache::has($counterKey)) {
+            Cache::forever($counterKey, 1);
+        } else {
+            Cache::increment($counterKey, $diffrence);
+        }
+        return Cache::get($counterKey);
     }
 }

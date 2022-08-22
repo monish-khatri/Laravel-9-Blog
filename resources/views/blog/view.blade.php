@@ -3,6 +3,7 @@
         <div class="container">
             <div class="col-md-12 content">
                 <h3>{!!__('blog.view_blog_title',['blogName' => $blog->title])!!}</h3>
+                <span class="badge badge-pill badge-primary"><i class="fa fa-eye"></i> {{$counter}}</span>
                 <a href="{{ route('blogs.index') }}" class="btn btn-danger float-right">{{__('blog.back_button')}}</a>
                 <table class="center">
                     <tbody>
