@@ -4,6 +4,7 @@ namespace Database\Factories;
 
 use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Illuminate\Support\Str;
 
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Blog>
@@ -23,6 +24,9 @@ class BlogFactory extends Factory
             'title' => fake()->text(10),
             'description' => fake()->paragraph(5),
             'user_id' => $users[$random_user],
+            'slug' => Str::slug(fake()->text(50) , "-"),
+            'status' => 'approved',
+            'is_published' => '1',
         ];
     }
 }

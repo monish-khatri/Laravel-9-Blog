@@ -37,19 +37,15 @@ class BlogController extends Controller
      */
     public function index()
     {
-        $blogs = Blog::sortable()
+        $query = Blog::sortable()
             ->orderBy('id', 'desc')
-            ->where(['user_id' => Auth::id()])
-            ->paginate(5)
-            ->withQueryString();
+            ->where(['user_id' => Auth::id()]);
         if (Gate::allows('isAdmin')) {
-            $blogs = Blog::sortable()
+            $query = Blog::sortable()
                 ->orderBy('id', 'desc')
-                ->whereNot('status',Blog::STATUS_DRAFT)
-                ->paginate(5)
-                ->withQueryString();
+                ->whereNot('status',Blog::STATUS_DRAFT);
         }
-
+        $blogs = $query->paginate(5)->withQueryString();
         return view('blog.index', [
             'blogs' => $blogs,
             'published' => false,
