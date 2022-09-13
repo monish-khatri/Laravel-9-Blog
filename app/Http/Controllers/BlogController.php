@@ -35,6 +35,16 @@ class BlogController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+    public function apiData()
+    {
+        $blogs = Blog::sortable()->paginate(5)->withQueryString();
+        return response()->json($blogs);
+    }
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
     public function index()
     {
         $query = Blog::sortable()

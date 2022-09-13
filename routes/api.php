@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Api\UserAuthController;
+use App\Http\Controllers\BlogController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -21,3 +22,4 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 
 Route::post('/register', [UserAuthController::class,'register']);
 Route::post('/login', [UserAuthController::class,'login']);
+Route::get('/blogs', [BlogController::class,'apiData'])->middleware('auth:api');
