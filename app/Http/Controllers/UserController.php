@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Route;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Spatie\Multitenancy\Models\Concerns\UsesTenantConnection;
 
 class UserController extends Controller
 {

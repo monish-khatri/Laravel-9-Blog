@@ -16,6 +16,7 @@ use Illuminate\Support\Pluralizer;
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\View;
+use Laravel\Passport\Passport;
 
 
 class AppServiceProvider extends ServiceProvider
@@ -28,6 +29,7 @@ class AppServiceProvider extends ServiceProvider
     public function register()
     {
         $this->app->singleton(EnsureUserHasRole::class);
+        Passport::ignoreMigrations();
     }
 
     /**

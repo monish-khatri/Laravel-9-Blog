@@ -17,9 +17,9 @@ class DatabaseSeeder extends Seeder
         $this->call([
             UserSeeder::class,
             TagSeeder::class,
-            CountrySeeder::class,
-            StateSeeder::class,
-            CitySeeder::class,
+            // CountrySeeder::class,
+            // StateSeeder::class,
+            // CitySeeder::class,
         ]);
     }
 }

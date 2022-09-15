@@ -14,6 +14,7 @@ class User extends Authenticatable implements MustVerifyEmail
 {
     use Sortable, HasApiTokens, HasFactory, Notifiable;
 
+    protected $connection = "tenant";
     const USER_ACCESS = 'user';
     const ADMIN_ACCESS = 'admin';
     /**
