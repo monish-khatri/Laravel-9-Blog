@@ -52,6 +52,7 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/restore-all/blogs', [BlogController::class, 'restoreAll'])->name('blogs.restoreAll');
     Route::patch('/blogs/update_status/{blog}', [BlogController::class, 'updateStatus'])->name('blogs.update_status');
     Route::get('blogs/export/', [BlogController::class, 'export'])->name('blogs.export');
+    Route::get('blogs/import/', [BlogController::class, 'import'])->name('blogs.import');
 
     Route::resource('blogs', BlogController::class)->missing(function (Request $request) {
         return Redirect::route('blogs.index');

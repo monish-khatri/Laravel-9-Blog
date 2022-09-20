@@ -7,6 +7,7 @@ use App\Exports\BlogExport;
 use App\Http\Requests\StoreBlogRequest;
 use App\Http\Resources\BlogCollection;
 use App\Http\Resources\BlogResource;
+use App\Imports\BlogImport;
 use App\Models\Blog;
 use App\Services\Counter;
 use App\Models\Tag;
@@ -440,12 +441,22 @@ class BlogController extends Controller
     /**
      * Function description
      *
-     * @param int variable Description $variable comment about this variable
-     *
      * @return array
      */
     public function export()
     {
         return Excel::download(new BlogExport, 'blogs.csv',\Maatwebsite\Excel\Excel::CSV);
+    }
+
+    /**
+     * Function description
+     *
+     * @return array
+     */
+    public function import()
+    {
+        Excel::import(new BlogImport,'/<path_to_file>/blogs.xlsx');
+
+        return redirect()->route('blogs.index')->with('success', 'All good!');
     }
 }

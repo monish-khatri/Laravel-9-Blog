@@ -37,6 +37,7 @@ class Blog extends Model
         'slug',
         'is_published',
         'status',
+        'user_id',
         'approve_by',
         'reject_reason',
         'published_at',

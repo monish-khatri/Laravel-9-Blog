@@ -15,6 +15,7 @@
                     @endcan
                     @can('isAdmin')
                         <a href="{{route('blogs.export')}}" class="btn btn-primary-color float-right">{{__('Export')}}</a>
+                        <a href="{{route('blogs.import')}}" class="btn btn-primary-color float-right">{{__('Import')}}</a>
                     @endcan
                     <h3>{{__('blog.index_blog_title')}}</h3>
                 @else
