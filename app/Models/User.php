@@ -6,12 +6,17 @@ use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
-use Laravel\Sanctum\HasApiTokens;
+use Laravel\Passport\HasApiTokens;
+use Kyslik\ColumnSortable\Sortable;
 
-class User extends Authenticatable
+
+class User extends Authenticatable implements MustVerifyEmail
 {
-    use HasApiTokens, HasFactory, Notifiable;
+    use Sortable, HasApiTokens, HasFactory, Notifiable;
 
+    protected $connection = "tenant";
+    const USER_ACCESS = 'user';
+    const ADMIN_ACCESS = 'admin';
     /**
      * The attributes that are mass assignable.
      *
@@ -21,7 +26,10 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'google_id',
+        'email_verified_at',
     ];
+    public $sortable = ['name'];
 
     /**
      * The attributes that should be hidden for serialization.

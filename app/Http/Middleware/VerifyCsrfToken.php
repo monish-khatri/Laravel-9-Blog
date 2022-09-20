@@ -12,6 +12,7 @@ class VerifyCsrfToken extends Middleware
      * @var array<int, string>
      */
     protected $except = [
-        //
+        // Excluding URIs From CSRF Protection
+        'http://laravel-9.blog.com/token'
     ];
 }

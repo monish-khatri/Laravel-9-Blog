@@ -2,8 +2,10 @@
 
 namespace App\Console;
 
+use App\Console\Commands\BlogCleaner;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
+use Illuminate\Support\Facades\DB;
 
 class Kernel extends ConsoleKernel
 {
@@ -15,7 +17,14 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        // $schedule->command('inspire')->hourly();
+        /* Set the command in cron
+            1) crontab -e
+            2) *    *    *    *    *    php /var/www/html/Laravel/laravel-training/artisan schedule:run >> /dev/null 2>&1
+
+            OR
+            run `php artisan schedule:work`
+         */
+        $schedule->command(BlogCleaner::class)->weekly();
     }
 
     /**
