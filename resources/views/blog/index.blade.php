@@ -12,8 +12,11 @@
                 @if(!$published)
                     @can('isUser')
                         <a href="{{route('blogs.create')}}" class="btn btn-primary-color float-right">{{__('blog.new_blog_button')}}</a>
-                        <h3>{{__('blog.index_blog_title')}}</h3>
                     @endcan
+                    @can('isAdmin')
+                        <a href="{{route('blogs.export')}}" class="btn btn-primary-color float-right">{{__('Export')}}</a>
+                    @endcan
+                    <h3>{{__('blog.index_blog_title')}}</h3>
                 @else
                     <h3>{{__('blog.all_blogs')}}</h3>
                 @endif

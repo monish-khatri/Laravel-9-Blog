@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Events\BlogApprovedRejected;
+use App\Exports\BlogExport;
 use App\Http\Requests\StoreBlogRequest;
 use App\Http\Resources\BlogCollection;
 use App\Http\Resources\BlogResource;
@@ -21,6 +22,7 @@ use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
+use Maatwebsite\Excel\Facades\Excel;
 
 class BlogController extends Controller
 {
@@ -433,5 +435,17 @@ class BlogController extends Controller
             Cache::increment($counterKey, $diffrence);
         }
         return Cache::get($counterKey);
+    }
+
+    /**
+     * Function description
+     *
+     * @param int variable Description $variable comment about this variable
+     *
+     * @return array
+     */
+    public function export()
+    {
+        return Excel::download(new BlogExport, 'blogs.csv',\Maatwebsite\Excel\Excel::CSV);
     }
 }
