@@ -34,6 +34,7 @@
                 </div>
             </header> --}}
             <!-- Page Content -->
+            {{ Breadcrumbs::render() }}
             <main>
                 {{ $slot }}
             </main>

@@ -8,6 +8,7 @@ use App\Http\Controllers\GoogleController;
 use App\Http\Controllers\JokeController;
 use App\Http\Controllers\ResponseController;
 use App\Http\Controllers\SessionController;
+use App\Models\Blog;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\App;
@@ -16,7 +17,9 @@ use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\Facades\URL;
-
+use Diglactic\Breadcrumbs\Generator as BreadcrumbTrail;
+use Diglactic\Breadcrumbs\Breadcrumbs;
+use Illuminate\Support\Facades\Log;
 
 /*
 |--------------------------------------------------------------------------
@@ -62,6 +65,31 @@ Route::middleware(['auth'])->group(function () {
     Route::delete('/remove_comment/{comment}', [CommentController::class, 'destroy'])->name('comments.destroy');
     Route::post('/pin_comment/{comment}', [CommentController::class, 'pinComment'])->name('comments.pin_comment');
     Route::get('joke/random-joke',[JokeController::class, 'randomJoke'])->name('randomJoke');
+    Breadcrumbs::for('blogs.index', function ($trail): void {
+        $trail->push('Blogs', route('blogs.index'));
+    });
+    Breadcrumbs::for('dashboard', function ($trail): void {
+        $trail->push('Dashboard', route('dashboard'));
+    });
+    Breadcrumbs::for('blogs.create', function ($trail): void {
+        $trail->parent('blogs.index');
+        $trail->push('Create', route('blogs.create'));
+    });
+    Breadcrumbs::for('blogs.show', function ($trail, $blog): void {
+        $trail->parent('blogs.index');
+        $trail->push($blog, route('blogs.show', ['blog' => $blog]));
+    });
+
+    Breadcrumbs::for('blogs.edit', function ($trail, $blog): void {
+        $trail->parent('blogs.show',$blog);
+        $trail->push('Edit', route('blogs.edit', ['blog' => $blog]));
+    });
+    Breadcrumbs::for('blogs.published', function ($trail): void {
+        $trail->push('Published Blogs', route('blogs.published'));
+    });
+    Breadcrumbs::for('randomJoke', function ($trail): void {
+        $trail->push('Jokes', route('randomJoke'));
+    });
 });
 
 // Google Login
