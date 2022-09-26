@@ -95,6 +95,10 @@ Route::middleware(['auth'])->group(function () {
     Breadcrumbs::for('randomJoke', function ($trail): void {
         $trail->push('Jokes', route('randomJoke'));
     });
+    Breadcrumbs::for('blogs.trash_bin', function ($trail): void {
+        $trail->parent('blogs.index');
+        $trail->push('Trash Bin', route('blogs.trash_bin'));
+    });
 });
 
 // Google Login
