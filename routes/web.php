@@ -6,6 +6,7 @@ use App\Http\Controllers\BlogController;
 use App\Http\Controllers\CommentController;
 use App\Http\Controllers\GoogleController;
 use App\Http\Controllers\JokeController;
+use App\Http\Controllers\MessageController;
 use App\Http\Controllers\ResponseController;
 use App\Http\Controllers\SessionController;
 use App\Models\Blog;
@@ -60,6 +61,10 @@ Route::middleware(['auth'])->group(function () {
     Route::resource('blogs', BlogController::class)->missing(function (Request $request) {
         return Redirect::route('blogs.index');
     })->parameters(['blogs' => 'blog']);
+
+    Route::get('ApiMessages',[MessageController::class,'index'])->name('ApiMessages');
+    Route::get('ApiMessages/{key}',[MessageController::class,'show'])->name('ApiMessages.show');
+    Route::put('ApiMessages/{key}',[MessageController::class,'update'])->name('ApiMessages.update');
 
     Route::post('/add_comment', [CommentController::class, 'store'])->name('comments.store');
     Route::delete('/remove_comment/{comment}', [CommentController::class, 'destroy'])->name('comments.destroy');
