@@ -8,15 +8,13 @@ use App\Http\Requests\StoreBlogRequest;
 use App\Imports\BlogImport;
 use App\Interfaces\BlogRepositoryInterface;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\View;
 use Maatwebsite\Excel\Facades\Excel;
 
 class BlogController extends Controller
 {
-    private BlogRepositoryInterface $blogRepository;
-
-    public function __construct(BlogRepositoryInterface $blogRepository)
-    {
+    public function __construct(
+        private BlogRepositoryInterface $blogRepository
+    ) {
         $this->blogRepository = $blogRepository;
     }
 

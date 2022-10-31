@@ -52,7 +52,7 @@ class BlogRepository implements BlogRepositoryInterface
             ->orderBy('id', 'desc')
             ->where(['user_id' => Auth::id()]);
         if (Gate::allows('isAdmin')) {
-            $query = $this->model->sortable()
+            $query = $this->model()::sortable()
                 ->orderBy('id', 'desc')
                 ->whereNot('status',Blog::STATUS_DRAFT);
         }
