@@ -14,8 +14,6 @@ class Blog extends Model
 {
     use Sortable, HasFactory, SoftDeletes;
 
-    protected $connection = 'tenant';
-
     const STATUS_APPROVE = 'approved';
     const STATUS_REJECTED = 'rejected';
     const STATUS_PENDING = 'pending';
